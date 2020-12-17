@@ -1,0 +1,52 @@
+{
+  "name": "safety-system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "build": "^0.1.4",
+    "dayjs": "^1.8.14",
+    "echarts": "^4.2.1",
+    "element-ui": "^2.13.2",
+    "file-saver": "^2.0.2",
+    "js-cookie": "^2.2.0",
+    "v-viewer": "^1.5.1",
+    "view-design": "^4.0.2",
+    "vue": "^2.6.10",
+    "vue-awesome-swiper": "^3.1.3",
+    "vue-baidu-map": "^0.21.20",
+    "vue-concise-slider": "^3.4.4",
+    "vue-echarts": "^4.0.3",
+    "vue-json-excel": "^0.2.98",
+    "vue-lazyload": "^1.3.3",
+    "vue-router": "^3.0.1",
+    "vuescroll": "^4.12.2",
+    "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.7.0",
+    "xlsx": "^0.16.8"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.1.0",
+    "@vue/cli-plugin-eslint": "^3.1.0",
+    "@vue/cli-service": "^3.1.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-import": "^1.11.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.9.4",
+    "sass-loader": "^7.1.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

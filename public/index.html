@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <title>安全标准化管理平台</title>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but safety-system doesn't work properly without JavaScript
+      enabled. Please enable it to continue.</strong>
+  </noscript>
+  <div id="isIE" style="display: none;padding: 40px 20px;">
+    <strong>为了更好的使用体验，暂不支持 IE浏览器或兼容模式，请使用以下浏览器
+      <a href="https://www.google.cn/intl/zh-CN/chrome/" target="_blank">谷歌Google</a>，
+      <a href="http://www.firefox.com.cn" target="_blank">火狐Firefox</a>，
+      <a href="https://browser.360.cn/ee/" target="_blank">360浏览器（极速模式）</a>，
+      <a href="https://browser.qq.com/" target="_blank">QQ浏览器（极速模式）</a>， Win10 Edge，等高级浏览器</strong>
+  </div>
+  <div id="app"></div>
+  <script>
+    (function () {
+      let is = !!window.ActiveXObject || 'ActiveXObject' in window;
+      let ieDom = document.querySelector('#isIE');
+      let appDom = document.querySelector('#app');
+      if (is) {
+        appDom.style.display = 'none';
+        ieDom.style.display = 'block';
+      } else {
+        ieDom.parentNode.removeChild(ieDom);
+      }
+    })();
+  </script>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>

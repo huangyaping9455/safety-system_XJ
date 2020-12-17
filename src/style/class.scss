@@ -1,0 +1,260 @@
+@import "@/style/mixin.scss";
+.SYSTEM {
+  .wh100,
+  .echarts {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// 比例
+
+$ratio-list: 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100 33 66
+  99;
+
+@each $ratio in $ratio-list {
+  .w#{$ratio} {
+    width: #{$ratio}#{"%"} !important;
+  }
+  .h#{$ratio} {
+    height: #{$ratio}#{"%"} !important;
+  }
+}
+
+.w33 {
+  width: 33.3333%;
+}
+.h33 {
+  height: 33.3333%;
+}
+
+.w50-5 {
+  width: calc(50% - 5px);
+}
+.h50-5 {
+  height: calc(50% - 5px);
+}
+
+// 手型
+.pointer {
+  cursor: pointer;
+}
+// felx
+.flex {
+  display: flex;
+}
+
+// 预览正文的背景色
+.preview-bg {
+  background: #f4f7fe !important;
+}
+
+.white-bg {
+  background: #fff;
+}
+
+// panel渐变色
+.dissolve {
+  background: linear-gradient(to right, $dissolve-corlor, transparent);
+}
+
+// 遮罩层
+.popup-window {
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 自定义 drawer
+.custom-drawer {
+  .ivu-drawer-body {
+    overflow: hidden;
+    padding: 0px;
+  }
+  .drawer-body {
+    height: auto;
+    width: 100%;
+    // overflow: auto;
+    padding: 10px 15px;
+    .sousuocanshu{
+
+      .ivu-form-item-content{
+        display: flex;
+      }
+      .base-form {
+        //  form{
+        //    div:last-of-type{
+        //     .ivu-form-item-content {
+        //       display: block;
+        //     }
+        //    }
+        //  }
+      }
+    }
+  }
+  .drawer-footer {
+    width: 100%;
+    border-top: 1px solid #e8e8e8;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    align-items: center;
+    padding: 0px 10px;
+    button {
+      margin-left: 8px;
+    }
+  }
+}
+
+img[src="none"] {
+  display: none;
+}
+// 居中
+.center-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 必填
+.required-mark:before {
+  content: "*";
+  display: inline-block;
+  margin-right: 4px;
+  line-height: 1;
+  font-family: SimSun;
+  font-size: 12px;
+  color: #ed4014;
+}
+
+// 基础列表容器
+.base-table-container {
+  font-size: 16px;
+  height: 100%;
+  width: 100%;
+
+  .ivu-table th {
+    background-color: #e3f1fe;
+    color: #333;
+  }
+
+  .buttons-panel {
+    height: 40px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button {
+      margin: 0 5px;
+      padding: 2px 10px;
+      font-size: 14px;
+    }
+  }
+
+  .table-box {
+    width: 100%;
+    height: calc(100% - 40px);
+    .icon {
+      padding: 0px 10px;
+      height: 30px;
+      cursor: pointer;
+    }
+  }
+}
+
+// 登录页
+.login-page {
+  height: 100%;
+  width: 100%;
+
+  background: #ccc;
+  display: flex;
+  flex-direction: column;
+
+  .ivu-form-item {
+    width: 100%;
+  }
+
+  .top-content {
+    @include imgshaowd;
+    height: 70%;
+    width: 100%;
+    position: relative;
+  }
+
+  .bottom-content {
+    height: 30%;
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background: url("~A/guide/shadow.png") no-repeat center center;
+
+    .login-btn {
+      border-radius: 20px;
+      font-size: 16px;
+      letter-spacing: 5px;
+      width: 300px;
+      display: block;
+      margin: 20px auto 0px;
+    }
+
+    .ivu-input {
+      height: 40px;
+      font-size: 18px;
+    }
+    .ivu-input-prefix i {
+      font-size: 20px;
+      line-height: 40px;
+    }
+    .ivu-input-group-prepend {
+      padding: 0px;
+      .ver-code {
+        cursor: pointer;
+        height: 38px;
+      }
+    }
+  }
+
+  .login-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 10%;
+    .form-box {
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 auto;
+      display: flex;
+    }
+  }
+  .input-box {
+    align-items: center;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    max-width: 260px;
+    .ivu-i-formitem-content {
+      width: 100%;
+    }
+  }
+}
+
+.collapse-transition {
+  transition: height 0.3s ease-in-out, padding-top 0.3s ease-in-out,
+    padding-bottom 0.3s ease-in-out;
+}

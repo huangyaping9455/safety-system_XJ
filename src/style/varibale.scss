@@ -1,0 +1,19 @@
+// index  layout
+$app-head-h: 60px;
+$app-foot-h: 40px;
+$app-main-h: calc(100% - #{$app-head-h+$app-foot-h});
+$menu-expansion-w: 170px;
+$menu-collapsed-w: 50px;
+
+// hidden-scroll component
+$hide-scroll-w: 20px;
+$hide-content-w: calc(100%);
+// $hide-content-w: calc(100% + #{$hide-scroll-w});
+$hide-visible-w: calc(100% - #{$hide-scroll-w});
+
+// color
+$primary-color: #37a9f7;
+$simple-color: #9dbff5;
+$highlight-color: #fed016;
+
+$dissolve-corlor:rgba(35,223,225,0.3);

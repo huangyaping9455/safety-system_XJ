@@ -1,0 +1,130 @@
+@import 'S/varibale.scss';
+
+// 数字字体
+@font-face {
+  font-family: 'Flip Flop';
+  src: url(~S/FLIPFLOP.TTF);
+}
+/// 元素垂直水平居中
+/// @param  {[string]} $justify      [center] 水平对齐方向,[false] 水平方向不设置
+/// @param  {[string]} $align      [center] 垂直对齐方向,[false] 垂直方向不设置
+@mixin box-center($justify: center, $align: center) {
+  display: flex;
+  @if ($align !=false) {
+    align-items: $align;
+  }
+  @if ($justify !=false) {
+    justify-content: $justify;
+  }
+}
+
+/// 使用translate实现水平垂直居中
+/// @param {String} $direction [both] - 水平垂直,其它值`horizontal`和`vertical`
+@mixin center-translate($direction: both) {
+  position: absolute;
+  @if $direction == both {
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  } @else if $direction == horizontal {
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+  } @else if $direction == vertical {
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+// 单行文本截取
+@mixin ellipsis($substract: 0) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100% - $substract;
+}
+
+// 禁用样式
+@mixin disabled($bgColor: #e6e6e6, $textColor: #ababab) {
+  background-color: $bgColor !important;
+  color: $textColor !important;
+  cursor: not-allowed !important;
+}
+
+// 毛玻璃
+@mixin groundglass($px: 10px) {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    background-attachment: fixed;
+    filter: blur($px);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.25);
+  }
+  * {
+    z-index: 1;
+  }
+}
+
+// 定位覆盖
+@mixin covered($tb: 'top', $lr: 'left') {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  #{$tb}: 0;
+  #{$lr}: 0;
+}
+
+// 菱形箭头,颜色，方向，高度，长度
+@mixin rhombusArrow($color, $direction, $height, $distance: 20px) {
+  $arrowH: $height/2;
+  $arrowD: left;
+  $class: after;
+  @if ($direction==left) {
+    $class: before;
+    $arrowD: right;
+  } @else {
+    $class: after;
+    $arrowD: left;
+  }
+
+  background: $color;
+  height: $height;
+  &::#{$class} {
+    content: '';
+    position: absolute;
+    top: 0;
+    #{ $direction}: -$distance;
+    border-#{ $arrowD}: $distance solid $color;
+    border-top: $arrowH dashed transparent;
+    border-bottom: $arrowH dashed transparent;
+  }
+}
+
+// 用于遮挡图片
+@mixin imgshaowd {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  &:before {
+    z-index: 99;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+  }
+}

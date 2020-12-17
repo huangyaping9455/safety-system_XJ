@@ -1,0 +1,161 @@
+@import 'S/mixin.scss';
+
+$head-h: 60px;
+$panel-w: 160px;
+$head-bot: 20px;
+$book-left: 20px;
+
+.index-book {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  .book-head {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #666;
+    height: $head-h;
+    margin-left: $book-left;
+
+    .ivu-tooltip {
+      width: calc(100% - #{$panel-w});
+      .ivu-tooltip-rel {
+        width: 100%;
+        height: $head-h;
+        @include box-center;
+      }
+    }
+
+    .title {
+      font-size: 23px;
+      letter-spacing: 1px;
+      font-weight: 700;
+      cursor: pointer;
+      height: auto;
+      @include ellipsis(5);
+    }
+
+    .panel {
+      min-width: $panel-w;
+      margin-right: 10px;
+      @include box-center;
+
+      .search {
+        margin-right: 10px;
+      }
+      .download {
+        font-size: 30px;
+        color: $primary-color;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .book-container {
+    height: calc(100% - #{$head-h});
+    position: relative;
+    .tree {
+      padding-left: 50px;
+      padding-top: 20px;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+  }
+  // tree menu
+  .tree-menu {
+    background: white;
+    position: absolute;
+    z-index: 999;
+    min-width: 80px;
+    top: 0px;
+    left: 0px;
+    padding: 5px 0px;
+    box-shadow: 1px 1px 3px #ccc;
+    border-radius: 5px;
+    & > div {
+      padding: 5px 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      letter-spacing: 1px;
+      &:hover {
+        background: rgba($simple-color, 0.5);
+        font-weight: 600;
+      }
+    }
+  }
+
+  // tree item
+  .tree-item {
+    .head-active {
+      color: $primary-color;
+      background: rgba($primary-color, 0.1);
+    }
+    .head {
+      font-size: 18px;
+      border-left: 2px solid #ccc;
+      padding: 5px 20px 0px 0px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+
+      .title {
+        @include ellipsis;
+        width: auto;
+        height: auto;
+        display: flex;
+        align-items: center;
+      }
+
+      .order-index {
+        margin-right: 5px;
+      }
+
+      .line {
+        flex-grow: 1;
+        margin: 0px 10px;
+        border-bottom: 1px dotted #ccc;
+      }
+
+      .total {
+        font-size: 14px;
+        color: $primary-color;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      &:hover {
+        @extend .head-active;
+      }
+    }
+    .head[deep='1'] {
+      position: relative;
+      .title {
+        font-size: 22px;
+        color: black;
+        @include ellipsis;
+        max-width: 80%;
+        width: auto;
+      }
+      &::after {
+        $w: 7px;
+        content: '';
+        width: $w;
+        height: $w;
+        left: -7px;
+        border: 2px solid $simple-color;
+        background: $primary-color;
+        border-radius: 50%;
+        position: absolute;
+        box-sizing: content-box;
+        z-index: 99;
+      }
+    }
+    .tree-body {
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+  }
+
+  // tree from
+}

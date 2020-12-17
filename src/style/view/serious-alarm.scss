@@ -1,0 +1,272 @@
+@import 'S/mixin.scss';
+$color-bluish: #d5ebff;
+$left-w: 165px;
+$color-red: #f51737;
+$tab-btn-h: 56px;
+$bjtitle-h: 90px;
+$time-h: 50px;
+$width-w: 350px;
+$active-blue: #3f87f5;
+$block-h: 40px;
+.daily-serious-alarm {
+  width: 100%;
+  height: 100%;
+  background: #d4d7ea;
+  @include box-center($justify: space-between, $align: false);
+  .text-gray {
+    color: #999;
+  }
+  .text-red {
+    color: #f51737;
+  }
+  .time-box {
+    height: $time-h;
+  }
+  .alarm-list {
+    width: $left-w;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    @include box-center($justify: space-between, $align: false);
+
+    .baojing-title {
+      width: 100%;
+      height: $bjtitle-h;
+      border-bottom: #ff7937;
+      color: #ffffff;
+      background: #ff7937;
+      background-size: 100% 100%;
+      flex-direction: column;
+      @include box-center($justify: center, $align: center);
+      position: relative;
+      overflow: hidden;
+      &::after {
+        content: '';
+        width: 100%;
+        height: 30px;
+        background: rgba($color: #d5ebff, $alpha: 0.3);
+        position: absolute;
+        bottom: -20px;
+        border-radius: 50%;
+      }
+
+      p {
+        margin-top: 5px;
+        font-size: 15px;
+      }
+    }
+
+    .list-item {
+      width: 100%;
+      height: calc(50% - #{$time-h}/ 2 - 10px);
+      border-radius: 6px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .block {
+      padding: 0px 12px 10px 0px;
+    }
+
+    .facility-alarm {
+      height: calc(100% - #{$bjtitle-h+3});
+      padding: 10px 0;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .tab-btn {
+      height: $tab-btn-h;
+      width: 95%;
+      margin-right: 8px;
+      font-size: 14px;
+      position: relative;
+      cursor: pointer;
+      background: $color-bluish;
+      // justify-content: space-evenly
+      @include box-center($justify: space-around, $align: center);
+      border-radius: 0 6px 6px 0;
+      .tab-title {
+        color: #000;
+        width: 60px;
+      }
+      .number {
+        font-family: 'Flip Flop';
+        font-size: 32px;
+        color: $primary-color;
+      }
+    }
+    .checked {
+      color: #ffffff;
+      background: $color-red;
+      .tab-title {
+        color: #fff;
+      }
+      .number {
+        color: $highlight-color;
+      }
+    }
+    .tab-btn:hover {
+      @extend .checked;
+    }
+  }
+
+  .alarm-mian {
+    width: calc(100% - #{$left-w + 10px});
+    height: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    .ivu-table th {
+      background-color: $color-bluish;
+    }
+
+    .alarm-type {
+      height: 40px;
+      line-height: 40px;
+      font-size: 18px;
+      color: #ffffff;
+      text-align: center;
+      background: url('~A/daily/popu-head.png') no-repeat top center;
+      background-size: 100% 100%;
+    }
+
+    .alarm-info {
+      height: 30px;
+      font-size: 16px;
+      color: #ffffff;
+      background: linear-gradient(to right, #488afa, #197ae1);
+      @include box-center($justify: space-between, $align: center);
+      span {
+        margin: 0 20px;
+      }
+    }
+
+    .alarm-content {
+      width: 100%;
+      height: calc(100% - 70px);
+      font-size: 14px;
+      background: #ffffff;
+      display: flex;
+      .content-left {
+        width: #{$width-w};
+        height: 100%;
+      }
+      .alarm-table-box {
+        width: calc(100% - #{$width-w});
+        height: 100%;
+      }
+    }
+  }
+  .left-ranking {
+    padding: 0 10px;
+    .ranking-box {
+      height: 65%;
+      width: 100%;
+      padding-bottom: 10px;
+      .ranking-title {
+        height: 40px;
+        font-size: 16px;
+        line-height: 40px;
+        font-weight: 600;
+        color: #333;
+      }
+      .ranking-content {
+        height: calc(100% - 40px);
+        position: relative;
+      }
+      .block {
+        height: $block-h;
+        margin-bottom: 2px;
+        display: flex;
+        .order {
+          width: 40px;
+          height: 100%;
+          margin-right: 5px;
+          line-height: $block-h;
+          border-radius: 4px;
+          text-align: center;
+          font-family: 'Flip Flop';
+          color: #fff;
+          background: #4fa7fe;
+        }
+        .order1 {
+          background: $color-red;
+        }
+        .order2 {
+          background: #ff7937;
+        }
+        .order3 {
+          background: $highlight-color;
+        }
+        .block-class {
+          flex-grow: 1;
+          height: 100%;
+          padding: 0px 2px 0px 10px;
+          color: #000;
+          border-radius: 4px;
+          background: $color-bluish;
+          @include box-center($justify: space-between, $align: center);
+          .number {
+            width: 60px;
+            height: calc(100% - 4px);
+            border-radius: 4px;
+            background: #fff;
+            color: $primary-color;
+            @include box-center($justify: center, $align: center);
+          }
+        }
+        .active-block {
+          background: $active-blue;
+          color: #fff;
+          .number {
+            background: none;
+            color: #fff;
+          }
+        }
+      }
+    }
+    .condition-box {
+      height: 35%;
+      .condition-title {
+        height: 60px;
+        width: 100%;
+        color: #fff;
+        background: $active-blue;
+        @include box-center($justify: space-around, $align: center);
+        position: relative;
+        overflow: hidden;
+        &::after {
+          content: '';
+          width: 100%;
+          height: 30px;
+          background: rgba($color: #d5ebff, $alpha: 0.3);
+          position: absolute;
+          bottom: -20px;
+          border-radius: 50%;
+        }
+      }
+      .condition-content {
+        height: calc(100% - 60px);
+        color: #000;
+        .title {
+          width: 100%;
+          padding: 10px;
+          @include box-center($justify: false, $align: center);
+          .line {
+            flex-grow: 1;
+            height: 1px;
+            margin-left: 10px;
+            background: $simple-color;
+          }
+        }
+        .content {
+          height: calc(100% - 44px);
+          padding: 0 10px;
+          .row {
+            display: flex;
+          }
+        }
+      }
+    }
+  }
+}
