@@ -28,6 +28,18 @@ export default {
           i.style = "display:none"
         }
       }
+      if (item.name === "安全标准化") {
+        let j = document.getElementsByClassName("ivu-icon ivu-icon-ios-arrow-down ivu-menu-submenu-title-icon")[13];
+        if (j !== undefined) {
+          j.style = "display:none"
+        }
+      }
+      if (item.name === "安全管理标准文档") {
+        let l = document.getElementsByClassName("ivu-icon ivu-icon-ios-arrow-down ivu-menu-submenu-title-icon")[14];
+        if (l !== undefined) {
+          l.style = "display:none"
+        }
+      }
       return item;
     },
     unfold(item) {

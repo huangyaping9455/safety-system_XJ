@@ -137,7 +137,8 @@ export default {
   .hidden-scroll {
     height: calc(100% - 50px);
     ul {
-      background: linear-gradient(#42c5db, #3db8e8);
+      // background: linear-gradient(#42c5db, #3db8e8);
+      background: linear-gradient(#42c5db, #1fb5ef);
       li {
         div {
           div {

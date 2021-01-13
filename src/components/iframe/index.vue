@@ -24,8 +24,6 @@ export default {
   computed: {
     ...mapGetters(["pageParams", "postId"]),
     iframeUrl() {
-      // return 'http://192.168.10.37:8081/';
-      // return "http://60.171.241.126:2010";
       return "http://222.82.236.242:8892";
     },
   },

@@ -70,7 +70,14 @@
         <span>{{ item.name }}</span>
         <div class="border"></div>
       </div> -->
-      <div v-if="currentMenu.name != '首页'" class="menu-item">
+      <div
+        v-if="
+          currentMenu.name !== '首页' &&
+            currentMenu.name !== '安全标准化' &&
+            currentMenu.name !== '安全管理标准文档'
+        "
+        class="menu-item"
+      >
         <span>{{ menuTopHead }}</span>
         <div class="border"></div>
       </div>

@@ -1,7 +1,6 @@
 <template>
   <div class="iframe-page">
     <i-spin v-show="loading" fix></i-spin>
-    <!-- src="http://36.133.42.216:8200/" -->
     <iframe
       v-show="!loading"
       name="iframe"

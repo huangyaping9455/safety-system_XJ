@@ -155,6 +155,14 @@ const dailyRoutes = [{
     path: '/daily/driver',
     name: 'driver',
     component: () => import('@/view/daily/vehicle/driver.vue')
+  }, {
+    path: '/daily/document',
+    name: 'document',
+    component: () => import('@/view/daily/document/index.vue')
+  }, {
+    path: '/daily/standard',
+    name: 'standard',
+    component: () => import('@/view/daily/standard/index.vue')
   }
 ];
 
