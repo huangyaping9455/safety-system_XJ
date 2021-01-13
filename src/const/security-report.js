@@ -91,9 +91,16 @@ export const reportTypes = [{
     setDate(date = new Date()) {
       let year = dayjs(date).format('YYYY');
       let week = dayjs(date).week();
-      this.date = `${year}年${week}周`;
-      this.countDate = `${year}-${week}`;
-      this.dates = week + '周';
+      let today = dayjs(date).format('YYYY-MM-DD');
+      if (today === "2020-12-28" || today === "2020-12-29" || today === "2020-12-30" || today === "2020-12-31") {
+        this.date = `2020年53周`;
+        this.countDate = `2020-53`;
+        this.dates = 53 + '周';
+      } else {
+        this.date = `${year}年${week}周`;
+        this.countDate = `${year}-${week}`;
+        this.dates = week + '周';
+      }
     }
   },
   {

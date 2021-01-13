@@ -226,162 +226,12 @@
           :total="total"
         ></el-pagination>
         <el-dialog
-          title="查看"
+          :title="rowtableList.cheliangpaizhao"
           :visible.sync="centerDialogVisible"
-          width="80%"
+          width="45%"
           center
         >
-          <div class="dialog-text">
-            <div class="dialog-body">
-              <span>企业名称</span>
-              <el-input
-                autosize
-                v-model="rowtableList.deptName"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>车辆牌照</span>
-              <el-input
-                autosize
-                v-model="rowtableList.cheliangpaizhao"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>车牌颜色</span>
-              <el-input
-                autosize
-                v-model="rowtableList.chepaiyanse"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>使用性质</span>
-              <el-input
-                autosize
-                v-model="rowtableList.shiyongxingzhi"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>驾驶员名称</span>
-              <el-input
-                autosize
-                v-model="rowtableList.jiashiyuanxingming"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>车辆类型</span>
-              <el-input
-                autosize
-                v-model="rowtableList.xinghao"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>厂牌</span>
-              <el-input
-                autosize
-                v-model="rowtableList.changpai"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>运营商</span>
-              <el-input
-                autosize
-                v-model="rowtableList.yunyingshangmingcheng"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>终端id</span>
-              <el-input
-                autosize
-                v-model="rowtableList.zongduanid"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>车架号</span>
-              <el-input
-                autosize
-                v-model="rowtableList.chejiahao"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>4G视频地址</span>
-              <el-input
-                autosize
-                v-model="rowtableList.yunyingshang"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>驾驶员电话</span>
-              <el-input
-                autosize
-                v-model="rowtableList.jiashiyuandianhua"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>押运员</span>
-              <el-input
-                autosize
-                v-model="rowtableList.yayunyuanxingming"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>押运员电话</span>
-              <el-input
-                autosize
-                v-model="rowtableList.yayunyuandianhua"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>车主</span>
-              <el-input autosize v-model="rowtableList.chezhu" :disabled="true">
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>车主电话</span>
-              <el-input
-                autosize
-                v-model="rowtableList.chezhudianhua"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-            <div class="dialog-body">
-              <span>创建时间</span>
-              <el-input
-                autosize
-                v-model="rowtableList.caozuoshijian"
-                :disabled="true"
-              >
-              </el-input>
-            </div>
-          </div>
+          <vehicle-dialog :rowtableList="rowtableList"></vehicle-dialog>
         </el-dialog>
       </div>
     </div>
@@ -391,7 +241,9 @@
 <script>
 import { vehicleList } from "@/api/daily/vehicle";
 import { export_json_to_excel } from "../../../const/Export2Excel";
+import VehicleDialog from "./VehicleDialog.vue";
 export default {
+  components: { VehicleDialog },
   data() {
     return {
       current: 1,
@@ -610,30 +462,33 @@ export default {
         justify-content: flex-end;
         padding: 0 1rem;
       }
-      .el-dialog {
-        .dialog-text {
-          display: flex;
-          flex-wrap: wrap;
-          // flex-direction: column;
-          justify-content: space-between;
-          .dialog-body {
-            display: flex;
-            width: 50%;
-            margin-bottom: 1.5rem;
-            span {
-              font-weight: 600;
-              width: 20%;
-              text-align: center;
-              margin-top: 0.7rem;
-            }
-            .el-input {
-              width: 80%;
+      /deep/ .el-dialog {
+        background: none;
+        .el-dialog__header {
+          padding: 0;
+          height: 70px;
+          line-height: 80px;
+          border-bottom: 1px solid gainsboro;
+          background: url("~A/daily/popu-head.png") no-repeat top;
+          background-size: 100% 100%;
+          .el-dialog__title {
+            font-size: 25px;
+            color: #3383ef;
+            font-weight: 700;
+          }
+          .el-dialog__headerbtn {
+            top: 15px;
+            right: 5px;
+            i {
+              font-size: 33px;
+              color: rgb(55, 169, 247);
             }
           }
         }
-        .el-dialog__title {
-          font-weight: 600;
-          font-size: 20px;
+        .el-dialog__body {
+          // background: #fff;
+          background-color: #f5f5f5;
+          padding: 1rem;
         }
       }
     }

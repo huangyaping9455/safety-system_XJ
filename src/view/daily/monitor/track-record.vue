@@ -168,9 +168,7 @@
       </div>
     </div>
     <div class="popup-foot">
-      <span @click="close"
-        ><img src="../../../assets/daily/取消.png" alt="" /> 关闭</span
-      >
+      <span @click="close"><img src="~A/daily/quxiao.png" alt="" /> 关闭</span>
     </div>
   </div>
 </template>
@@ -313,7 +311,6 @@ export default {
       this.bmllushu.play = false;
     },
     clickIcon(data) {
-      console.log(data);
       this.alarmBot = data;
       this.infoWindow = true;
     },
@@ -371,8 +368,8 @@ export default {
       };
       getAlarmPoint(params).then((res) => {
         let data = res.data.data;
-        this.beginGpsTime = data[0].gpsTime;
-        this.endGpsTine = data[data.length - 1].gpsTime;
+        this.beginGpsTime = data[0].GpsTime;
+        this.endGpsTine = data[data.length - 1].GpsTime;
         for (let i in data) {
           if (i == 0) {
             this.zoom = 10;
@@ -410,36 +407,29 @@ export default {
         icon: new BMap.Icon(img, new BMap.Size(30, 60)),
       });
       this.MAP.map.addOverlay(Marker);
-      // console.log(Marker);
     },
     // 根据经纬度解析地理位置
     getBLocation(data) {
-      let location = data.lat + "," + data.lng;
-      let ak = this.mapak;
-      let output = "json";
-      let coordtype = "wgs84ll";
-      axios
-        .get("/baidu/reverse_geocoding/v3", {
-          params: { ak, output, coordtype, location },
-        })
-        .then((res) => {
-          // this.beginPlace = res.data.result.formatted_address;
-          this.beginPlace = this.row.locationName;
-        });
+      // js解析经纬度为地理位置
+      let pointjieshudi = new BMap.Point(data.lng, data.lat);
+      let gc = new BMap.Geocoder();
+      let jieshudi;
+      let _this = this;
+      gc.getLocation(pointjieshudi, function(rs) {
+        jieshudi = rs.address;
+        _this.beginPlace = jieshudi;
+      });
     },
     getELocation(data) {
-      let location = data.lat + "," + data.lng;
-      let ak = this.mapak;
-      let output = "json";
-      let coordtype = "wgs84ll";
-      axios
-        .get("/baidu/reverse_geocoding/v3", {
-          params: { ak, output, coordtype, location },
-        })
-        .then((res) => {
-          // this.endPlace = res.data.result.formatted_address;
-          this.beginPlace = this.row.locationName;
-        });
+      // js解析经纬度为地理位置
+      let pointjieshudi = new BMap.Point(data.lng, data.lat);
+      let gc = new BMap.Geocoder();
+      let jieshudi;
+      let _this = this;
+      gc.getLocation(pointjieshudi, function(rs) {
+        jieshudi = rs.address;
+        _this.endPlace = jieshudi;
+      });
     },
   },
 };
@@ -496,7 +486,7 @@ export default {
     width: 100%;
     height: 70px;
     line-height: 90px;
-    background: url("../../../assets/daily/popu-head.png") no-repeat top;
+    background: url("~A/daily/popu-head.png") no-repeat top;
     background-size: 100% 100%;
     display: flex;
     justify-content: center;
@@ -571,7 +561,7 @@ export default {
       margin-left: 1.5rem;
       .left-list-top {
         background: #f2f9ff;
-        padding: 1.5rem;
+        padding: 0.3rem 1.5rem;
         height: 68%;
         overflow: auto;
         .buttom-box {
@@ -655,7 +645,7 @@ export default {
   .popup-foot {
     height: 60px;
     line-height: 60px;
-    background: url("../../../assets/daily/popu-foot.png") no-repeat top;
+    background: url("~A/daily/popu-foot.png") no-repeat top;
     background-size: 100% 100%;
     display: flex;
     justify-content: center;

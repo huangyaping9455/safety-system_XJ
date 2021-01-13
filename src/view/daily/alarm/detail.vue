@@ -3,16 +3,20 @@
     <div class="popup-content">
       <!-- 弹窗 title -->
       <div class="popup-title">
-        <span style="color:#3383ef;font-weight: 700;font-size:24px;">{{
-          row.plate || row.plateNumber
-        }}</span>
-        <!-- <span class="weichuli">{{
+        <span>{{ row.plate || row.plateNumber }}</span>
+        <span class="weichuli">{{
           isDispose
             ? "已处理"
             : "未处理" &&
-              (isAppeal ? row.shensuzhuangtai : isDispose ? "已处理" : "未处理")
-        }}</span> -->
-        <img class="close" src="~A/daily/取消.png" alt @click="close" />
+              (isAppeal
+                ? row.shensuzhuangtai
+                : row.shensuzhuangtai === "申诉驳回"
+                ? "申诉驳回"
+                : isDispose
+                ? "已处理"
+                : "未处理")
+        }}</span>
+        <img class="close" src="~A/daily/quxiao.png" alt @click="close" />
       </div>
       <!-- 弹窗 main -->
       <div class="content map-content">
@@ -55,33 +59,47 @@
                       '地址: ' +
                       kaishidi
                   "
-                  :labelStyle="labelOpt.style"
+                  :labelStyle="labelOpt.styleks"
                   :offset="labelOpt.offset"
                 />
               </bm-marker>
-              <bm-polyline
-                :path="path2"
-                :stroke-opacity="1"
-                :stroke-weight="4"
-              ></bm-polyline>
+              <bm-marker :position="endXSMarker">
+                <bm-label
+                  :content="
+                    '结束行驶时间: ' + endXSTime + '<br>' + '地址: ' + jieshudi
+                  "
+                  :labelStyle="labelOpt.styleks"
+                  :offset="labelOpt.offset"
+                />
+              </bm-marker>
               <bm-polyline
                 :path="path"
                 stroke-color="red"
                 :stroke-opacity="1"
                 :stroke-weight="4"
               ></bm-polyline>
-              <bml-lushu
+              <bm-polyline
+                :path="path2"
+                :stroke-opacity="1"
+                :stroke-weight="4"
+              ></bm-polyline>
+              <bm-polyline
+                :path="path3"
+                :stroke-opacity="1"
+                :stroke-weight="4"
+              ></bm-polyline>
+              <!-- <bml-lushu
                 :path="path2"
                 :icon="icon"
                 :play="play"
                 :rotation="true"
-              ></bml-lushu>
-              <bml-lushu
+              ></bml-lushu> -->
+              <!-- <bml-lushu
                 :path="path"
                 :icon="icon"
                 :play="play"
                 :rotation="true"
-              ></bml-lushu>
+              ></bml-lushu> -->
             </baidu-map>
             <div class="video-box" v-if="row.isPicture || row.isVideo">
               <span>监控视频</span>
@@ -107,7 +125,7 @@
                 <div class="info-top">
                   <div class="left">
                     <div class="imgs">
-                      <img src="~A/daily/暂无照片.png" alt />
+                      <img src="~A/daily/zanwuzhaopian.png" alt />
                     </div>
                     <span class="title">{{
                       row.plate || row.plateNumber
@@ -122,16 +140,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="info-bottom">
-                  <div
-                    v-for="(item, index) in vehicle"
-                    :key="index"
-                    :style="'width:' + item.width + '%'"
-                  >
-                    {{ item.title }}：
-                    <span>{{ item.value }}</span>
-                  </div>
-                </div> -->
               </div>
               <!-- 驾驶员资料 -->
               <div v-show="currentTab.slot == 'driver'" class="vehicle">
@@ -232,7 +240,16 @@
                     <!-- </scroll> -->
                   </div>
                   <div v-if="CLXX" class="content-info">
-                    <div v-if="isAppeal" class="bottom-right">
+                    <div
+                      v-if="
+                        isAppeal
+                          ? 'isAppeal'
+                          : row.shensuzhuangtai == '申诉驳回'
+                          ? true
+                          : false
+                      "
+                      class="bottom-right"
+                    >
                       <div
                         class="content-info w100"
                         style="max-height: 195px;overflow-y: scroll;"
@@ -343,123 +360,30 @@
                   </div>
                 </div>
               </div>
-              <!-- 处理情况 -->
-              <!-- <div v-if="isAppeal" class="bottom-right">
-                <div
-                  class="content-info w100"
-                  style="max-height: 170px;overflow-y: scroll;"
-                >
-                  <div class="info-cell w50">
-                    申诉形式：
-                    <span>{{ imgList.chulixingshi }}</span>
-                  </div>
-                  <div class="info-cell w100">
-                    申诉内容：
-                    <i-tooltip placement="top" :content="imgList.chulimiaoshu">
-                      <span>{{ imgList.chulimiaoshu }}</span>
-                    </i-tooltip>
-                  </div>
-                  <div class="info-cell w50">
-                    申诉人：
-                    <span>{{ imgList.chuliren }}</span>
-                  </div>
-                  <div class="info-cell w50">
-                    申诉时间：
-                    <span>{{ imgList.chulishijian }}</span>
-                  </div>
-                  <div class="info-cell w50">
-                    申诉凭证：
-                    <span v-if="imgList.fujian !== ''">
-                      <i-poptip placement="top">
-                        <img src="~A/daily/ping.png" class="pingzheng" />
-                        <div slot="content">
-                          <img
-                            v-for="(item, index) in arryImg"
-                            :key="index"
-                            class="fujian"
-                            :src="arryImg[index]"
-                            alt
-                          />
-                        </div>
-                      </i-poptip>
-                    </span>
-                  </div>
-                  <div class="info-cell w50">
-                    申诉审核人：
-                    <span>{{ imgList.shensushenheren }}</span>
-                  </div>
-                  <div class="info-cell w50">
-                    申诉审核时间：
-                    <span>{{ imgList.shensushenheshijian }}</span>
-                  </div>
-                  <div class="info-cell w50">
-                    申诉意见：
-                    <span>{{ imgList.shensushenheyijian }}</span>
-                  </div>
-                </div>
-              </div> -->
-              <!-- 处理情况 -->
-              <!-- <div v-if="isDispose" class="bottom-right">
-                <div
-                  class="content-info w100"
-                  style="max-height: 170px;overflow-y: scroll;"
-                > -->
-              <!-- <div class="info-cell w50">
-                    处理方式：
-                    <span>{{ imgList.chulixingshi }}</span>
-                  </div>
-                  <div class="info-cell w100">
-                    处理内容：
-                    <i-tooltip placement="top" :content="imgList.chulimiaoshu">
-                      <span>{{ imgList.chulimiaoshu }}</span>
-                    </i-tooltip>
-                  </div>
-                  <div class="info-cell w50">
-                    处理人：
-                    <span>{{ imgList.chuliren }}</span>
-                  </div>
-                  <div class="info-cell w50">
-                    处理时间：
-                    <span>{{ imgList.chulishijian }}</span>
-                  </div>
-                  <div class="info-cell w50">
-                    处理凭证：
-                    <span v-if="imgList.fujian !== ''">
-                      <i-poptip placement="top">
-                        <img src="~A/daily/ping.png" class="pingzheng" />
-                        <div slot="content">
-                          <img
-                            v-for="(item, index) in arryImg"
-                            :key="index"
-                            class="fujian"
-                            :src="arryImg[index]"
-                            alt
-                          />
-                        </div>
-                      </i-poptip>
-                    </span>
-                  </div>
-                </div>
-              </div> -->
-              <!-- 处理按钮 -->
-              <!-- <div
-            v-if="isDispose == false && isAppeal == false"
-            class="bottom-right"
-          >
-            <div class="btn" @click="editClick">
-              <p>处理</p>
-            </div>
-          </div> -->
             </div>
           </div>
         </div>
       </div>
       <div class="footer">
-        <span @click="appealClick"
-          ><img src="~A/daily/处理.png" alt="" />申诉</span
+        <span
+          @click="appealClick"
+          v-if="
+            !isDispose &&
+              !isAppeal &&
+              !(row.dealType && row.dealType !== '未处理') &&
+              row.shensuzhuangtai !== '申诉驳回'
+          "
+          ><img src="~A/daily/alarmchuli.png" alt="" />申诉</span
         >
-        <span @click="editClick"
-          ><img src="~A/daily/处理.png" alt="" />处理</span
+        <span
+          @click="editClick"
+          v-if="
+            (!isDispose &&
+              !isAppeal &&
+              !(row.dealType && row.dealType !== '未处理')) ||
+              (row.dealType && row.dealType == '申诉驳回')
+          "
+          ><img src="~A/daily/alarmchuli.png" alt="" />处理</span
         >
       </div>
     </div>
@@ -518,12 +442,16 @@ export default {
       // 地图轨迹，起始标志，缩放，中心，路书图标
       path: [],
       path2: [],
+      path3: [],
       starMarker: {},
       endMarker: {},
       beginMarker: {},
+      endXSMarker: {},
+      endXSTime: "",
       qidian: null,
       zhongdian: null,
       kaishidi: null,
+      jieshudi: null,
       QKFX: true,
       TXXX: false,
       CLXX: false,
@@ -531,6 +459,7 @@ export default {
       arryImg: "",
       labelOpt: {
         style: { color: "red", fontSize: "14px", padding: "0 5px" },
+        styleks: { color: "blue", fontSize: "14px", padding: "0 5px" },
         offset: { width: 20, height: -25 },
       },
       zoom: 12,
@@ -545,17 +474,27 @@ export default {
   computed: {
     isDispose() {
       return (
-        (this.row.chulizhuangtai == "已处理" || this.row.chulizhuangtai == 1) &&
+        (this.row.chulizhuangtai === "已处理" ||
+          this.row.chulizhuangtai == 1) &&
         this.dispose
       );
     },
     isAppeal() {
-      return (
-        this.row.shensuzhuangtai == "已申诉" ||
-        this.row.shensuzhuangtai == "审核中" ||
-        this.row.shensuzhuangtai == "申诉通过" ||
-        this.row.shensuzhuangtai == "申诉驳回"
-      );
+      if (this.row.shensuzhuangtai === "申诉驳回") {
+        return false;
+      } else if (
+        this.row.shensuzhuangtai === "已申诉" ||
+        this.row.shensuzhuangtai === "审核中" ||
+        this.row.shensuzhuangtai === "申诉通过"
+      ) {
+        return true;
+      }
+      // return (
+      //   this.row.shensuzhuangtai == "已申诉" ||
+      //   this.row.shensuzhuangtai == "审核中" ||
+      //   this.row.shensuzhuangtai == "申诉通过"
+      //   // ||this.row.shensuzhuangtai == "申诉驳回"
+      // );
     },
     titleClass() {
       return [
@@ -640,6 +579,7 @@ export default {
     } else {
       mapheight.style.height = "100%";
     }
+    console.log(this);
   },
   methods: {
     // 开启路书
@@ -653,7 +593,10 @@ export default {
     editClick() {
       if (
         this.row._disabled == true ||
-        (this.row.dealType && this.row.dealType !== "未处理")
+        (this.row.dealType &&
+          this.row.dealType !== "申诉驳回" &&
+          this.row.dealType !== "未处理")
+        //  ||(this.row.dealType && this.row.dealType !== "未处理")
       ) {
         this.$message.warning("不能处理该报警信息");
       } else {
@@ -685,12 +628,7 @@ export default {
       this.loading = true;
       this.play = false;
       setTimeout(() => {
-        let paramss = {
-          beginTime: this.row.calctime,
-          endTime: this.row.beginTime,
-          vehid: this.row.vehID || this.row.vehId,
-          mark: this.active.type == "GPS" ? 0 : 1,
-        };
+        // 起点——>终点
         let params = {
           beginTime: this.row.beginTime,
           endTime: this.row.endTime,
@@ -698,36 +636,8 @@ export default {
           mark: this.active.type == "GPS" ? 0 : 1,
         };
         if (this.active.text == "疲劳驾驶报警") {
-          getAlarmPoint(paramss).then((res) => {
-            const data = res.data.data;
-            if (data.length > 0) {
-              this.path2 = this.mapPoints(data);
-              const view = map.getViewport(this.path2);
-              if (this.path2.length > 0) {
-                // this.beginMarker = {
-                //   lng: data[data.length - 1].longitude,
-                //   lat: data[data.length - 1].latitude,
-                // };
-                this.starMarker = {
-                  lng: data[0].longitude,
-                  lat: data[0].latitude,
-                };
-                // js解析经纬度为地理位置
-                let pointkaishidi = new BMap.Point(
-                  this.starMarker.lng,
-                  this.starMarker.lat
-                );
-                let gc = new BMap.Geocoder();
-                let kaishidi;
-                let _this = this;
-                gc.getLocation(pointkaishidi, function(rs) {
-                  kaishidi = rs.address;
-                  _this.kaishidi = kaishidi;
-                });
-              }
-            }
-            this.loading = false;
-          });
+          this.getKSD();
+          this.getJSD();
         }
         getAlarmPoint(params).then((res) => {
           const data = res.data.data;
@@ -773,6 +683,85 @@ export default {
           this.loading = false;
         });
       }, 300);
+    },
+    // 开始行驶时间
+    getKSD() {
+      const { map } = this.MAP;
+      // 开始行驶时间——>起点
+      let paramss = {
+        beginTime: this.row.calctime,
+        endTime: this.row.beginTime,
+        vehid: this.row.vehID || this.row.vehId,
+        mark: this.active.type == "GPS" ? 0 : 1,
+      };
+      // 开始行驶时间
+      getAlarmPoint(paramss).then((res) => {
+        const data = res.data.data;
+        if (data.length > 0) {
+          this.path2 = this.mapPoints(data);
+          const view = map.getViewport(this.path2);
+          if (this.path2.length > 0) {
+            this.starMarker = {
+              lng: data[0].longitude,
+              lat: data[0].latitude,
+            };
+            // js解析经纬度为地理位置
+            let pointkaishidi = new BMap.Point(
+              this.starMarker.lng,
+              this.starMarker.lat
+            );
+            let gc = new BMap.Geocoder();
+            let kaishidi;
+            let _this = this;
+            gc.getLocation(pointkaishidi, function(rs) {
+              kaishidi = rs.address;
+              _this.kaishidi = kaishidi;
+            });
+          }
+        }
+        this.loading = false;
+      });
+    },
+    // 结束地点
+    getJSD() {
+      const { map } = this.MAP;
+      // 终点——>结束时间
+      this.endXSTime = dayjs(this.row.endTime)
+        .add(10, "minute")
+        .format("YYYY-MM-DD HH:mm:ss");
+      let paramsEnd = {
+        beginTime: this.row.endTime,
+        endTime: this.endXSTime,
+        vehid: this.row.vehID || this.row.vehId,
+        mark: this.active.type == "GPS" ? 0 : 1,
+      };
+      // 结束行驶时间
+      getAlarmPoint(paramsEnd).then((res) => {
+        const data = res.data.data;
+        if (data.length > 0) {
+          this.path3 = this.mapPoints(data);
+          const view = map.getViewport(this.path3);
+          if (this.path3.length > 0) {
+            this.endXSMarker = {
+              lng: data[data.length - 1].longitude,
+              lat: data[data.length - 1].latitude,
+            };
+            // js解析经纬度为地理位置
+            let pointjieshudi = new BMap.Point(
+              this.endXSMarker.lng,
+              this.endXSMarker.lat
+            );
+            let gc = new BMap.Geocoder();
+            let jieshudi;
+            let _this = this;
+            gc.getLocation(pointjieshudi, function(rs) {
+              jieshudi = rs.address;
+              _this.jieshudi = jieshudi;
+            });
+          }
+        }
+        this.loading = false;
+      });
     },
     // 获取报警视频图片
     getAlarmImg() {
@@ -932,6 +921,13 @@ export default {
     text-align: center;
     background: url("~A/daily/popu-head.png") no-repeat top center;
     background-size: 100% 100%;
+    span:first-child {
+      color: #3383ef;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 70px;
+      margin-right: 0.5rem;
+    }
 
     .close {
       height: 25px;
@@ -952,7 +948,7 @@ export default {
       height: 33px;
       letter-spacing: 1px;
       line-height: 33px;
-      padding: 0px 10px;
+      padding: 3px 10px;
       font-weight: 600;
     }
     .title-number {
@@ -1021,10 +1017,6 @@ export default {
         margin-right: 1.5rem;
       }
     }
-    // span:last-child {
-    //   background-color: #37a9f7;
-    //   color: white;
-    // }
   }
 
   .content {
@@ -1083,9 +1075,7 @@ export default {
     .topLeft-box {
       width: calc(50% - 5px);
       height: 100%;
-      // background: #fff;
       border-radius: 4px;
-      // border: 1px solid #e8e8e8;
       box-sizing: border-box;
       .tab-title {
         line-height: 40px;
@@ -1110,7 +1100,6 @@ export default {
       }
       .tab-main {
         width: calc(100% - 16px);
-        // height: calc(75% - 58px);
         height: 41%;
         background: #f5f5f5;
         border-radius: 10px;
@@ -1119,9 +1108,6 @@ export default {
         .vehicle {
           width: 100%;
           height: 100%;
-          // display: flex;
-          // flex-direction: column;
-          // justify-content: space-between;
 
           .info-top {
             width: 100%;
@@ -1129,12 +1115,7 @@ export default {
             padding: 1rem;
             @include box-center($justify: space-between, $align: center);
             .left {
-              // height: 100%;
               width: 100%;
-              // display: flex;
-              // flex-wrap: wrap;
-              // justify-content: space-between;
-              // flex-direction: column;
               display: grid;
               grid-auto-flow: row dense;
               grid-template-columns: 33% 2fr 2fr;
@@ -1148,7 +1129,7 @@ export default {
                 grid-row-start: span 6;
                 img {
                   width: 80%;
-                  height: 80%;
+                  height: 150px;
                   margin: auto 10%;
                 }
               }
@@ -1347,7 +1328,6 @@ export default {
       .info-box {
         height: calc(100% - 8px);
         width: 98%;
-        // @include box-center($justify: space-between);
         display: flex;
         justify-content: space-between;
         .info {
@@ -1368,39 +1348,13 @@ export default {
         }
       }
     }
-    // .bottom-right {
-    //   width: calc(25% - 10px);
-    //   height: 100%;
-    //   background: #fff;
-    //   .btn {
-    //     cursor: pointer;
-    //     @include box-center($justify: center, $align: center);
-    //     height: 100%;
-    //     text-align: center;
-    //     // background: #fac632;
-    //     background: #3c86f4;
-    //     font-size: 25px;
-    //     font-weight: 600;
-    //     letter-spacing: 3px;
-    //     img {
-    //       width: 30px;
-    //       margin-right: 20px;
-    //     }
-    //   }
-    // }
     .content-info {
       height: 100%;
       // max-height: 315px;
       width: 60%;
       background: #f5f5f5;
-      // padding: 1rem 0;
       border-radius: 0 0 10px 10px;
       overflow: auto;
-      // .__view {
-      //   @include box-center($justify: flex-start, $align: center);
-      //   flex-grow: 1;
-      //   flex-wrap: wrap;
-      // }
 
       .info-cell {
         padding: 0.66rem 1.5rem;

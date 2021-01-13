@@ -2,12 +2,12 @@
   <div class="alarm-list">
     <div
       class="list-item h50-5"
-      v-if="$parent.$parent.$parent.$parent.tabn == 0"
+      v-if="
+        $parent.$parent.$parent.$children[2].tabIndexAlarm == 0 ||
+          ($parent.$parent.tabIndexAlarm == 0 &&
+            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined)
+      "
     >
-      <!-- <div class="baojing-title">
-        <img src="~A/daily/GPS.png" alt />
-        <p>北斗设备报警</p>
-      </div> -->
       <div class="facility-alarm">
         <!-- <scroll> -->
         <div
@@ -19,19 +19,23 @@
           <span :class="['tab-btn', { checked: isActive(item) }]">
             {{ item.text }}
           </span>
-          <img v-if="item.baojingshu !== 0" src="~A/daily/baojing.png" alt />
+          <img
+            v-if="item.baojingshu && item.baojingshu !== 0"
+            src="~A/daily/baojing.png"
+            alt
+          />
         </div>
         <!-- </scroll> -->
       </div>
     </div>
     <div
       class="list-item h50-5"
-      v-if="$parent.$parent.$parent.$parent.tabn == 1"
+      v-if="
+        $parent.$parent.$parent.$children[2].tabIndexAlarm == 1 ||
+          ($parent.$parent.tabIndexAlarm == 1 &&
+            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined)
+      "
     >
-      <!-- <div class="baojing-title">
-        <img src="~A/daily/active.png" alt />
-        <p>主动安全设备报警</p>
-      </div> -->
       <div class="facility-alarm">
         <!-- <scroll> -->
         <div
@@ -43,7 +47,39 @@
           <span :class="['tab-btn', { checked: isActive(item) }]">
             {{ item.text }}
           </span>
-          <img v-if="item.baojingshu !== 0" src="~A/daily/baojing.png" alt />
+          <img
+            v-if="item.baojingshu && item.baojingshu !== 0"
+            src="~A/daily/baojing.png"
+            alt
+          />
+        </div>
+        <!-- </scroll> -->
+      </div>
+    </div>
+    <div
+      class="list-item h50-5"
+      v-if="
+        $parent.$parent.$parent.$children[2].tabIndexAlarm == 2 ||
+          ($parent.$parent.tabIndexAlarm == 2 &&
+            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined)
+      "
+    >
+      <div class="facility-alarm">
+        <!-- <scroll> -->
+        <div
+          v-for="(item, index) in ADASList"
+          :key="index"
+          class="block"
+          @click="emitClick(item)"
+        >
+          <span :class="['tab-btn', { checked: isActive(item) }]">
+            {{ item.text }}
+          </span>
+          <img
+            v-if="item.baojingshu && item.baojingshu !== 0"
+            src="~A/daily/baojing.png"
+            alt
+          />
         </div>
         <!-- </scroll> -->
       </div>
@@ -52,7 +88,7 @@
 </template>
 
 <script>
-import { GPSlist, driverList } from "@/const/alarm";
+import { GPSlist, driverList, ADASList } from "@/const/alarm";
 import { getAlarmTongji } from "@/api/daily/alarm";
 import dayjs from "dayjs";
 
@@ -69,6 +105,7 @@ export default {
       active: {},
       GPSlist,
       driverList,
+      ADASList,
       beginTime: dayjs()
         .subtract(1, "day")
         .format("YYYY-MM-DD"),
@@ -84,11 +121,11 @@ export default {
   // 进入报警处理页面时，默认渲染得表格
   beforeMount() {
     if (this.$route.query.alarmType == undefined) {
-      this.emitClick(GPSlist[0]);
+      this.emitClick(this.GPSlist[0]);
     } else {
       for (let i in this.GPSlist) {
         if (this.GPSlist[i].text == this.$route.query.alarmType) {
-          this.emitClick(GPSlist[i]);
+          this.emitClick(this.GPSlist[i]);
         }
       }
       let path = this.$route.path;

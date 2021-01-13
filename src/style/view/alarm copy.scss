@@ -1,0 +1,133 @@
+@import 'S/mixin.scss';
+$color-bluish: #ecf8ff;
+$left-w: 230px;
+$color-bluish: #ecf8ff;
+$tab-btn-h: 30px;
+$bjtitle-h: 110px;
+
+.daily-alarm {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  // background: #d4d7ea;
+  background: #f2f9ff;
+  box-shadow: #dff0ff;
+  // @include box-center($justify: space-between, $align: false);
+  .el-tabs__item {
+    height: auto;
+    padding: 0.5rem 5rem;
+    span{
+      font-size: 16px;
+    }
+  }
+
+  .el-tabs--bottom .el-tabs--left>.el-tabs__header .el-tabs__item:last-child, .el-tabs--bottom .el-tabs--right>.el-tabs__header .el-tabs__item:last-child, .el-tabs--bottom.el-tabs--border-card>.el-tabs__header .el-tabs__item:last-child, .el-tabs--bottom.el-tabs--card>.el-tabs__header .el-tabs__item:last-child, .el-tabs--top .el-tabs--left>.el-tabs__header .el-tabs__item:last-child, .el-tabs--top .el-tabs--right>.el-tabs__header .el-tabs__item:last-child, .el-tabs--top.el-tabs--border-card>.el-tabs__header .el-tabs__item:last-child, .el-tabs--top.el-tabs--card>.el-tabs__header .el-tabs__item:last-child {
+    height: auto;
+    padding: 0.5rem 3.86rem;
+  }
+
+  .alarm-list {
+    // width: 650px;
+    display: flex;
+    height: 100%;
+    // flex-direction: column;
+    overflow: hidden;
+    @include box-center($justify: space-between, $align: false);
+
+    .baojing-title {
+      width: 100%;
+      height: $bjtitle-h;
+      border-bottom: #197ae1;
+      color: #ffffff;
+      background: url('~A/daily/alarm-bg.png') no-repeat top center;
+      background-size: 100% 100%;
+      flex-direction: column;
+      @include box-center($justify: center, $align: center);
+
+      p {
+        margin-top: 5px;
+        font-size: 18px;
+      }
+    }
+
+    .list-item {
+      width: 100%;
+      border-radius: 6px;
+      background: #ffffff;
+    }
+
+    .block {
+      display: flex;
+      padding: 5px 12px 10px 0px;
+    }
+
+    .facility-alarm {
+      // height: calc(100% - #{$bjtitle-h+3});
+      display: flex;
+      // padding: 10px 0;
+      flex-wrap: nowrap;
+      // flex-direction: column;
+      overflow: hidden;
+    }
+
+    .tab-btn {
+      display: inline-block;
+      // line-height: $tab-btn-h;
+      width: 100%;
+      margin-right: 0.6rem;
+      padding: 5px 2rem;
+      line-height: 20px;
+      font-size: 14px;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      color: #7a7a7a;
+      @include rhombusArrow($color-bluish, right, $tab-btn-h, 10px);
+    }
+    .checked {
+      color: #ffffff;
+      @include rhombusArrow($primary-color, right, $tab-btn-h, 10px);
+    }
+    .tab-btn:hover {
+      @extend .checked;
+    }
+  }
+
+  .alarm-mian {
+    width: calc(100%+10px);
+    height: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    .ivu-table th {
+      background-color: $color-bluish;
+      color: #01a0ff;
+    }
+
+    .alarm-type {
+      height: 40px;
+      line-height: 40px;
+      font-size: 18px;
+      color: #ffffff;
+      text-align: center;
+      background: url('~A/daily/popu-head.png') no-repeat top center;
+      background-size: 100% 100%;
+    }
+
+    .alarm-info {
+      height: 30px;
+      font-size: 16px;
+      color: #ffffff;
+      background: linear-gradient(to right, #488afa, #197ae1);
+      @include box-center($justify: space-between, $align: center);
+      span {
+        margin: 0 20px;
+      }
+    }
+
+    .alarm-content {
+      height: calc(100% - 70px);
+      font-size: 16px;
+      background: #ffffff;
+    }
+  }
+}

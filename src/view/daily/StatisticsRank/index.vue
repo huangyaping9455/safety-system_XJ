@@ -1,8 +1,5 @@
 <template>
   <div class="daystatis">
-    <!-- <div class="daystatis-head">
-      <span>车辆报警排名</span>
-    </div> -->
     <div class="daystatis-main">
       <div class="daystatis-btn">
         <div class="daystatis-search">
@@ -354,15 +351,6 @@ export default {
   padding: 1.5rem;
   background-color: #f2f9ff;
   height: 100%;
-  // .daystatis-head {
-  //   height: 4rem;
-  //   line-height: 4rem;
-  //   font-size: 18px;
-  //   color: #ffffff;
-  //   text-align: center;
-  //   background: url(/img/popu-head.33d4cda5.png) no-repeat top center;
-  //   background-size: 100% 100%;
-  // }
   .daystatis-main {
     padding: 0.2rem 1rem;
     background-color: white;

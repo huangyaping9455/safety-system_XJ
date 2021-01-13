@@ -112,7 +112,12 @@
             style="height:35px;"
             alt
           />
-          <img style="height:35px;" v-else src="~A/daily/未处理.png" alt />
+          <img
+            style="height:35px;"
+            v-else
+            src="~A/daily/alarmweichuli.png"
+            alt
+          />
         </template>
         <template slot="shensuzhuangtai" slot-scope="{ row }">
           <div v-if="active.text == '超速报警'">
@@ -127,7 +132,7 @@
         </template>
         <template slot="operation" slot-scope="{ row }">
           <img
-            src="../../../assets/daily/操作.png"
+            src="~A/daily/caozuo.png"
             class="icon"
             @click="showDetail(row)"
           />
@@ -349,10 +354,7 @@ export default {
       let query = {
         ...table.onParams(),
         ...params,
-        alarmType:
-          this.active.text == "生理疲劳报警"
-            ? "疲劳驾驶报警"
-            : this.active.text,
+        alarmType: this.active.text,
         deptName: this.$store.getters.deptName,
         beginTime: dayjs(search.date[0]).format("YYYY-MM-DD"),
         endTime: dayjs(search.date[1]).format("YYYY-MM-DD"),
@@ -376,8 +378,8 @@ export default {
         let c = item.shensuzhuangtai == "已申诉";
         let d = item.shensuzhuangtai == "审核中";
         let e = item.shensuzhuangtai == "申诉通过";
-        let f = item.shensuzhuangtai == "申诉驳回";
-        item._disabled = b || c || d || e || f;
+        // let f = item.shensuzhuangtai == "申诉驳回";
+        item._disabled = b || c || d || e;
         item.status = statusMap[item.status];
         if (item.calctime) {
           item.calctime = item.calctime.replace(/\.0$/g, "");
@@ -393,10 +395,7 @@ export default {
       let query = {
         ...table.onParams(),
         ...params,
-        alarmType:
-          this.active.text == "生理疲劳报警"
-            ? "疲劳驾驶报警"
-            : this.active.text,
+        alarmType: this.active.text,
         deptName: this.$store.getters.deptName,
         beginTime: dayjs(search.date[0]).format("YYYY-MM-DD"),
         endTime: dayjs(search.date[1]).format("YYYY-MM-DD"),
@@ -417,8 +416,8 @@ export default {
         let c = item.shensuzhuangtai == "已申诉";
         let d = item.shensuzhuangtai == "审核中";
         let e = item.shensuzhuangtai == "申诉通过";
-        let f = item.shensuzhuangtai == "申诉驳回";
-        item._disabled = b || c || d || e || f;
+        // let f = item.shensuzhuangtai == "申诉驳回";
+        item._disabled = b || c || d || e;
         item.status = statusMap[item.status];
         if (item.calctime) {
           item.calctime = item.calctime.replace(/\.0$/g, "");
@@ -430,7 +429,7 @@ export default {
     appealIcon(row) {
       let url = null;
       if (row.shensuzhuangtai == "未申诉") {
-        url = require("@/assets/daily/未申诉.png");
+        url = require("@/assets/daily/alarmweishensu.png");
       }
       if (row.shensuzhuangtai == "已申诉") {
         url = require("@/assets/daily/yss.png");
@@ -549,18 +548,20 @@ export default {
     // 显示申诉
     showAppeal() {
       let isDispose = this.selection.every((item) => {
-        return item.isRegionV != "1";
+        return item.isRegionV != "1" && item.shensuzhuangtai !== "申诉驳回";
       });
       if (isDispose) {
         this.testSelection(() => (this.isAppeal = true));
       } else {
-        this.$message.warning("勾选的数据包含‘不可申诉’的数据");
+        this.$message.warning("勾选的数据包含‘申诉驳回’的数据");
       }
     },
     // 显示搜素
     showSearch() {
       let input = document.getElementsByClassName("ivu-form-item-content")[20];
-      input.style.display = "block";
+      if (input) {
+        input.style.display = "block";
+      }
       this.isSearch = true;
       if (this.treeData.length == 0) {
         this.getTreeData();
@@ -575,10 +576,7 @@ export default {
         size: 20,
         shifouchuli: "",
         shifoushensu: "",
-        alarmType:
-          this.active.text == "生理疲劳报警"
-            ? "疲劳驾驶报警"
-            : this.active.text,
+        alarmType: this.active.text,
         deptName: this.$store.getters.deptName,
         beginTime: dayjs(search.date[0]).format("YYYY-MM-DD"),
         endTime: dayjs(search.date[1]).format("YYYY-MM-DD"),
@@ -600,12 +598,9 @@ export default {
       let query = {
         current: 0,
         size: 0,
-        shifouchuli: "",
-        shifoushensu: "",
-        alarmType:
-          this.active.text == "生理疲劳报警"
-            ? "疲劳驾驶报警"
-            : this.active.text,
+        shifouchuli: table.onParams().shifouchuli,
+        shifoushensu: table.onParams().shifoushensu,
+        alarmType: this.active.text,
         deptName: this.$store.getters.deptName,
         beginTime: dayjs(search.date[0]).format("YYYY-MM-DD"),
         endTime: dayjs(search.date[1]).format("YYYY-MM-DD"),
@@ -640,8 +635,8 @@ export default {
           "报警类型",
           "车牌颜色",
           "开始行驶时间",
-          "开始时间",
-          "结束时间",
+          "报警开始时间",
+          "报警结束时间",
           "报警位置",
           "持续时间",
           "报警速度（公里/小时）",

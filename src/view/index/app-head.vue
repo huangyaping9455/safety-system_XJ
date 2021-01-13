@@ -87,8 +87,8 @@
         @on-change="switchPost"
       >
         <i-option
-          v-for="item in userPost"
-          :key="item.postId"
+          v-for="(item, index) in userPost"
+          :key="index"
           :value="item.postId"
           >{{ item.postName }}</i-option
         >

@@ -15,12 +15,14 @@
         </div>
         <div class="preview-head-bottom">
           <span @click="backTo"
-            ><img src="~A/daily/返回.png" alt="" /> 返回</span
+            ><img src="~A/daily/fanhui.png" alt="" /> 返回</span
           >
           <span @click="downLoad"
-            ><img src="~A/daily/下载.png" alt="" />下载</span
+            ><img src="~A/daily/xiazai.png" alt="" />下载</span
           >
-          <span @click="print"><img src="~A/daily/打印.png" alt="" />打印</span>
+          <span @click="print"
+            ><img src="~A/daily/dayin.png" alt="" />打印</span
+          >
         </div>
       </div>
       <div class="preview-main">

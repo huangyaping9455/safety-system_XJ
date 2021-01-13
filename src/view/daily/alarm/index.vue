@@ -1,59 +1,48 @@
 <template>
   <div class="daily-alarm">
-    <el-tabs type="border-card" style="height:auto;" @tab-click="handleClick">
-      <el-tab-pane>
-        <span slot="label" style="font-weight: 600;"
-          ><img
-            src="../../../assets/daily/北斗卫星.png"
-            alt
-            style="width:22px;height:22px;margin-right:5px;"
-          />北斗设备报警</span
+    <div class="alarm-top">
+      <div class="alarm-topmenu">
+        <span
+          :class="[{ checkActive: tabIndexAlarm == 0 }]"
+          @click="alarmClick(0)"
         >
-        <div class="alarm-mian">
-          <div class="alarm-content">
-            <alarm-table
-              ref="alarmtable"
-              :active="active"
-              @getData="getData"
-              @getQuery="getQuery"
-            ></alarm-table>
-          </div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane>
-        <span slot="label" style="font-weight: 600;"
-          ><img
-            src="../../../assets/daily/主动安全告警.png"
-            alt
-            style="width:22px;height:22px;margin-right:5px;"
-          />主动安全设备报警</span
+          <img src="~A/daily/beidouweixin.png" alt />
+          北斗设备报警
+        </span>
+        <span
+          :class="[{ checkActive: tabIndexAlarm == 1 }]"
+          @click="alarmClick(1)"
         >
-        <div class="alarm-mian">
-          <div class="alarm-content">
-            <alarm-table
-              ref="alarmtable"
-              :active="active"
-              @getData="getData"
-              @getQuery="getQuery"
-            ></alarm-table>
-          </div>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
-    <div style="position: absolute;top: 84px;right:5rem;z-index: 10;">
-      <div style="display:flex;line-height:45px;">
-        <span style="color:#37a9f7;font-weight: 600;margin:0 1rem;"
-          >报警车辆：<span style="color:red;">{{ statis.vehCount }}</span></span
+          <img src="~A/daily/zhudonganquan.png" alt />
+          DMS设备报警
+        </span>
+        <span
+          :class="[{ checkActive: tabIndexAlarm == 2 }]"
+          @click="alarmClick(2)"
         >
-        <span style="color:#37a9f7;font-weight: 600;margin:0 1rem;"
-          >报警次数：<span style="color:red;">{{
-            statis.alarmCount
-          }}</span></span
+          <img src="~A/operation/dingwei.png" alt />
+          ADAS设备报警
+        </span>
+      </div>
+      <div class="alarm-mian">
+        <alarm-table
+          ref="alarmtable"
+          :active="active"
+          @getData="getData"
+          @getQuery="getQuery"
+        ></alarm-table>
+      </div>
+    </div>
+    <div class="alarm-msg">
+      <div class="alarm-msg-body">
+        <span class="alarm-span"
+          >报警车辆：<span>{{ statis.vehCount }}</span></span
         >
-        <span style="color:#37a9f7;font-weight: 600;margin:0 1rem;"
-          >处理率：<span style="color:red;">{{
-            statis.handledRate
-          }}</span></span
+        <span class="alarm-span"
+          >报警次数：<span>{{ statis.alarmCount }}</span></span
+        >
+        <span class="alarm-span"
+          >处理率：<span>{{ statis.handledRate }}</span></span
         >
       </div>
     </div>
@@ -80,8 +69,10 @@ export default {
       },
       load: false,
       tabn: "",
+      tabIndexAlarm: 0,
     };
   },
+  mounted() {},
   methods: {
     // 列表上方 报警车辆、报警次数等
     getData({ statis }) {
@@ -104,19 +95,35 @@ export default {
     // toggleAlarm(item) {
     //   this.active = item;
     // },
-    // 切换报警
-    handleClick(tab, event) {
-      this.tabn = tab.index;
-      if (tab.index == 1) {
-        this.$children[0].$children[2].$children[0].toggleAlarm(
-          this.$children[0].$children[2].$children[0].$children[9].driverList[0]
+    alarmClick(index) {
+      this.tabIndexAlarm = index;
+      if (index == 0) {
+        this.$children[0].$children[9].emitClick(
+          this.$children[0].$children[9].GPSlist[0]
         );
-        this.$children[0].$children[2].$children[0].$children[9].active = this.$children[0].$children[2].$children[0].$children[9].driverList[0];
-        this.$children[0].$children[2].$children[0].$children[9].isActive(
-          this.$children[0].$children[2].$children[0].$children[9].driverList[0]
+      } else if (index == 1) {
+        this.$children[0].$children[9].emitClick(
+          this.$children[0].$children[9].driverList[0]
+        );
+      } else if (index == 2) {
+        this.$children[0].$children[9].emitClick(
+          this.$children[0].$children[9].ADASList[0]
         );
       }
     },
+    // 切换报警
+    // handleClick(tab, event) {
+    //   this.tabn = tab.index;
+    //   if (tab.index == 1) {
+    //     this.$children[0].$children[2].$children[0].toggleAlarm(
+    //       this.$children[0].$children[2].$children[0].$children[9].driverList[0]
+    //     );
+    //     this.$children[0].$children[2].$children[0].$children[9].active = this.$children[0].$children[2].$children[0].$children[9].driverList[0];
+    //     this.$children[0].$children[2].$children[0].$children[9].isActive(
+    //       this.$children[0].$children[2].$children[0].$children[9].driverList[0]
+    //     );
+    //   }
+    // },
   },
 };
 </script>
@@ -125,7 +132,7 @@ export default {
 @import "S/view/alarm.scss";
 .buttons-panel {
   position: absolute;
-  top: 10px;
+  top: 14px;
   right: 1rem;
   .alarm-tab {
     display: flex;
@@ -153,12 +160,4 @@ export default {
 .el-tabs--border-card > .el-tabs__header {
   background-color: #e2f0fb;
 }
-// .el-tabs__item {
-//   height: auto;
-//   padding: 0.5rem 5rem;
-// }
-// #tab-1 {
-//   height: auto;
-//   padding: 0.5rem 5rem;
-// }
 </style>

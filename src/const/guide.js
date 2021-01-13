@@ -83,9 +83,10 @@ export const lineoption = (data, yName, ismini) => {
     tooltip: {
       trigger: 'axis',
       formatter: function (val) {
-        if (yName == "weichulizongshu") {
+        if (yName == "chulizongshu") {
           let html = `
           <p>${val[0].name}</p>
+          <p>报警处理总数<span style="color:#34a1ff;margin-left:5px;">${val[0].value.chulizongshu}</span></p>
           <p>未处理报警总数<span style="color:#34a1ff;margin-left:5px;">${val[0].value.weichulizongshu}</span></p>
           <p>北斗设备报警数<span style="color:#34a1ff;margin-left:5px;">${val[0].value.bdbaojingcishu}</span></p>
           <p>主动安全设备报警数<span style="color:#34a1ff;margin-left:5px;">${val[0].value.sbbaojingcishu}</span></p>
@@ -118,6 +119,9 @@ export const lineoption = (data, yName, ismini) => {
     dataset: {
       source: data
     },
+    legend: {
+      data: [yName == "chulizongshu" ? '报警处理总数' : '报警数', yName == "chulizongshu" ? '未处理报警总数' : '未处理数']
+    },
     xAxis: {
       type: 'category',
       axisTick: {
@@ -147,13 +151,13 @@ export const lineoption = (data, yName, ismini) => {
         }
       }
     }],
-    series: {
+    series: [{
       encode: {
         x: 'date',
         y: yName
       },
       type: 'line',
-      name: '',
+      name: yName == "chulizongshu" ? '报警处理总数' : '报警数',
       smooth: true,
       showSymbol: false,
       areaStyle: { //区域填充样式
@@ -176,18 +180,50 @@ export const lineoption = (data, yName, ismini) => {
           shadowBlur: 0
         }
       }
-    }
+    }, {
+      encode: {
+        x: 'date',
+        y: yName == "chulizongshu" ? "weichulizongshu" : yName == "bdbaojingcishu" ? "bdweichulishu" : "sbweichulishu"
+      },
+      type: 'line',
+      smooth: true,
+      name: yName == "chulizongshu" ? '未处理报警总数' : '未处理数',
+      showSymbol: false,
+      color: "#ff001e",
+      areaStyle: { //区域填充样式
+        normal: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [{
+              offset: 0,
+              color: 'rgb(255, 0, 30,1)'
+            }, {
+              offset: 1,
+              color: 'rgb(255, 0, 30,0)'
+            }],
+            global: false
+          },
+          shadowBlur: 0
+        }
+      }
+    }]
   };
 };
 export const lineoption1 = (data = [], ismini) => {
-  let zcbaojingclcishu = 0,
+  let baojingcishu = 0,
+    zcbaojingclcishu = 0,
     csbaojingclcishu = 0;
   data.forEach(el => {
+    baojingcishu += el.baojingcishu;
     zcbaojingclcishu += el.zcbaojingclcishu;
     csbaojingclcishu += el.csbaojingclcishu;
   });
   return {
-    color: ['#34a1ff', '#ffa469'],
+    color: ['#ff001e', '#28f39c', '#ffa469'],
     tooltip: {
       trigger: 'axis'
     },
@@ -198,9 +234,16 @@ export const lineoption1 = (data = [], ismini) => {
       textStyle: {
         fontSize: ismini ? 10 : 14
       },
-      data: ['正常处理报警数', '超时处理报警数'],
+      data: ['报警次数', '正常处理报警数', '超时处理报警数'],
       formatter: function (name) {
-        let num = name == '正常处理报警数' ? zcbaojingclcishu : csbaojingclcishu;
+        let num;
+        if (name == '报警次数') {
+          num = baojingcishu;
+        } else if (name == '正常处理报警数') {
+          num = zcbaojingclcishu;
+        } else {
+          num = csbaojingclcishu;
+        }
         return name + `     ${num}`;
       }
     },
@@ -227,7 +270,7 @@ export const lineoption1 = (data = [], ismini) => {
     },
     yAxis: [{
       type: 'value',
-      name: '辆',
+      name: '', //辆
       axisTick: {
         show: false
       },
@@ -246,6 +289,35 @@ export const lineoption1 = (data = [], ismini) => {
     series: [{
         encode: {
           x: 'date',
+          y: 'baojingcishu'
+        },
+        type: 'line',
+        name: '报警次数',
+        smooth: true,
+        showSymbol: false,
+        areaStyle: { //区域填充样式
+          normal: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0,
+                color: 'rgb(255, 0, 30,1)'
+              }, {
+                offset: 1,
+                color: 'rgb(255, 0, 30,0)'
+              }],
+              global: false
+            },
+            shadowBlur: 0
+          }
+        }
+      }, {
+        encode: {
+          x: 'date',
           y: 'zcbaojingclcishu'
         },
         type: 'line',
@@ -262,10 +334,10 @@ export const lineoption1 = (data = [], ismini) => {
               y2: 1,
               colorStops: [{
                 offset: 0,
-                color: 'rgba(52,161,255,1)'
+                color: 'rgb(43, 249, 161,1)'
               }, {
                 offset: 1,
-                color: 'rgba(52,161,255,0)'
+                color: 'rgb(43, 249, 161,0)'
               }],
               global: false
             },

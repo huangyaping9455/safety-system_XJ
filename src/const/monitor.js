@@ -114,6 +114,7 @@ export const alarmTableConfig = {
       title: '地理位置',
       key: `locationName`,
       align: 'center',
+      tooltip: true,
       minWidth: 220
     },
 
@@ -188,8 +189,15 @@ export const vehicleAlarmList = [{
     fild: 'buzaixianbaojing',
     type: 'GPS',
     standard: `24小时不在线报警是指企业车辆最后一次数据回传时间与当天0点的时间差大于24小时。`
-  }
+  },
+  {
+    text: '高速禁行报警',
+    fild: 'gaosujinxing',
+    type: 'GPS',
+    standard: ``
+  },
 ];
+// DMS报警
 export const defenseList = [{
     icon: require('A/daily/dadianhua.png'),
     text: '接打电话报警',
@@ -201,7 +209,8 @@ export const defenseList = [{
     icon: require('A/daily/chouyan.png'),
     text: '抽烟报警',
     fild: 'zhudongChouyanjiashiCount',
-    type: 'driv'
+    type: 'driv',
+    standard: '在车辆行驶过程中，DSM摄像头通过接触或非接触的方式检测到驾驶员抽烟的行为时，产生抽烟警告报警。'
   },
   // {
   //   icon: require('A/daily/weiianquandai.png'),
@@ -223,25 +232,47 @@ export const defenseList = [{
     type: 'driv',
     standard: '在车辆行驶过程中，DSM摄像头通过面部监测的方式检测到驾驶员持续闭眼、打哈欠、眯眼或者眨眼频繁时，产生疲劳驾驶警告报警。'
   },
-  // {
-  //   icon: require('A/daily/chejuguojing.png'),
-  //   text: '车距过近报警',
-  //   fild: 'zhudongChejuguojinCount',
-  //   type: 'driv'
-  // },
-  // {
-  //   icon: require('A/daily/chedaopianli.png'),
-  //   text: '车道偏离报警',
-  //   fild: 'zhudongChedaopianliCount',
-  //   type: 'driv'
-  // },
-  // {
-  //   icon: require('A/daily/pengzhuang.png'),
-  //   text: '前向碰撞报警',
-  //   fild: 'zhudongFangpenzhuangCount',
-  //   type: 'driv'
-  // }
+  {
+    icon: require('A/daily/pilao.png'),
+    text: '驾驶员异常报警',
+    fild: 'jiashiyuanyichangbaojing',
+    type: 'driv',
+    standard: '在车辆行驶过程中，DSM摄像头通过视频的方式检测不到驾驶员面部特征或者摄像头被遮挡时，产生驾驶员异常报警。'
+  },
 ];
+// ADASList
+export const ADASList = [{
+    icon: require('A/daily/chejuguojing.png'),
+    text: '车距过近报警',
+    fild: 'zhudongChejuguojinCount',
+    type: 'driv',
+    standard: `在车辆行驶过程中，ADAS摄像头通过监测与前车安全距离时间过低时，产生车距过近报警警告报警。
+               当车辆速度高于报警速度阈值时， 与前车距离时间低于安全距离时间阈值（ 默认设置的是1 .2 S）， 产生车距过近报警， 同时进行语音报警提示并向平台发送车距过近报警信息， 报警信息包含报警级别、 行驶前方道路的照片和视频。 如当车速为60KM / H时， 安全距离小于60× 1.2 = 72 米产生报警； 当车速为70KM / H时， 安全距离小于70× 1.2 = 84 米产生报警。 `
+  },
+  {
+    icon: require('A/daily/chedaopianli.png'),
+    text: '车道偏离报警',
+    fild: 'zhudongChedaopianliCount',
+    type: 'driv',
+    standard: '在车辆行驶过程中，车载终端探测车辆相对车辆边界的横向位置，当车辆处于报警临界线附近且没有操作相应的转向灯时，对驾驶员进行报警提示'
+  },
+  {
+    icon: require('A/daily/pengzhuang.png'),
+    text: '前向碰撞报警',
+    fild: 'zhudongFangpenzhuangCount',
+    type: 'driv',
+    standard: `在车辆行驶过程中，ADAS摄像头通过监测与前车碰撞时间过低时，产生前向碰撞报警警告报警。
+               当车辆速度高于报警速度阈值时， 若碰撞时间（ TTC） 低于安全时间阈值（ 默认设置的是0 .8 S）， 产生前向碰撞报警， 同时进行语音报警提示并向平台发送前向碰撞报警信息， 报警信息包含报警级别、 行驶前方道路的照片和视频。 如当车速为60KM / H时， 安全距离小于60× 0.8 = 48 米产生报警； 当车速为70KM / H时， 安全距离小于70× 0.8 = 56 米产生报警。 `
+  },
+  {
+    icon: require('A/daily/pengzhuang.png'),
+    text: '行人碰撞预警',
+    fild: 'xingrenpengzhuangyujing',
+    type: 'driv',
+    standard: ''
+  }
+]
+
 export const swiperOption = {
   watchSlidesProgress: true,
   slidesPerView: 'auto',
@@ -537,8 +568,8 @@ export const trackAlarmInfo = [{
   {
     text: '持续时间',
     value: '报警',
-    field: 'keepTime',
-    unit: '"'
+    field: 'keeptimeShow',
+    unit: ''
   },
   {
     text: '限定速度',
@@ -551,9 +582,9 @@ export const alarmChart = (speed, scale) => {
   return {
     grid: {
       top: '10px',
-      left: '30px',
+      left: '35px',
       right: '15px',
-      bottom: '30px'
+      bottom: '35px'
     },
     // 鼠标移入 显示数据
     tooltip: {

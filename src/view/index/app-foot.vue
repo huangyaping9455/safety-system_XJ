@@ -160,8 +160,7 @@ export default {
           this.alarmList = res.data.data;
           if (this.alarmList != "") {
             this.showPopup = true;
-
-            if (this.isPlay && this.$refs.audio.play) {
+            if (this.isPlay && this.$refs.audio) {
               this.$refs.audio.play();
             }
           }

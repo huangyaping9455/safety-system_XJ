@@ -84,7 +84,7 @@
       align-items: center;
       .bottom-l-l {
         margin-top: 33px;
-        flex: 0 0 50%;
+        flex: 0 0 47%;
         display: flex;
         justify-content: space-between;
         .chart {
@@ -149,7 +149,7 @@
         }
       }
       .bottom-l-r {
-        flex: 0 0 48%;
+        flex: 0 0 51%;
         .chart {
           height: 350px;
         }
@@ -475,10 +475,10 @@
           <div class="btns">
             <i-button
               class="btn-item"
-              @click="showSevenAlarmStatistics('weichulizongshu')"
+              @click="showSevenAlarmStatistics('chulizongshu')"
               type="primary"
               shape="circle"
-              :ghost="activeName == 'weichulizongshu' ? false : true"
+              :ghost="activeName == 'chulizongshu' ? false : true"
               >全部</i-button
             >
             <i-button
@@ -535,7 +535,6 @@ import {
   yearAlarmTendency,
   QYVehicleCount,
 } from "@/api/guide";
-// import appHead from "@/view/index/app-head";
 import {
   guidePieChart,
   lineoption,
@@ -560,7 +559,7 @@ export default {
       vehicleCondition: {}, //车辆情况data
       yearStatistics: {}, //报警统计（年）
       sevenData: {}, //近7天报警统计
-      activeName: "weichulizongshu",
+      activeName: "chulizongshu",
       year: new Date(),
       vehicleCount: {}, //车辆状态统计
     };
@@ -624,6 +623,12 @@ export default {
     this.ismini = clientWidth > 1528 ? false : true;
     this.init();
   },
+  mounted() {
+    let _this = this;
+    setInterval(function() {
+      _this.getSevenAlarmState();
+    }, 20000);
+  },
   methods: {
     init() {
       // 本月车辆情况
@@ -682,7 +687,7 @@ export default {
           sevengpsweichulishu: data.data.sevengpsweichulishu,
           sevenList: data.data.sevenList,
         };
-        this.showSevenAlarmStatistics("weichulizongshu");
+        this.showSevenAlarmStatistics("chulizongshu");
       });
     },
     // 渲染近七天报警统计
@@ -690,6 +695,20 @@ export default {
       this.activeName = yName;
       this.echarts3 = lineoption(this.sevenData.sevenList, yName, this.ismini);
     },
+    // 近7天报警统计 设置滚动效果
+    getSevenAlarmState() {
+      let _this = this;
+      setTimeout(function() {
+        _this.showSevenAlarmStatistics("chulizongshu");
+      }, 5000);
+      setTimeout(function() {
+        _this.showSevenAlarmStatistics("bdbaojingcishu");
+      }, 10000);
+      setTimeout(function() {
+        _this.showSevenAlarmStatistics("sbbaojingcishu");
+      }, 15000);
+    },
+    // 选择年份
     changeyear(date) {
       this.getYearAlarm(date);
       this.getYearAlarmTendency(date);

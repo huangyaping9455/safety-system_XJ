@@ -83,10 +83,18 @@ export const GPSlist = [{
     baojingshu: 0,
     view: 'buzaixianList',
     standard: `24小时不在线报警是指企业车辆最后一次数据回传时间与当天0点的时间差大于24小时。`
-  }
+  },
+  {
+    text: '高速禁行报警',
+    key: 'gaosujinxing',
+    type: 'GPS',
+    baojingshu: 0,
+    view: 'gaosuList',
+    standard: ``
+  },
 ];
 
-// 主动安全设备报警类型
+// DMS报警类型
 export const driverList = [{
     text: '接打电话报警',
     key: 'dadianhua',
@@ -118,7 +126,51 @@ export const driverList = [{
     baojingshu: 0,
     view: 'tired-list',
     standard: '在车辆行驶过程中，DSM摄像头通过面部监测的方式检测到驾驶员持续闭眼、打哈欠、眯眼或者眨眼频繁时，产生疲劳驾驶警告报警。'
-  }
+  },
+  {
+    text: '驾驶员异常报警',
+    key: 'jiashiyuanyichang',
+    type: 'driver',
+    baojingshu: 0,
+    view: 'yichang-list',
+    standard: '在车辆行驶过程中，DSM摄像头通过视频的方式检测不到驾驶员面部特征或者摄像头被遮挡时，产生驾驶员异常报警。'
+  },
+];
+// ADAS报警类型
+export const ADASList = [{
+    text: '车距过近报警',
+    key: 'chujuguojin',
+    type: 'driver',
+    baojingshu: 0,
+    view: 'phone-list',
+    standard: `在车辆行驶过程中，ADAS摄像头通过监测与前车安全距离时间过低时，产生车距过近报警警告报警。
+               当车辆速度高于报警速度阈值时， 与前车距离时间低于安全距离时间阈值（ 默认设置的是1 .2 S）， 产生车距过近报警， 同时进行语音报警提示并向平台发送车距过近报警信息， 报警信息包含报警级别、 行驶前方道路的照片和视频。 如当车速为60KM / H时， 安全距离小于60× 1.2 = 72 米产生报警； 当车速为70KM / H时， 安全距离小于70× 1.2 = 84 米产生报警。 `
+  },
+  {
+    text: '车道偏离报警',
+    key: 'chedaopianli',
+    type: 'driver',
+    baojingshu: 0,
+    view: 'pianli-list',
+    standard: '在车辆行驶过程中，车载终端探测车辆相对车辆边界的横向位置，当车辆处于报警临界线附近且没有操作相应的转向灯时，对驾驶员进行报警提示'
+  },
+  {
+    text: '前向碰撞报警',
+    key: 'qianxiangpengzhuang',
+    type: 'driver',
+    baojingshu: 0,
+    view: 'qianxiang-list',
+    standard: `在车辆行驶过程中，ADAS摄像头通过监测与前车碰撞时间过低时，产生前向碰撞报警警告报警。
+               当车辆速度高于报警速度阈值时， 若碰撞时间（ TTC） 低于安全时间阈值（ 默认设置的是0 .8 S）， 产生前向碰撞报警， 同时进行语音报警提示并向平台发送前向碰撞报警信息， 报警信息包含报警级别、 行驶前方道路的照片和视频。 如当车速为60KM / H时， 安全距离小于60× 0.8 = 48 米产生报警； 当车速为70KM / H时， 安全距离小于70× 0.8 = 56 米产生报警。 `
+  },
+  {
+    text: '行人碰撞预警',
+    key: 'xingrenpengzhuang',
+    type: 'driver',
+    baojingshu: 0,
+    view: 'xingren-list',
+    standard: ''
+  },
 ];
 
 // 报警统计类型类型
@@ -336,11 +388,18 @@ export const alarmTableConfig = {
       sortable: 'custom',
       width: 180,
       display: 'GPS'
+    }, {
+      title: '报警等级',
+      key: 'status',
+      align: 'center',
+      // fixed: 'left',
+      width: 100,
+      display: 'chaosu'
     },
     {
       title: '报警位置',
       key: 'roadName',
-      align: 'center',
+      // align: 'center',
       tooltip: true,
       minWidth: 400
     },
@@ -384,14 +443,6 @@ export const alarmTableConfig = {
       display: 'chaosu'
     },
 
-    {
-      title: '报警等级',
-      key: 'status',
-      align: 'center',
-      // fixed: 'left',
-      width: 100,
-      display: 'chaosu'
-    },
     {
       title: '车辆类型',
       key: 'operatType',
@@ -651,6 +702,9 @@ export const aralmDetail = (data = {}) => {
   return [{
       title: '违规内容',
       value: data.alarmType
+    }, {
+      title: '报警等级',
+      value: data.status
     },
     {
       title: '行驶速度',

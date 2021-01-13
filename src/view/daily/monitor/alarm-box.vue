@@ -27,7 +27,7 @@
       <div class="alarm-head-button">
         <div class="alarm-head-button-msg">
           <div class="alarm-head-msg">
-            <img src="../../../assets/daily/北斗卫星.png" alt="" />
+            <img src="~A/daily/beidouweixin.png" alt="" />
             <span>今日北斗设备报警</span>
           </div>
           <div class="alarm-head-button-bottom">
@@ -44,13 +44,30 @@
         </div>
         <div class="alarm-head-button-msg">
           <div class="alarm-head-msg">
-            <img src="../../../assets/daily/主动安全告警.png" alt="" />
-            <span>今日主动防御报警</span>
+            <img src="~A/daily/zhudonganquan.png" alt="" />
+            <span>DMS报警</span>
           </div>
           <div class="alarm-head-button-bottom">
             <div
               :class="['alarm-head-button-for', { checked: isActive(item) }]"
               v-for="(item, index) in defenseList"
+              :key="index"
+              @click="emitClick(item)"
+            >
+              <b class="bcolor">{{ alarmTongji[item.fild] }}</b>
+              <span>{{ item.text }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="alarm-head-button-msg">
+          <div class="alarm-head-msg">
+            <img src="~A/operation/dingwei.png" alt="" />
+            <span>ADAS报警</span>
+          </div>
+          <div class="alarm-head-button-bottom">
+            <div
+              :class="['alarm-head-button-for', { checked: isActive(item) }]"
+              v-for="(item, index) in ADASList"
               :key="index"
               @click="emitClick(item)"
             >
@@ -95,7 +112,7 @@
 </template>
 
 <script>
-import { vehicleAlarmList, defenseList } from "@/const/monitor";
+import { vehicleAlarmList, defenseList, ADASList } from "@/const/monitor";
 import alarmDetail from "@/view/daily/alarm/detail";
 import alarmDispose from "@/view/daily/alarm/dispose";
 import alarmAppeal from "@/view/daily/alarm/appeal";
@@ -114,6 +131,7 @@ export default {
     return {
       vehicleAlarmList,
       defenseList,
+      ADASList,
       caleHeight: 500,
       alarmTongji: {},
       tableData: [],
@@ -220,8 +238,7 @@ export default {
     getList() {
       this.loading = true;
       let company = this.$store.getters.deptName;
-      let AlarmType =
-        this.active.text == "生理疲劳报警" ? "疲劳驾驶报警" : this.active.text;
+      let AlarmType = this.active.text;
       if (this.active.type == "GPS") {
         getAlarmGps(company, AlarmType).then((res) => {
           this.loading = false;
@@ -233,6 +250,9 @@ export default {
               el.dealType = "已申诉";
             } else {
               el.dealType = "未处理";
+            }
+            if (el.shensushenhebiaoshi === 2) {
+              el.dealType = "申诉驳回";
             }
             return el;
           });
@@ -344,8 +364,8 @@ export default {
             align-items: center;
             border: 1px solid gainsboro;
             border-radius: 7px;
-            padding: 0.3rem 2rem;
-            margin-right: 1rem;
+            padding: 0.5rem 0.5rem;
+            margin-right: 0.5rem;
             cursor: pointer;
             b {
               color: #37a9f7;

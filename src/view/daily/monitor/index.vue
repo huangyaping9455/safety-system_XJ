@@ -199,13 +199,13 @@
                   <span class="zhengzhao">车辆证照</span>
                   <el-carousel :interval="5000" arrow="always" height="">
                     <el-carousel-item>
-                      <img src="../../../assets/daily/tu2.png" alt="" />
+                      <img src="~A/daily/tu2.png" alt="" />
                     </el-carousel-item>
                     <el-carousel-item>
-                      <img src="../../../assets/daily/tu3.png" alt="" />
+                      <img src="~A/daily/tu3.png" alt="" />
                     </el-carousel-item>
                     <el-carousel-item>
-                      <img src="../../../assets/daily/tu4.png" alt="" />
+                      <img src="~A/daily/tu4.png" alt="" />
                     </el-carousel-item>
                   </el-carousel>
                 </div>
@@ -287,7 +287,7 @@
           </div>
           <div class="popup-foot">
             <span @click="closePopup"
-              ><img src="../../../assets/daily/取消.png" alt="" /> 关闭</span
+              ><img src="~A/daily/quxiao.png" alt="" /> 关闭</span
             >
           </div>
         </div>
@@ -387,7 +387,7 @@
             </template>
             <template slot="monitor" slot-scope="{ row }">
               <img
-                src="../../../assets/icon/huifang.png"
+                src="~A/icon/huifang.png"
                 alt
                 style="width:20px;height:20px;"
                 @click="showPopup(row)"
@@ -395,7 +395,7 @@
             </template>
             <template slot="playback" slot-scope="{ row }">
               <img
-                src="../../../assets/icon/jiankong.png"
+                src="~A/icon/jiankong.png"
                 alt
                 style="width:20px;height:20px;"
                 @click="trackPlayback(row)"
@@ -548,7 +548,7 @@ export default {
       endMarker: {},
       vehicleStat: [{}],
       place: "",
-      zoom: 6,
+      zoom: 7,
       // center: { lng: 116.96643, lat: 33.654438 },
       // 新疆
       center: { lng: 86.373, lat: 42.453 },
@@ -558,6 +558,7 @@ export default {
         opts: { anchor: { width: 27, height: 13 } },
       },
       labelStyle: {
+        top: "40px",
         color: "#333",
         fontSize: "12px",
         backgroundSize: "68px",
@@ -603,14 +604,6 @@ export default {
       current: 1,
       total: 0,
       baojingshu: "",
-      imgCarId: [
-        {
-          url:
-            "http://222.82.236.242:8894/baogaowenjian/2020/11/24/新疆省/奇台泓祥建材有限责任公司/img/0.jpg",
-        },
-        { url: "require('../../../daily/tu3.png')" },
-        { url: "A/daily/tu4.png" },
-      ],
     };
   },
 
@@ -949,10 +942,17 @@ export default {
           this.alarmTongji.gpsPilaoCount +
           this.alarmTongji.gpsYejianCount +
           this.alarmTongji.gpsYichangCount +
+          this.alarmTongji.buzaixianbaojing +
+          this.alarmTongji.gaosujinxing +
           this.alarmTongji.zhudongJiedadianhuaCount +
           this.alarmTongji.zhudongChouyanjiashiCount +
           this.alarmTongji.zhudongFenshenjiashiCount +
-          this.alarmTongji.zhudongJiashiyuanpilaoCount;
+          this.alarmTongji.zhudongJiashiyuanpilaoCount +
+          this.alarmTongji.jiashiyuanyichangbaojing +
+          this.alarmTongji.xingrenpengzhuangyujing +
+          this.alarmTongji.zhudongChedaopianliCount +
+          this.alarmTongji.zhudongChejuguojinCount +
+          this.alarmTongji.zhudongFangpenzhuangCount;
       });
     },
     // 获取报警统计
@@ -1011,7 +1011,8 @@ export default {
           item.icon = this.getMapCarImg(
             item.VehState,
             item.alarm,
-            item.zaixian
+            item.zaixian,
+            item.angle
           );
           this.alarmStatus = item.alarm;
           item._checked = true;
@@ -1056,7 +1057,8 @@ export default {
           item.icon = this.getMapCarImg(
             item.VehState,
             item.alarm,
-            item.zaixian
+            item.zaixian,
+            item.angle
           );
           this.alarmStatus = item.alarm;
           item._checked = true;
@@ -1089,8 +1091,7 @@ export default {
       // });
       this.stateLoading = true;
       let company = this.$store.getters.deptName;
-      let AlarmType =
-        this.active.text == "生理疲劳报警" ? "疲劳驾驶报警" : this.active.text;
+      let AlarmType = this.active.text;
       let res = await this.listAction(company, AlarmType);
       this.alarmList = res.data.data;
       let statusMap = {};
@@ -1114,30 +1115,98 @@ export default {
         "&fov=190&pitch=10&heading=20";
     },
     // 根据状态添加车辆图标
-    getMapCarImg(status, alarmStatus, zaixian) {
+    getMapCarImg(status, alarmStatus, zaixian, angle) {
       let img = {
         url: "http://api.map.baidu.com/library/LuShu/1.2/examples/car.png",
-        size: { width: 52, height: 26 },
+        size: { width: 52, height: 50 },
         opts: { anchor: { width: 27, height: 13, color: "red" } },
       };
       if (alarmStatus === "报警") {
-        img.url = require("@/assets/icon/car_w.png");
+        if (angle == 0 || angle == 360) {
+          img.url = require("@/assets/icon/car_w.png");
+        } else if (angle > 0 && angle < 90) {
+          img.url = require("@/assets/icon/car_w_es.png");
+        } else if (angle == 90) {
+          img.url = require("@/assets/icon/car_w_s.png");
+        } else if (angle > 90 && angle < 180) {
+          img.url = require("@/assets/icon/car_w_sw.png");
+        } else if (angle == 180) {
+          img.url = require("@/assets/icon/car_w_w.png");
+        } else if (angle > 180 && angle < 270) {
+          img.url = require("@/assets/icon/car_w_wn.png");
+        } else if (angle == 270) {
+          img.url = require("@/assets/icon/car_w_n.png");
+        } else if (angle > 270 && angle < 360) {
+          img.url = require("@/assets/icon/car_w_ne.png");
+        }
       } else {
         if (status == "在用") {
-          img.url = require("@/assets/icon/car_y.png");
+          if (angle == 0 || angle == 360) {
+            img.url = require("@/assets/icon/car_y.png");
+          } else if (angle > 0 && angle < 90) {
+            img.url = require("@/assets/icon/car_y_es.png");
+          } else if (angle == 90) {
+            img.url = require("@/assets/icon/car_y_s.png");
+          } else if (angle > 90 && angle < 180) {
+            img.url = require("@/assets/icon/car_y_sw.png");
+          } else if (angle == 180) {
+            img.url = require("@/assets/icon/car_y_w.png");
+          } else if (angle > 180 && angle < 270) {
+            img.url = require("@/assets/icon/car_y_wn.png");
+          } else if (angle == 270) {
+            img.url = require("@/assets/icon/car_y_n.png");
+          } else if (angle > 270 && angle < 360) {
+            img.url = require("@/assets/icon/car_y_ne.png");
+          }
         }
         if (status == "闲置") {
-          img.url = require("@/assets/icon/car_x.png");
+          if (angle == 0 || angle == 360) {
+            img.url = require("@/assets/icon/car_x.png");
+          } else if (angle > 0 && angle < 90) {
+            img.url = require("@/assets/icon/car_x_es.png");
+          } else if (angle == 90) {
+            img.url = require("@/assets/icon/car_x_s.png");
+          } else if (angle > 90 && angle < 180) {
+            img.url = require("@/assets/icon/car_x_sw.png");
+          } else if (angle == 180) {
+            img.url = require("@/assets/icon/car_x_w.png");
+          } else if (angle > 180 && angle < 270) {
+            img.url = require("@/assets/icon/car_x_wn.png");
+          } else if (angle == 270) {
+            img.url = require("@/assets/icon/car_x_n.png");
+          } else if (angle > 270 && angle < 360) {
+            img.url = require("@/assets/icon/car_x_ne.png");
+          }
         }
       }
       if (zaixian == "未上线") {
-        img.url = require("@/assets/icon/car_l.png");
+        if (angle == 0 || angle == 360) {
+          img.url = require("@/assets/icon/car_l.png");
+        } else if (angle > 0 && angle < 90) {
+          img.url = require("@/assets/icon/car_l_es.png");
+        } else if (angle == 90) {
+          img.url = require("@/assets/icon/car_l_s.png");
+        } else if (angle > 90 && angle < 180) {
+          img.url = require("@/assets/icon/car_l_sw.png");
+        } else if (angle == 180) {
+          img.url = require("@/assets/icon/car_l_w.png");
+        } else if (angle > 180 && angle < 270) {
+          img.url = require("@/assets/icon/car_l_wn.png");
+        } else if (angle == 270) {
+          img.url = require("@/assets/icon/car_l_n.png");
+        } else if (angle > 270 && angle < 360) {
+          img.url = require("@/assets/icon/car_l_ne.png");
+        }
       }
       return img;
     },
     // labelStyle
     getLabelOpt(data) {
       let style = {
+        top:
+          data.angle == 0 || data.angle == 360 || data.angle == 180
+            ? "23px"
+            : "50px",
         color: "#333",
         fontSize: "12px",
         backgroundSize: "68px",

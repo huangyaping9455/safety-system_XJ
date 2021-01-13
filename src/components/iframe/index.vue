@@ -49,8 +49,6 @@ export default {
   methods: {
     // 监听 iframe 发回的事件
     onEvent(e) {
-      console.log("111");
-      console.log(e);
       if (e.data.flag === "safety-system") {
         let action = e.data.action;
         let params = e.data.params;
