@@ -12,3 +12,8 @@ $ yarn install
 # 启动
 $ yarn run serve
 ```
+
+## 初始账密
+
+-账号：admin
+-密码：123456
