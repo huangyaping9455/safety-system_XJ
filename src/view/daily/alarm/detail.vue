@@ -9,7 +9,9 @@
             ? "已处理"
             : "未处理" &&
               (isAppeal
-                ? row.shensuzhuangtai
+                ? row.shensuzhuangtai === "未申诉" && row.remark == 0
+                  ? "已处理"
+                  : row.shensuzhuangtai
                 : row.shensuzhuangtai === "申诉驳回"
                 ? "申诉驳回"
                 : isDispose
@@ -250,10 +252,7 @@
                       "
                       class="bottom-right"
                     >
-                      <div
-                        class="content-info w100"
-                        style="max-height: 195px;overflow-y: scroll;"
-                      >
+                      <div class="content-info w100">
                         <div class="info-cell w50">
                           申诉形式：
                           <span>{{ imgList.chulixingshi }}</span>
@@ -303,6 +302,59 @@
                         <div class="info-cell w50">
                           申诉意见：
                           <span>{{ imgList.shensushenheyijian }}</span>
+                        </div>
+                        <div
+                          class="info-cell w50"
+                          v-if="imgList.twicechulixingshi !== ''"
+                        >
+                          二次处理方式：
+                          <span>{{ imgList.twicechulixingshi }}</span>
+                        </div>
+                        <div
+                          class="info-cell w100"
+                          v-if="imgList.twicechulimiaoshu !== ''"
+                        >
+                          二次处理内容：
+                          <i-tooltip
+                            placement="top"
+                            :content="imgList.twicechulimiaoshu"
+                          >
+                            <span>{{ imgList.twicechulimiaoshu }}</span>
+                          </i-tooltip>
+                        </div>
+                        <div
+                          class="info-cell w50"
+                          v-if="imgList.twicechuliren !== ''"
+                        >
+                          二次处理人：
+                          <span>{{ imgList.twicechuliren }}</span>
+                        </div>
+                        <div
+                          class="info-cell w50"
+                          v-if="imgList.twicechulishijian !== ''"
+                        >
+                          二次处理时间：
+                          <span>{{ imgList.twicechulishijian }}</span>
+                        </div>
+                        <div
+                          class="info-cell w50"
+                          v-if="imgList.twicefujian !== ''"
+                        >
+                          二次处理凭证：
+                          <span v-if="imgList.twicefujian !== ''">
+                            <i-poptip placement="top">
+                              <img src="~A/daily/ping.png" class="pingzheng" />
+                              <div slot="content">
+                                <img
+                                  v-for="(item, index) in arryImgtwice"
+                                  :key="index"
+                                  class="fujian"
+                                  :src="arryImgtwice[index]"
+                                  alt
+                                />
+                              </div>
+                            </i-poptip>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -457,6 +509,7 @@ export default {
       CLXX: false,
       tableData: [],
       arryImg: "",
+      arryImgtwice: "",
       labelOpt: {
         style: { color: "red", fontSize: "14px", padding: "0 5px" },
         styleks: { color: "blue", fontSize: "14px", padding: "0 5px" },
@@ -474,8 +527,8 @@ export default {
   computed: {
     isDispose() {
       return (
-        (this.row.chulizhuangtai === "已处理" ||
-          this.row.chulizhuangtai == 1) &&
+        ((this.row.chulizhuangtai === "已处理" && this.row.remark == 1) ||
+          (this.row.chulizhuangtai == 1 && this.row.remark == 1)) &&
         this.dispose
       );
     },
@@ -485,7 +538,8 @@ export default {
       } else if (
         this.row.shensuzhuangtai === "已申诉" ||
         this.row.shensuzhuangtai === "审核中" ||
-        this.row.shensuzhuangtai === "申诉通过"
+        this.row.shensuzhuangtai === "申诉通过" ||
+        (this.row.shensuzhuangtai === "未申诉" && this.row.remark === 0)
       ) {
         return true;
       }
@@ -579,7 +633,6 @@ export default {
     } else {
       mapheight.style.height = "100%";
     }
-    console.log(this);
   },
   methods: {
     // 开启路书
@@ -837,6 +890,8 @@ export default {
         if (res.data.data.fujian) {
           let arry = res.data.data.fujian.replace(/\,$/g, "").split(",");
           this.arryImg = arry;
+          let arryy = res.data.data.twicefujian.replace(/\,$/g, "").split(",");
+          this.arryImgtwice = arryy;
         }
       });
     },
@@ -1119,7 +1174,7 @@ export default {
               display: grid;
               grid-auto-flow: row dense;
               grid-template-columns: 33% 2fr 2fr;
-              grid-template-rows: repeat(7, 8%);
+              // grid-template-rows: repeat(7, 8%);
               .imgs {
                 width: auto;
                 height: auto;
@@ -1165,6 +1220,9 @@ export default {
               .text {
                 font-size: 15px;
                 font-weight: 600;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 200px;
                 span {
                   display: inline-block;
                   color: #7e6d6d;

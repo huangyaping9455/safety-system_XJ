@@ -240,7 +240,7 @@
 
 <script>
 import { vehicleList } from "@/api/daily/vehicle";
-import { export_json_to_excel } from "../../../const/Export2Excel";
+import { export_json_to_excel } from "@/const/Export2Excel";
 import VehicleDialog from "./VehicleDialog.vue";
 export default {
   components: { VehicleDialog },

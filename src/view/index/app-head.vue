@@ -16,7 +16,7 @@
     cursor: pointer;
   }
   .posts {
-    width: 180px;
+    width: 200px;
     margin-left: 150px;
     background-color: #e9f3fc;
   }
@@ -91,6 +91,7 @@
         v-model="selected"
         class="posts"
         label-in-value
+        size="large"
         @on-change="switchPost"
       >
         <i-option
@@ -109,6 +110,12 @@
             <div class="dropdownItem" @click="touser">
               <icon type="ios-key" size="20" />
               <span>修改密码</span>
+            </div>
+          </i-dropdown-item>
+          <i-dropdown-item>
+            <div class="dropdownItem" @click="dialogTableVisible = true">
+              <icon type="md-log-out" size="20" />
+              <span>一岗双责</span>
             </div>
           </i-dropdown-item>
           <i-dropdown-item>
@@ -169,16 +176,71 @@
         >
       </div>
     </i-modal>
+
+    <el-dialog
+      :visible.sync="dialogTableVisible"
+      top="5vh"
+      width="70%"
+      :show-close="false"
+    >
+      <div class="container">
+        <div class="title flex-row xy-around margin-bottom15">
+          <span
+            class="FW-bold"
+            @click="activeTitle = 0"
+            :class="[
+              {
+                'active-title': activeTitle === 0,
+              },
+            ]"
+            >岗位职责</span
+          >
+          <span
+            class="FW-bold"
+            @click="activeTitle = 1"
+            :class="[
+              {
+                'active-title': activeTitle === 1,
+              },
+            ]"
+            >安全职责</span
+          >
+        </div>
+        <div class="user-type FW-bold margin-bottom15">
+          当前岗位：<span class="color-bule">{{ dialogInfo.leixing }}</span>
+        </div>
+        <div class="content">
+          <div
+            class="box"
+            v-html="
+              activeTitle === 1
+                ? dialogInfo.anquanzhize
+                : dialogInfo.gangweizhize
+            "
+          ></div>
+        </div>
+        <img class="bg-img" src="../../assets/new_icon/bg.png" alt="" />
+      </div>
+      <div class="flex-row xy-center ">
+        <el-button type="small" @click="dialogTableVisible = false"
+          >关闭按钮</el-button
+        >
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { QYZFHT, insert } from "@/api/system";
+import { getPostInfo } from "@/api/daily/schedule";
 export default {
   name: "app-head",
   data() {
     return {
+      dialogTableVisible: false,
+      dialogInfo: "",
+      activeTitle: 0,
       loading: false,
       selected: "",
       topModal: false,
@@ -237,8 +299,14 @@ export default {
     if (window.location.hash == "#/daily/shou") {
       this.currentMenu.name = "首页";
     }
+    this.getUserInfo(this.postId);
   },
   methods: {
+    getUserInfo(id) {
+      getPostInfo(id).then((res) => {
+        this.dialogInfo = res.data.data;
+      });
+    },
     // 根据企业ID获取通知详情
     getQYZFHT() {
       QYZFHT(this.$store.getters.deptId).then(({ data }) => {
@@ -303,8 +371,8 @@ export default {
       this.GetUserInfo(value).then(() => {
         this.$message.success(`${label}切换成功`);
         setTimeout(() => {
-          location.reload();
-        }, 500);
+          window.location.reload();
+        }, 700);
       });
     },
     ...mapActions(["GetUserInfo", "LogOut"]),
@@ -334,7 +402,9 @@ export default {
   //     height: 70%;
   //   }
   // }
-
+  .el-dialog {
+    padding: 0 !important;
+  }
   .active {
     color: #35a5fb;
 
@@ -383,6 +453,86 @@ export default {
   .ivu-form-item-error-tip {
     right: 0;
     left: auto;
+  }
+}
+
+.flex-row {
+  display: flex;
+}
+.xy-center {
+  justify-content: center;
+  align-items: center;
+}
+.xy-between {
+  justify-content: space-between;
+}
+.xy-around {
+  justify-content: space-around;
+}
+.FW-bold {
+  font-weight: bold;
+}
+.color-bule {
+  color: #35a5fb;
+}
+.margin-bottom15 {
+  margin-bottom: 15px;
+}
+.el-dialog {
+  .title {
+    font-size: 14px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e3e3e3;
+    span {
+      cursor: pointer;
+    }
+    .active-title {
+      display: inline-block;
+      color: #35a5fb;
+      position: relative;
+      &::before {
+        content: " ";
+        position: absolute;
+        left: 15%;
+        bottom: -8px;
+        height: 3px;
+        border-radius: 10px;
+        width: 70%;
+        background: #35a5fb;
+      }
+    }
+  }
+  .el-dialog__header {
+    padding: 0 !important;
+  }
+  .el-dialog__body {
+    padding: 0 0 20px 0 !important;
+  }
+  .container {
+    padding: 20px 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e3eee3;
+    position: relative;
+    .box {
+      padding: 20px;
+      height: 380px;
+      overflow: auto;
+      color: #333;
+      border-radius: 10px;
+      background: #d7eefd;
+    }
+    .bg-img {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+    }
+  }
+  .content {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #35a5fb;
   }
 }
 </style>

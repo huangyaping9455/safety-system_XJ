@@ -1,6 +1,6 @@
 <template>
   <div class="wh100 preview-doc">
-    <div class="head">
+    <div class="head" v-if="!noHead">
       <p>
         {{ active.name }}
         <icon v-if="active.path" type="ios-link" @click="download" />
@@ -11,7 +11,7 @@
         </i-tooltip>
       </div>
     </div>
-    <div :class="['body', { 'move-cursor': move }]">
+    <div :class="['body', { 'move-cursor': move, 'height-100': noHead }]">
       <i-spin v-show="loading" fix size="large"></i-spin>
       <scroll ref="scroll" :ops="scrollOps">
         <div class="printConent wh100">
@@ -25,7 +25,7 @@
         </div>
       </scroll>
     </div>
-    <div class="foot">
+    <div class="foot" v-if="!noHead">
       <div class="btn">
         <i-button v-if="closeBtn" @click="close">关闭</i-button>
         <i-button v-if="printBtn" type="primary" @click="print">打印</i-button>
@@ -48,7 +48,10 @@ export default {
       type: Object,
       default: () => new Object(),
     },
-
+    noHead: {
+      type: Boolean,
+      default: false,
+    },
     action: {
       type: Function,
     },
@@ -232,6 +235,10 @@ export default {
     border-top: 1px solid #cccccc;
     position: relative;
     border-bottom: 1px solid #cccccc;
+  }
+  .height-100 {
+    height: 100%;
+    border: none;
   }
   .move-cursor {
     cursor: move;

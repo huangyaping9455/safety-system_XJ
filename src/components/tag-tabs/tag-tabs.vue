@@ -1,6 +1,6 @@
 <template>
-  <div :class="['tag-tabs',active.class]">
-    <div class="tab-head">
+  <div :class="['tag-tabs', active.class]">
+    <!-- <div class="tab-head">
       <div
         v-for="item in tabs"
         v-show="show(item)"
@@ -11,10 +11,10 @@
         <div class="line"></div>
         <b>{{ item.label }}</b>
       </div>
-    </div>
+    </div> -->
     <div
       v-for="item in tabs"
-      v-show="item.slot == value && show(item) "
+      v-show="item.slot == value && show(item)"
       :key="item.label"
       class="tab-main"
     >
@@ -22,40 +22,40 @@
     </div>
   </div>
 </template>
- 
+
 <script>
 export default {
-  name: 'tag-tabs',
+  name: "tag-tabs",
   props: {
     tabs: {
-      type: Array
+      type: Array,
     },
     value: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {};
   },
   computed: {
     active() {
-      return this.tabs.find(item => item.slot == this.value);
-    }
+      return this.tabs.find((item) => item.slot == this.value);
+    },
   },
   methods: {
     show(item) {
       return item.show === undefined ? true : item.show;
     },
     tabClick(item) {
-      this.$emit('on-click', item);
-      this.$emit('input', item.slot);
-    }
-  }
+      this.$emit("on-click", item);
+      this.$emit("input", item.slot);
+    },
+  },
 };
 </script>
- 
-<style lang="scss" >
-@import '@/style/mixin.scss';
+
+<style lang="scss">
+@import "@/style/mixin.scss";
 
 $height: 40px;
 .tag-tabs {
@@ -80,7 +80,7 @@ $height: 40px;
       background: #d5eaff;
       position: relative;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -24px;
@@ -88,7 +88,7 @@ $height: 40px;
         border-left: 24px solid transparent;
       }
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         right: -24px;

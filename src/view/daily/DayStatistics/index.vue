@@ -40,6 +40,7 @@
             icon="ios-cloud-download-outline"
             style="margin:0 0.5rem"
             @click="exportData"
+            :loading="exportLoading"
             >导出</i-button
           >
           <el-tooltip
@@ -82,6 +83,7 @@
 </template>
 <script>
 import { getRYXTJList } from "@/api/daily/Statistics";
+import { export_json_to_excel } from "@/const/Export2Excel";
 import dayjs from "dayjs";
 export default {
   data() {
@@ -172,21 +174,8 @@ export default {
           align: "center",
         },
       ],
-      data: [
-        // {
-        //   deptName: "安徽省森储运输有限公司",
-        //   date: "2020/8/17",
-        //   todaynum: "206",
-        //   todayshangxian: "206",
-        //   todaylixian: "0",
-        //   shangxianlv: "1.00%",
-        //   dingweishu: "206",
-        //   dingweilv: "100.00%",
-        //   piaoyilv: "100.00%",
-        //   wanzheng: "100.00%",
-        //   hege: "100.00%",
-        // },
-      ],
+      data: [],
+      exportLoading: false,
     };
   },
   mounted() {
@@ -240,10 +229,91 @@ export default {
       this.getRYXTJList();
     },
     // 导出
+    // exportData() {
+    //   this.$refs.table.exportCsv({
+    //     filename: "车辆日运行情况统计",
+    //     original: false,
+    //   });
+    // },
+    //  导出表格
     exportData() {
-      this.$refs.table.exportCsv({
-        filename: "车辆日运行情况统计",
-        original: false,
+      this.exportLoading = true;
+      let data = {
+        current: 0,
+        size: 0,
+        beginTime: this.beginDate,
+        endTime: this.endData,
+        order: 1,
+        orderColumns: "",
+      };
+      getRYXTJList(data).then((res) => {
+        if (res.data.success == true) {
+          res.data.data = res.data.data.records.map((el, index) => {
+            return {
+              ...el,
+              index: index + 1,
+            };
+          });
+          this.export2Excel(res.data.data);
+          this.exportLoading = false;
+        } else {
+          this.$message.error(err);
+        }
+      });
+    },
+    //处理下载数据
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
+    },
+    export2Excel(list) {
+      require.ensure([], () => {
+        const multiHeader2 = [
+          "企业名称",
+          "统计日期",
+          "车辆总数",
+          "今日上线车辆数",
+          "今日离线车辆数",
+          "今日上线率",
+          "定位车辆数",
+          "定位率",
+          "轨迹漂移率",
+          "轨迹完整率",
+          "数据合格率",
+        ];
+        const filterVal = [
+          "company",
+          "date",
+          "vehicleCount",
+          "onlineCount",
+          "offlineCount",
+          "onlineRate",
+          "locateCount",
+          "locateRate",
+          "driftPositionRate",
+          "intactPositionRate",
+          "qualifiedPositionRate",
+        ];
+        const merges = [
+          "A1:A2",
+          "B1:B2",
+          "C1:C2",
+          "D1:D2",
+          "E1:E2",
+          "F1:F2",
+          "G1:G2",
+          "H1:H2",
+          "I1:I2",
+          "J1:J2",
+          "K1:K2",
+        ];
+        const data = this.formatJson(filterVal, list);
+        export_json_to_excel({
+          multiHeader2,
+          header: multiHeader2,
+          data,
+          filename: "车辆日运行统计",
+          merges,
+        });
       });
     },
   },

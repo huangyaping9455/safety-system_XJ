@@ -1,15 +1,17 @@
 <template>
   <div v-show="state.show" ref="menu" class="tree-menu" :style="menuPosition">
-    <div v-for="item in menu" :key="item.label" @click="treeMenuClick(item)">{{item.label}}</div>
+    <div v-for="item in menu" :key="item.label" @click="treeMenuClick(item)">
+      {{ item.label }}
+    </div>
   </div>
 </template>
- 
+
 <script>
 export default {
-  name: 'tree-menu',
+  name: "tree-menu",
   props: {
     state: Object,
-    menu: Array
+    menu: Array,
   },
   data() {
     return {};
@@ -27,19 +29,22 @@ export default {
         }
       }
       return {
-        position: 'fixed',
-        left: e.clientX + 'px',
-        top: e.clientY + offset + 'px'
+        position: "fixed",
+        left: e.clientX + "px",
+        top: e.clientY + offset + "px",
       };
-    }
+    },
   },
   methods: {
     treeMenuClick(item) {
-      this.$emit('on-click', item);
-    }
-  }
+      this.$emit("on-click", item);
+    },
+  },
 };
 </script>
- 
-<style lang="scss" >
+
+<style lang="scss">
+.tree-menu div:hover {
+  color: #37a9f7;
+}
 </style>

@@ -392,7 +392,7 @@
       </div>
       <div class="guide-m-bottom">
         <div class="m-bottom-l">
-          <p class="title">2020报警统计</p>
+          <p class="title">2021报警统计</p>
           <div class="bottom-l-body">
             <div class="bottom-l-l">
               <e-chart

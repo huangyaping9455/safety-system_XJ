@@ -361,6 +361,7 @@ export const alarmTableConfig = {
       title: '报警时间',
       key: 'gpsTime',
       align: 'center',
+      tooltip: true,
       width: 150,
       display: 'driver'
     },
@@ -369,6 +370,7 @@ export const alarmTableConfig = {
       key: 'calctime',
       align: 'center',
       sortable: 'custom',
+      tooltip: true,
       width: 180,
       display: 'pilao',
       dis: 'pilao'
@@ -378,6 +380,7 @@ export const alarmTableConfig = {
       key: 'beginTime',
       align: 'center',
       sortable: 'custom',
+      tooltip: true,
       width: 180,
       display: 'GPS'
     },
@@ -386,6 +389,7 @@ export const alarmTableConfig = {
       key: 'endTime',
       align: 'center',
       sortable: 'custom',
+      tooltip: true,
       width: 180,
       display: 'GPS'
     }, {
@@ -468,12 +472,14 @@ export const alarmTableConfig = {
       title: '经度',
       key: 'longitude',
       align: 'center',
+      tooltip: true,
       width: 100
     },
     {
       title: '纬度',
       key: 'latitude',
       align: 'center',
+      tooltip: true,
       width: 100
     },
     {
@@ -487,6 +493,7 @@ export const alarmTableConfig = {
       title: '处理时间/申述时间',
       key: 'chulishijian',
       align: 'center',
+      tooltip: true,
       width: 180,
       // export: false
     },
@@ -494,12 +501,14 @@ export const alarmTableConfig = {
       title: '处理形式',
       key: 'chulixingshi',
       align: 'center',
+      tooltip: true,
       width: 150,
       // export: false
     },
     {
       title: '处理描述',
       key: 'chulimiaoshu',
+      tooltip: true,
       align: 'center',
       tooltip: true,
       width: 150
@@ -507,6 +516,7 @@ export const alarmTableConfig = {
     {
       title: '申诉形式',
       key: 'shensuxingshi',
+      tooltip: true,
       align: 'center',
       tooltip: true,
       width: 150
@@ -514,6 +524,7 @@ export const alarmTableConfig = {
     {
       title: '申诉描述',
       key: 'shensumiaoshu',
+      tooltip: true,
       align: 'center',
       tooltip: true,
       width: 150

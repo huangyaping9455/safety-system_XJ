@@ -7,7 +7,7 @@
 ```
 $ git clone https://github.com/huangyaping9455/safety-system_XJ.git
 $ cd safety-system_XJ
-# 安装（npm或yarn，示例：yarn）
+# 安装
 $ yarn install
 # 启动
 $ yarn run serve

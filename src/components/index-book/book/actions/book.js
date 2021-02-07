@@ -1,3 +1,4 @@
+import Bus from '@/config/bus.js'
 export default {
   props: {
     menu: {
@@ -50,6 +51,9 @@ export default {
         this.treeData = res.data.data;
         this.loading = false;
         this.LOAD = true;
+        Bus.$emit('clickTree', {
+          data: res.data.data
+        });
       });
     },
 
@@ -61,10 +65,16 @@ export default {
         data._loading = false;
         data._load = true;
         data._unfold = true;
+        Bus.$emit('clickTree', {
+          data
+        });
       });
     },
 
-    contextmenu({ event, data }) {
+    contextmenu({
+      event,
+      data
+    }) {
       this.nodeData = data;
       if (this.menu) {
         this.menuState.show = true;
@@ -74,14 +84,16 @@ export default {
       }
     },
 
-    getParentNodes({ nodes }) {
+    getParentNodes({
+      nodes
+    }) {
       this.parentNodes = nodes;
     },
 
     getParentNode() {
-      const parent = this.parentNodes[0]
-        ? this.parentNodes[0].children
-        : this.treeData;
+      const parent = this.parentNodes[0] ?
+        this.parentNodes[0].children :
+        this.treeData;
       const index = parent.findIndex((d) => d.id == this.nodeData.id);
       return {
         parent,
@@ -106,6 +118,10 @@ export default {
     },
 
     treeItemClick(data) {
+      // console.log("--treeItemClick---");
+      Bus.$emit('clickTree', {
+        data
+      });
       this.nodeData = data;
       this.$emit('on-click', data);
       if (this.clickView) {
@@ -137,7 +153,10 @@ export default {
               if (!this.isFolder) {
                 this.parentNodes.forEach((item) => item.fileNum--);
               }
-              const { parent, index } = this.getParentNode();
+              const {
+                parent,
+                index
+              } = this.getParentNode();
               parent.splice(index, 1);
               this.$message.success(data.msg);
             } else {
@@ -157,7 +176,10 @@ export default {
     },
 
     moveFile(item) {
-      const { parent, index } = this.getParentNode();
+      const {
+        parent,
+        index
+      } = this.getParentNode();
       const cur = parent[index];
       const prev = parent[index - 1];
       const next = parent[index + 1];
@@ -193,10 +215,15 @@ export default {
 
     cancelSafetyBind(item) {
       this.nodeData._loading = true;
-      item.request({ id: this.nodeData.id }).then((res) => {
+      item.request({
+        id: this.nodeData.id
+      }).then((res) => {
         const data = res.data;
         if (data.code == 200 && data.success) {
-          const { parent, index } = this.getParentNode();
+          const {
+            parent,
+            index
+          } = this.getParentNode();
           parent.splice(index, 1);
           this.$message.success(data.msg);
         } else {

@@ -51,6 +51,7 @@
             icon="ios-cloud-download-outline"
             style="margin:0 0.5rem"
             @click="exportData"
+            :loading="exportLoading"
             >导出</i-button
           >
           <el-tooltip
@@ -95,6 +96,7 @@
 <script>
 import dayjs from "dayjs";
 import { getPaiMingList } from "@/api/daily/Statistics";
+import { export_json_to_excel } from "@/const/Export2Excel";
 export default {
   data() {
     return {
@@ -247,6 +249,7 @@ export default {
         },
       ],
       data: [],
+      exportLoading: false,
     };
   },
   mounted() {
@@ -336,10 +339,139 @@ export default {
       this.getPaiMingList();
     },
     // 导出
+    // exportData() {
+    //   this.$refs.table.exportCsv({
+    //     filename: "车辆报警排名",
+    //     original: false,
+    //   });
+    // },
     exportData() {
-      this.$refs.table.exportCsv({
-        filename: "车辆报警排名",
-        original: false,
+      this.exportLoading = true;
+      let beginTime;
+      let endTime;
+      if (this.beginDate !== null && this.endData !== null) {
+        beginTime = this.beginDate;
+        endTime = this.endData;
+      } else {
+        beginTime = dayjs()
+          .subtract(1, "day")
+          .format("YYYY-MM-DD");
+        endTime = dayjs().format("YYYY-MM-DD");
+      }
+      let data = {
+        current: 1,
+        size: 10,
+        cheliangpaizhao: this.valueName,
+        shiyongxingzhi: this.valueType,
+        beginTime: beginTime,
+        endTime: endTime,
+      };
+      getPaiMingList(data).then((res) => {
+        if (res.data.success == true) {
+          res.data.data = res.data.data.records.map((el, index) => {
+            return {
+              ...el,
+              index: index + 1,
+            };
+          });
+          this.export2Excel(res.data.data);
+          this.exportLoading = false;
+        } else {
+          this.$message.error(err);
+        }
+      });
+    },
+    //处理下载数据
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
+    },
+    export2Excel(list) {
+      require.ensure([], () => {
+        let multiHeader, tHeader, filterVal, merges, filename;
+        multiHeader = [
+          "排序",
+          "企业名称",
+          "统计时间段",
+          "车辆牌照",
+          "营运类型",
+          "车牌颜色",
+          "超速报警次数",
+          "疲劳驾驶报警次数",
+          "夜间禁行报警次数",
+          "异常报警次数",
+          "北斗报警总数",
+          "主动安全报警排名",
+          "接打电话",
+          "抽烟",
+          "分神",
+          "疲劳驾驶",
+          "报警总数",
+        ];
+        // tHeader = [
+        //   "",
+        //   "",
+        //   "",
+        //   "",
+        //   "",
+        //   "",
+        //   "超速报警次数",
+        //   "疲劳驾驶报警次数",
+        //   "夜间禁行报警次数",
+        //   "异常报警次数",
+        //   "",
+        //   "接打电话",
+        //   "抽烟",
+        //   "分神",
+        //   "疲劳驾驶",
+        //   "",
+        //   "",
+        // ];
+        filterVal = [
+          "index",
+          "company",
+          "date",
+          "cheliangpaizhao",
+          "shiyongxingzhi",
+          "chepaiyanse",
+          "chaosu",
+          "pilao",
+          "yejian",
+          "yichang",
+          "beidoubaojingcishu",
+          "dmsdadianhua",
+          "dmschouyan",
+          "dmsfenshen",
+          "dmspilao",
+          "zhudongbaojingcishu",
+          "baojingcishu",
+        ];
+        merges = [
+          "A1:A2",
+          "B1:B2",
+          "C1:C2",
+          "D1:D2",
+          "E1:E2",
+          "F1:F2",
+          "G1:G2",
+          "H1:H2",
+          "I1:I2",
+          "J1:J2",
+          "K1:K2",
+          "L1:L2",
+          "M1:M2",
+          "N1:N2",
+          "O1:O2",
+          "P1:P2",
+          "Q1:Q2",
+        ];
+        const data = this.formatJson(filterVal, list);
+        export_json_to_excel({
+          multiHeader,
+          header: multiHeader,
+          data,
+          merges,
+          filename: "车辆报警排名",
+        });
       });
     },
   },

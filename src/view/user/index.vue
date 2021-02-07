@@ -8,50 +8,51 @@
     <i-button type="primary" @click="submit">确定</i-button>
   </div>
 </template>
- 
+
 <script>
-import { changepassword } from '@/api/user';
-import baseForm from 'C/base-form';
+import { changepassword } from "@/api/user";
+import baseForm from "C/base-form";
+import axios from "axios";
 export default {
-  name: 'user',
+  name: "user",
   components: {
-    baseForm
+    baseForm,
   },
   data() {
     return {
       form: {},
       formConfig: [
         {
-          label: '原密码',
-          key: 'oldPassword',
-          type: 'password',
+          label: "原密码",
+          key: "oldPassword",
+          type: "password",
           rules: {
             required: true,
-            message: '原密码不可为空',
-            trigger: 'blur'
-          }
+            message: "原密码不可为空",
+            trigger: "blur",
+          },
         },
         {
-          label: '新密码',
-          key: 'newPassword',
-          type: 'password',
+          label: "新密码",
+          key: "newPassword",
+          type: "password",
           rules: {
             required: true,
-            message: '原密码不可为空',
-            trigger: 'blur'
-          }
+            message: "原密码不可为空",
+            trigger: "blur",
+          },
         },
         {
-          label: '确认密码',
-          key: 'confirm',
-          type: 'password',
+          label: "确认密码",
+          key: "confirm",
+          type: "password",
           rules: {
             required: true,
-            message: '确认密码不可为空',
-            trigger: 'blur'
-          }
-        }
-      ]
+            message: "确认密码不可为空",
+            trigger: "blur",
+          },
+        },
+      ],
     };
   },
   methods: {
@@ -61,22 +62,40 @@ export default {
       let userId = this.$store.getters.userInfo.userId;
       let oldpassWord = this.form.oldPassword;
       let passWord = this.form.newPassword;
-      if (passWord == this.form.confirm) {
-        changepassword(userId, oldpassWord, passWord).then(res => {
-          this.$message({
-            message: res.data.msg,
-            type: 'success'
-          });
-        });
+      let account = this.$store.getters.userInfo.account;
+      if (oldpassWord === passWord) {
+        this.$message.error("原密码与新密码相同，请重新输入");
+        this.form.confirm = "";
+        this.form.newPassword = "";
       } else {
-        this.$message.error('确认密码和新密码不相同');
+        if (passWord === this.form.confirm) {
+          changepassword(userId, oldpassWord, passWord).then((res) => {
+            this.$message({
+              message: res.data.msg,
+              type: "success",
+            });
+          });
+          // axios({
+          //   url: "http://373637f18i.wicp.vip/api/userInfo/modifyThreePassword",
+          //   method: "post",
+          //   data: {
+          //     username: account,
+          //     oldUserPwd: oldpassWord,
+          //     newUserPwd: passWord,
+          //   },
+          // }).then((res) => {
+          //   console.log(res);
+          // });
+        } else {
+          this.$message.error("确认密码和新密码不相同");
+        }
       }
-    }
-  }
+    },
+  },
 };
 </script>
- 
-<style lang="scss" >
+
+<style lang="scss">
 .user-page {
   padding: 20px 20px;
   position: relative;

@@ -163,7 +163,40 @@ const dailyRoutes = [{
     path: '/daily/standard',
     name: 'standard',
     component: () => import('@/view/daily/standard/index.vue')
-  }
+  }, {
+    path: '/daily/AccessArea',
+    name: 'AccessArea',
+    component: () => import('@/view/daily/AccessArea/index.vue')
+  },
+  {
+    path: '/daily/TrackIntegraty',
+    name: 'TrackIntegraty',
+    component: () => import('@/view/daily/TrackIntegraty/index.vue')
+  },
+  {
+    path: '/daily/Mileage',
+    name: 'Mileage',
+    component: () => import('@/view/daily/Mileage/index.vue')
+  },
+  {
+    path: '/daily/Drift',
+    name: 'Drift',
+    component: () => import('@/view/daily/Drift/index.vue')
+  },
+  {
+    path: '/daily/ParkSun',
+    name: 'ParkSun',
+    component: () => import('@/view/daily/ParkSun/index.vue')
+  },
+  {
+    path: '/daily/ParkDetail',
+    name: 'ParkDetail',
+    component: () => import('@/view/daily/ParkDetail/index.vue')
+  }, {
+    path: '/daily/dayschedule',
+    name: 'dayschedule',
+    component: () => import('@/view/daily/dayschedule/index.vue')
+  },
 ];
 
 export default dailyRoutes;

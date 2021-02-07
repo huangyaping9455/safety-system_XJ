@@ -1,13 +1,9 @@
 <template>
   <div class="alarm-list">
-    <div
-      class="list-item h50-5"
-      v-if="
-        $parent.$parent.$parent.$children[2].tabIndexAlarm == 0 ||
+    <!-- $parent.$parent.$parent.$children[2].tabIndexAlarm == 0 ||
           ($parent.$parent.tabIndexAlarm == 0 &&
-            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined)
-      "
-    >
+            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined) -->
+    <div class="list-item h50-5" v-if="beidouShow">
       <div class="facility-alarm">
         <!-- <scroll> -->
         <div
@@ -28,14 +24,10 @@
         <!-- </scroll> -->
       </div>
     </div>
-    <div
-      class="list-item h50-5"
-      v-if="
-        $parent.$parent.$parent.$children[2].tabIndexAlarm == 1 ||
+    <!-- $parent.$parent.$parent.$children[2].tabIndexAlarm == 1 ||
           ($parent.$parent.tabIndexAlarm == 1 &&
-            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined)
-      "
-    >
+            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined) -->
+    <div class="list-item h50-5" v-if="driveShow">
       <div class="facility-alarm">
         <!-- <scroll> -->
         <div
@@ -56,14 +48,10 @@
         <!-- </scroll> -->
       </div>
     </div>
-    <div
-      class="list-item h50-5"
-      v-if="
-        $parent.$parent.$parent.$children[2].tabIndexAlarm == 2 ||
+    <!-- $parent.$parent.$parent.$children[2].tabIndexAlarm == 2 ||
           ($parent.$parent.tabIndexAlarm == 2 &&
-            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined)
-      "
-    >
+            $parent.$parent.$parent.$children[2].tabIndexAlarm == undefined) -->
+    <div class="list-item h50-5" v-if="admsShow">
       <div class="facility-alarm">
         <!-- <scroll> -->
         <div
@@ -106,6 +94,9 @@ export default {
       GPSlist,
       driverList,
       ADASList,
+      beidouShow: true,
+      driveShow: false,
+      admsShow: false,
       beginTime: dayjs()
         .subtract(1, "day")
         .format("YYYY-MM-DD"),

@@ -91,39 +91,35 @@ export default {
         }
       }
     },
-    // // 按钮点击 切换表格
-    // toggleAlarm(item) {
-    //   this.active = item;
-    // },
+    // 点击顶部选项卡 设置默认点击第一项报警
     alarmClick(index) {
       this.tabIndexAlarm = index;
       if (index == 0) {
-        this.$children[0].$children[9].emitClick(
-          this.$children[0].$children[9].GPSlist[0]
+        // this.$children[0].$children[9].emitClick(
+        //   this.$children[0].$children[9].GPSlist[0]
+        // );
+        this.$refs.alarmtable.alarmlist.emitClick(
+          this.$refs.alarmtable.alarmlist.GPSlist[0]
         );
+        this.$refs.alarmtable.alarmlist.beidouShow = true;
+        this.$refs.alarmtable.alarmlist.driveShow = false;
+        this.$refs.alarmtable.alarmlist.admsShow = false;
       } else if (index == 1) {
-        this.$children[0].$children[9].emitClick(
-          this.$children[0].$children[9].driverList[0]
+        this.$refs.alarmtable.alarmlist.emitClick(
+          this.$refs.alarmtable.alarmlist.driverList[0]
         );
+        this.$refs.alarmtable.alarmlist.beidouShow = false;
+        this.$refs.alarmtable.alarmlist.driveShow = true;
+        this.$refs.alarmtable.alarmlist.admsShow = false;
       } else if (index == 2) {
-        this.$children[0].$children[9].emitClick(
-          this.$children[0].$children[9].ADASList[0]
+        this.$refs.alarmtable.alarmlist.emitClick(
+          this.$refs.alarmtable.alarmlist.ADASList[0]
         );
+        this.$refs.alarmtable.alarmlist.beidouShow = false;
+        this.$refs.alarmtable.alarmlist.driveShow = false;
+        this.$refs.alarmtable.alarmlist.admsShow = true;
       }
     },
-    // 切换报警
-    // handleClick(tab, event) {
-    //   this.tabn = tab.index;
-    //   if (tab.index == 1) {
-    //     this.$children[0].$children[2].$children[0].toggleAlarm(
-    //       this.$children[0].$children[2].$children[0].$children[9].driverList[0]
-    //     );
-    //     this.$children[0].$children[2].$children[0].$children[9].active = this.$children[0].$children[2].$children[0].$children[9].driverList[0];
-    //     this.$children[0].$children[2].$children[0].$children[9].isActive(
-    //       this.$children[0].$children[2].$children[0].$children[9].driverList[0]
-    //     );
-    //   }
-    // },
   },
 };
 </script>

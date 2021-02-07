@@ -18,9 +18,14 @@
       <div class="logo">
         <img src="@/assets/index/logo5.png" alt />
       </div>
-      <hidden-scroll>
+      <scroll class="hidden-scroll">
         <!-- 展开的菜单栏 -->
-        <i-menu v-show="expansion" class="expansion-menu" accordion>
+        <i-menu
+          v-show="expansion"
+          class="expansion-menu"
+          :open-names="[openName]"
+          accordion
+        >
           <sub-menu
             v-for="item in menu"
             :key="item.menu"
@@ -38,7 +43,7 @@
             @on-click="menuClick"
           ></float-menu>
         </div>
-      </hidden-scroll>
+      </scroll>
     </div>
     <!-- 内容页 -->
     <div :class="mainViewClass">
@@ -68,18 +73,20 @@ export default {
     return {
       expansion: true,
       active: {
-        name: "日程安排",
+        name: "首页",
       },
+      openName: "",
     };
   },
   computed: {
-    ...mapGetters(["topHeadMenu"]),
+    ...mapGetters(["topHeadMenu", "currentMenu"]),
     menu() {
       return this.topHeadMenu || [];
     },
     isShowMenu() {
       return this.menu;
     },
+    // openName(){},
     mainViewClass() {
       let name = this.expansion ? "expansion-main" : "collapsed-main";
       let className = this.isShowMenu ? name : "w100";
@@ -92,18 +99,26 @@ export default {
       ];
     },
   },
+  mounted() {
+    console.log(this);
+  },
   methods: {
     toggleMenu() {
       this.expansion = !this.expansion;
     },
     menuClick(item) {
       this.active = item;
+      this.openName = item.name;
       this.$store.commit("SET_CURRENT_MENU", item);
       // 运维端页面 -- 内嵌 iframe
       if (item.routerType == 1) {
         this.$store.commit("SET_PAGE_PARAMS", {
           path: item.iframePath,
         });
+      }
+      if (item.name === "物流通") {
+        window.location.href =
+          "http://373637f18i.wicp.vip/page/login/login.html?username='18666666666'&threePwd='123456'";
       }
       this.$router.push({ path: item.path });
     },
@@ -135,10 +150,11 @@ export default {
     }
   }
   .hidden-scroll {
-    height: calc(100% - 50px);
+    height: calc(100% - 84px) !important;
     ul {
       // background: linear-gradient(#42c5db, #3db8e8);
-      background: linear-gradient(#42c5db, #1fb5ef);
+      // background: linear-gradient(#42c5db, #1fb5ef);
+      background: linear-gradient(#42c5db, #39aef1);
       li {
         div {
           div {

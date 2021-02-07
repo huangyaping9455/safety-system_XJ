@@ -28,16 +28,15 @@ export const reportTable = {
       title: '处理率',
       slot: 'processRate',
       width: 100
+    }, {
+      title: '统计时间',
+      key: 'countdate',
+      align: 'center',
+      width: 180
     },
     {
       title: '报送时间',
       key: 'createtimeshow',
-      align: 'center',
-      width: 120
-    },
-    {
-      title: '监控时间',
-      key: 'countdate',
       align: 'center',
       width: 120
     },

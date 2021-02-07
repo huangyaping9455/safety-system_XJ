@@ -22,23 +22,56 @@ export default {
   },
   methods: {
     isChildren(item) {
-      if (item.name === "首页") {
-        let i = document.getElementsByClassName("ivu-icon ivu-icon-ios-arrow-down ivu-menu-submenu-title-icon")[0];
-        if (i !== undefined) {
-          i.style = "display:none"
+      let j = document.getElementsByClassName("ivu-menu-submenu-title");
+      // if (item.name === "首页") {
+      //   for (let v = 0; v < j.length; v++) {
+      //     if (j[v].childNodes[0].innerText === "首页") {
+      //       j[v].childNodes[2].style = "display:none"
+      //     }
+      //   }
+      // }
+      // if (item.name === "安全标准化") {
+      //   for (let v = 0; v < j.length; v++) {
+      //     if (j[v].childNodes[0].innerText === "安全标准化") {
+      //       j[v].childNodes[2].style = "display:none"
+      //     }
+      //   }
+      // }
+      // if (item.name === "安全标准化") {
+      //   for (let v = 0; v < j.length; v++) {
+      //     if (j[v].childNodes[0].innerText === "安全标准化") {
+      //       j[v].childNodes[2].style = "display:none"
+      //     }
+      //   }
+      // }
+      // if (item.name === "安全管理标准文档") {
+      //   for (let v = 0; v < j.length; v++) {
+      //     if (j[v].childNodes[0].innerText === "安全管理标准文档") {
+      //       j[v].childNodes[2].style = "display:none"
+      //     }
+      //   }
+      // }
+      // if (item.name === "物流通") {
+      //   console.log(item);
+      //   for (let v = 0; v < j.length; v++) {
+      //     if (j[v].childNodes[0].innerText === "物流通") {
+      //       j[v].childNodes[2].style = "display:none"
+      //     }
+      //   }
+      // }
+      for (let v = 0; v < j.length; v++) {
+        if (j[v].childNodes[0].innerText === "首页" || j[v].childNodes[0].innerText === "安全标准化" || j[v].childNodes[0].innerText === "安全管理标准文档" || j[v].childNodes[0].innerText === "物流通") {
+          j[v].childNodes[2].style = "display:none"
         }
-      }
-      if (item.name === "安全标准化") {
-        let j = document.getElementsByClassName("ivu-icon ivu-icon-ios-arrow-down ivu-menu-submenu-title-icon")[13];
-        if (j !== undefined) {
-          j.style = "display:none"
-        }
-      }
-      if (item.name === "安全管理标准文档") {
-        let l = document.getElementsByClassName("ivu-icon ivu-icon-ios-arrow-down ivu-menu-submenu-title-icon")[14];
-        if (l !== undefined) {
-          l.style = "display:none"
-        }
+        // if (j[v].childNodes[0].innerText === "物流通") {
+        //   j[v].childNodes[2].style = "display:none"
+        // }
+        // if (j[v].childNodes[0].innerText === "安全管理标准文档") {
+        //   j[v].childNodes[2].style = "display:none"
+        // }
+        // if (j[v].childNodes[0].innerText === "安全标准化") {
+        //   j[v].childNodes[2].style = "display:none"
+        // }
       }
       return item;
     },

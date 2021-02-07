@@ -1,5 +1,13 @@
 import request from '@/router/axios';
 
+export const getTreeTable = (params) => {
+  return request({
+    url: '/api/blade-doc/doc/biaozhunhuamuban/listTree',
+    method: 'get',
+    params
+  });
+};
+
 export const getTree = (params) => {
   return request({
     url: '/api/blade-doc/doc/biaozhunhuamuban/tree',

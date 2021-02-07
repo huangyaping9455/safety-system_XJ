@@ -92,7 +92,7 @@
     <div class="table-box">
       <div style="height:3.7rem;display:flex;justify-content: space-between;">
         <div>
-          <alarmList :search="query" @on-click="toggleAlarm" />
+          <alarmList :search="query" @on-click="toggleAlarm" ref="alarmlist" />
         </div>
       </div>
       <i-table
@@ -249,6 +249,7 @@ export default {
       //     dateLimitE: dayjs()
       // .subtract(1, 'day')
       // .format('YYYY-MM-DD'),
+      alarmlist: "",
     };
   },
   computed: {
@@ -332,6 +333,7 @@ export default {
           window.innerHeight - self.$refs.tableheight.$el.offsetTop - 10;
       };
     });
+    this.alarmlist = this.$refs.alarmlist;
   },
   methods: {
     // 传入query(参数) 渲染不同用页面
