@@ -4,7 +4,7 @@
     <div
       v-if="isShowMenu"
       :class="sideMenuClass"
-      style="background:linear-gradient(#44c9d7, #34a1ff);"
+      style="background:linear-gradient(#44c9d7, #34a1ff);height: calc(100% - 30px);"
     >
       <!-- 标志 -->
       <!-- <div class="top-menu-item">
@@ -100,7 +100,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this);
+    // console.log(this);
   },
   methods: {
     toggleMenu() {
@@ -118,7 +118,7 @@ export default {
       }
       if (item.name === "物流通") {
         window.location.href =
-          "http://373637f18i.wicp.vip/page/login/login.html?username='18666666666'&threePwd='123456'";
+          "http://www.zhwlt.cn/v2/page/login/login.html?username='18666666666'&threePwd='123456'";
       }
       this.$router.push({ path: item.path });
     },
@@ -234,6 +234,7 @@ export default {
     .ivu-menu-vertical .ivu-menu-item,
     .ivu-menu-vertical .ivu-menu-submenu-title {
       padding: 1rem;
+      padding-left: 4vh !important;
     }
 
     [deep="1"] {
@@ -287,7 +288,7 @@ export default {
       }
       .name {
         white-space: nowrap;
-        font-size: 15px;
+        font-size: 1.5vh;
       }
       .ivu-menu-item-active {
         background: #3ba0c4;

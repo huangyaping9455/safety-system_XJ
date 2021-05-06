@@ -565,11 +565,11 @@ export default {
     // 信息 TAB
     infoTable() {
       let arr = [
-        {
-          label: "视频",
-          isRender: this.row.isPicture || this.row.isVideo,
-          slot: "video",
-        },
+        // {
+        //   label: "视频",
+        //   isRender: this.row.isPicture || this.row.isVideo,
+        //   slot: "video",
+        // },
         {
           label: "车辆资料",
           isRender: true,
@@ -627,14 +627,24 @@ export default {
     },
   },
   mounted() {
-    let mapheight = document.getElementsByClassName("map")[0];
-    if (this.row.isPicture || this.row.isVideo) {
-      mapheight.style.height = "60%";
-    } else {
-      mapheight.style.height = "100%";
-    }
+    // let mapheight = document.getElementsByClassName("map")[0];
+    // if (this.row.isPicture || this.row.isVideo) {
+    //   mapheight.style.height = "60%";
+    // } else {
+    //   mapheight.style.height = "100%";
+    // }
   },
   methods: {
+    // 视频图片 显示
+    videoShow() {
+      let mapheight = document.getElementsByClassName("map")[0];
+      mapheight.style.height = "60%";
+    },
+    // 视频图片 隐藏
+    videoClose() {
+      let mapheight = document.getElementsByClassName("map")[0];
+      mapheight.style.height = "100%";
+    },
     // 开启路书
     startLushu() {
       if (this.path.length > 0) {
@@ -1097,7 +1107,7 @@ export default {
       height: 100%;
       .map {
         width: 100%;
-        height: 60%;
+        height: 100%;
       }
       .video-box {
         width: 100%;

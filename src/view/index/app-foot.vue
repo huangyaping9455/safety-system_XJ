@@ -98,6 +98,7 @@ export default {
       timerTime: 300000,
       timer: null,
       timeList: [
+        { time: 180000, text: "3分钟" },
         { time: 300000, text: "5分钟" },
         { time: 600000, text: "10分钟" },
         { time: 1200000, text: "20分钟" },
@@ -187,12 +188,16 @@ export default {
 
 .app-foot {
   height: $app-foot-h;
+  width: 100%;
   background: #eee;
   display: flex;
   align-items: center;
   padding: 0px 10px 0px 20px;
   justify-content: space-between;
-
+  position: fixed;
+  bottom: 0;
+  z-index: 9;
+  right: 0;
   .user {
     display: flex;
     align-items: center;

@@ -273,6 +273,9 @@ export default {
           window.innerHeight - self.$refs.vehicletable.$el.offsetTop - 100;
       };
     });
+    if (this.$store.state.common.currentMenu.name == "首页") {
+      this.$parent.menuClick(this.$parent.menu[2].children[0]);
+    }
   },
   methods: {
     handleSizeChange(tal) {
@@ -424,7 +427,7 @@ export default {
   background-color: #f2f9ff;
   .vehicle-body {
     width: 100%;
-    height: 100%;
+    // height: 100%;
     .vehicle-main {
       width: 100%;
       height: calc(100%);

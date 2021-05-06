@@ -229,7 +229,7 @@ export default {
     exportData() {
       this.exportLoading = true;
       let data = {
-        current: 1,
+        current: 0,
         size: 0,
         beginTime: this.beginDate,
         endTime: this.endData,

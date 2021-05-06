@@ -284,7 +284,8 @@ export default {
     margin-bottom: 15px;
   }
   .ivu-select-dropdown {
-    min-width: 450px !important;
+    // min-width: 450px !important;
+    left: 0 !important;
   }
 }
 </style>

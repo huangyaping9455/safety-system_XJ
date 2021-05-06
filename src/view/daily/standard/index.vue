@@ -133,8 +133,18 @@ export default {
 
       const TreeType = Array.isArray(data);
       const params = {
-        Id: TreeType ? "" : data.id,
-        fileProperty: TreeType ? 3 : data.yunyingleixing,
+        // Id: TreeType ? "" : data.id,
+        // fileProperty: TreeType ? 3 : data.yunyingleixing,
+        Id: TreeType
+          ? ""
+          : data._unfold == false && data.parentId == 0
+          ? ""
+          : data.id,
+        fileProperty: TreeType
+          ? 3
+          : data._unfold == false && data.parentId == 0
+          ? 3
+          : data.yunyingleixing,
         deptId: TreeType ? this.$store.getters.userInfo.deptId : data.deptId,
       };
       // this.dataTab = data.children;

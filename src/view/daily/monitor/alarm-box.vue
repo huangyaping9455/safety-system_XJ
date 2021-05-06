@@ -356,7 +356,7 @@ export default {
         }
         .alarm-head-button-bottom {
           display: flex;
-          margin-top: 1rem;
+          margin-top: 1vh;
           .alarm-head-button-for {
             display: flex;
             flex-direction: column;
@@ -364,12 +364,15 @@ export default {
             align-items: center;
             border: 1px solid gainsboro;
             border-radius: 7px;
-            padding: 0.5rem 0.5rem;
-            margin-right: 0.5rem;
+            padding: 0.5vh;
+            margin-right: 0.5vh;
             cursor: pointer;
             b {
               color: #37a9f7;
-              font-size: 20px;
+              font-size: 2vh;
+            }
+            span {
+              font-size: 1.3vh;
             }
           }
           .checked {

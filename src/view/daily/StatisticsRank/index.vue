@@ -96,7 +96,7 @@
 <script>
 import dayjs from "dayjs";
 import { getPaiMingList } from "@/api/daily/Statistics";
-import { export_json_to_excel } from "@/const/Export2Excel";
+import { export_json_to_excel } from "@/const/Export2Excel2";
 export default {
   data() {
     return {
@@ -359,8 +359,8 @@ export default {
         endTime = dayjs().format("YYYY-MM-DD");
       }
       let data = {
-        current: 1,
-        size: 10,
+        current: 0,
+        size: 0,
         cheliangpaizhao: this.valueName,
         shiyongxingzhi: this.valueType,
         beginTime: beginTime,
@@ -383,12 +383,35 @@ export default {
     },
     //处理下载数据
     formatJson(filterVal, jsonData) {
-      return jsonData.map((v) => filterVal.map((j) => v[j]));
+      return jsonData.map((v) =>
+        filterVal.map((j) => {
+          return v[j];
+        })
+      );
     },
     export2Excel(list) {
       require.ensure([], () => {
-        let multiHeader, tHeader, filterVal, merges, filename;
+        let multiHeader, multiHeader2, tHeader, filterVal, merges, filename;
         multiHeader = [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "北斗报警排名",
+          "",
+          "",
+          "",
+          "",
+          "主动安全报警排名",
+          "",
+          "",
+          "",
+          "",
+          "",
+        ];
+        tHeader = [
           "排序",
           "企业名称",
           "统计时间段",
@@ -400,32 +423,13 @@ export default {
           "夜间禁行报警次数",
           "异常报警次数",
           "北斗报警总数",
-          "主动安全报警排名",
           "接打电话",
           "抽烟",
           "分神",
           "疲劳驾驶",
+          "主动安全报警排名",
           "报警总数",
         ];
-        // tHeader = [
-        //   "",
-        //   "",
-        //   "",
-        //   "",
-        //   "",
-        //   "",
-        //   "超速报警次数",
-        //   "疲劳驾驶报警次数",
-        //   "夜间禁行报警次数",
-        //   "异常报警次数",
-        //   "",
-        //   "接打电话",
-        //   "抽烟",
-        //   "分神",
-        //   "疲劳驾驶",
-        //   "",
-        //   "",
-        // ];
         filterVal = [
           "index",
           "company",
@@ -452,22 +456,17 @@ export default {
           "D1:D2",
           "E1:E2",
           "F1:F2",
-          "G1:G2",
-          "H1:H2",
-          "I1:I2",
-          "J1:J2",
+          "G1:J2",
           "K1:K2",
-          "L1:L2",
-          "M1:M2",
-          "N1:N2",
-          "O1:O2",
+          "L1:O2",
           "P1:P2",
           "Q1:Q2",
         ];
         const data = this.formatJson(filterVal, list);
         export_json_to_excel({
           multiHeader,
-          header: multiHeader,
+          multiHeader2: multiHeader,
+          header: tHeader,
           data,
           merges,
           filename: "车辆报警排名",

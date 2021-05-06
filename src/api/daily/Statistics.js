@@ -32,42 +32,42 @@ export const getQYInOutAreaTJ = (data) => {
   });
 };
 // 车辆轨迹完整率
-export const getTrajectoryIntegrityTJ = (data) => {
+export const getTrajectoryIntegrityTJ = (params) => {
   return request({
     url: '/api/blade-platform/platform/qiYeTongJi/getTrajectoryIntegrityTJ',
     method: 'post',
-    data
+    params: params,
   });
 };
 // 里程日报统计
-export const getMileageTJ = (data) => {
+export const getMileageTJ = (params) => {
   return request({
     url: '/api/blade-platform/platform/qiYeTongJi/getMileageTJ',
     method: 'post',
-    data
+    params: params
   });
 };
 // 车辆漂移明细
-export const getGuiJiYiChangTJ = (data) => {
+export const getGuiJiYiChangTJ = (params) => {
   return request({
     url: '/api/blade-platform/platform/qiYeTongJi/getGuiJiYiChangTJ',
     method: 'post',
-    data
+    params: params
   });
 };
 // 停车汇总
-export const getTingCheHuiZongTJ = (data) => {
+export const getTingCheHuiZongTJ = (params) => {
   return request({
     url: '/api/blade-platform/platform/qiYeTongJi/getTingCheHuiZongTJ',
     method: 'post',
-    data
+    params: params
   });
 };
 // 停车明细
-export const getTingCheMingXiTJ = (data) => {
+export const getTingCheMingXiTJ = (params) => {
   return request({
     url: '/api/blade-platform/platform/qiYeTongJi/getTingCheMingXiTJ',
     method: 'post',
-    data
+    params: params
   });
 };

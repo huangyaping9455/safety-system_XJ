@@ -45,7 +45,11 @@
 
         <div class="footer">
           <div class="show-time flex-row xy-between al-center">
-            <i class="el-icon-arrow-left pointer font-bold" @click="back"></i>
+            <i
+              class="el-icon-arrow-left pointer font-bold"
+              style="line-height: 3vh;"
+              @click="back"
+            ></i>
             <span
               v-show="calendarType !== 'year'"
               class="font-size24 footer-text"
@@ -54,7 +58,11 @@
             <span v-show="calendarType === 'year'" class="footer-text"
               >合计：9900</span
             >
-            <i class="el-icon-arrow-right pointer font-bold" @click="next"></i>
+            <i
+              class="el-icon-arrow-right pointer font-bold"
+              style="line-height: 3vh;"
+              @click="next"
+            ></i>
           </div>
 
           <p
@@ -74,7 +82,7 @@
 
       <div class="content-right">
         <div v-show="calendarType === 'day'" class="calendar-day">
-          <div class="flex-row flex-wrap xy-between">
+          <div class="flex-row flex-wrap">
             <span
               v-for="item in title"
               :key="item"
@@ -410,7 +418,8 @@ $root-red: #f56c6c;
           line-height: 3vh;
         }
         .show-time {
-          margin-bottom: 2px;
+          display: flex;
+          // margin-bottom: 2px;
           color: $root-color;
           border-bottom: 1px solid $root-color;
         }
@@ -419,6 +428,7 @@ $root-red: #f56c6c;
     .content-right {
       width: 56vw;
       height: 20vh;
+      margin-left: 2vh;
       box-sizing: border-box;
       position: relative;
       .temp-img {
@@ -443,6 +453,8 @@ $root-red: #f56c6c;
           height: 3vh;
           text-align: center;
           line-height: 3vh;
+          margin-right: 13px;
+          margin-bottom: 5px;
           .day {
             display: inline-block;
             width: 1.5vw;
@@ -456,7 +468,7 @@ $root-red: #f56c6c;
           }
         }
         .day-item2X {
-          width: 4.18vw;
+          width: 4vw;
         }
       }
       .calendar-month {

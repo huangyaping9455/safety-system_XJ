@@ -35,7 +35,7 @@
             @change="change"
             style="height:calc(100%);"
           >
-            <el-carousel-item v-for="item in imgList" :key="item">
+            <el-carousel-item v-for="(item, index) in imgList" :key="index">
               <viewer :images="imgList" :Options="Options">
                 <img
                   :src="item"
@@ -99,7 +99,10 @@ export default {
     },
     //  返回
     backTo() {
-      this.$router.push({ path: "/daily/report" });
+      this.$router.push({
+        path: "/daily/report",
+        query: { tab: this.$route.query.tab },
+      });
     },
     // 下载
     downLoad() {

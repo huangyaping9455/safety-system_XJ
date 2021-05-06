@@ -376,7 +376,7 @@ export const alarmTableConfig = {
       dis: 'pilao'
     },
     {
-      title: '报警开始时间',
+      title: '开始时间',
       key: 'beginTime',
       align: 'center',
       sortable: 'custom',
@@ -385,14 +385,22 @@ export const alarmTableConfig = {
       display: 'GPS'
     },
     {
-      title: '报警结束时间',
+      title: '结束时间',
       key: 'endTime',
       align: 'center',
       sortable: 'custom',
       tooltip: true,
       width: 180,
       display: 'GPS'
-    }, {
+    },
+    {
+      title: '系统核定时间',
+      key: 'verifyTime',
+      align: 'center',
+      tooltip: true,
+      width: 180,
+    },
+    {
       title: '报警等级',
       key: 'status',
       align: 'center',

@@ -72,7 +72,6 @@ function sheet_from_array_of_arrays(data, opts) {
             r: 0
         }
     };
-    console.log(data);
     for (var R = 0; R != data.length; ++R) {
         for (var C = 0; C != data[R].length; ++C) {
             if (range.s.r > R) range.s.r = R;
@@ -95,6 +94,7 @@ function sheet_from_array_of_arrays(data, opts) {
                 cell.z = XLSX.SSF._table[14];
                 cell.v = datenum(cell.v);
             } else cell.t = 's';
+
             ws[cell_ref] = cell;
         }
     }
@@ -145,32 +145,29 @@ export function export_table_to_excel(id) {
         type: "application/octet-stream"
     }), "test.xlsx")
 }
-// 对此方法进行修改，如下：
+
 export function export_json_to_excel({
-    multiHeader2 = [], // 第一行表头
-    multiHeader = [], // 第二行表头
-    header, // 第三行表头
+    multiHeader = [],
+    multiHeader2 = [],
+    header,
     data,
-    filename, //文件名
-    merges = [], // 合并
+    filename,
+    merges = [],
     autoWidth = true,
     bookType = 'xlsx'
 } = {}) {
     /* original data */
-    filename = filename || '列表';
+    filename = filename || 'excel-list'
     data = [...data]
     data.unshift(header);
-
+    data.unshift(multiHeader2);
+    data.unshift(multiHeader);
     // for (let i = multiHeader2.length - 1; i > -1; i--) {
     //     data.unshift(multiHeader2[i])
     // }
-
     // for (let i = multiHeader.length - 1; i > -1; i--) {
     //     data.unshift(multiHeader[i])
     // }
-    if (multiHeader.length) {
-        data.unshift(multiHeader)
-    }
 
     var ws_name = "SheetJS";
     var wb = new Workbook(),
@@ -185,6 +182,7 @@ export function export_json_to_excel({
 
     if (autoWidth) {
         /*设置worksheet每列的最大宽度*/
+        // console.log(data);
         const colWidth = data.map(row => row.map(val => {
             /*先判断是否为null/undefined*/
             if (val == null) {

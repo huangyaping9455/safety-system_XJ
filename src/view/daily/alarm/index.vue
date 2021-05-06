@@ -128,8 +128,8 @@ export default {
 @import "S/view/alarm.scss";
 .buttons-panel {
   position: absolute;
-  top: 14px;
-  right: 1rem;
+  top: 1.4vh;
+  right: 1vh;
   .alarm-tab {
     display: flex;
     position: absolute;

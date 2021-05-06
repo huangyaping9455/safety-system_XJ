@@ -196,6 +196,14 @@ const dailyRoutes = [{
     path: '/daily/dayschedule',
     name: 'dayschedule',
     component: () => import('@/view/daily/dayschedule/index.vue')
+  }, {
+    path: '/daily/anbiaoMsg',
+    name: 'anbiaoMsg',
+    component: () => import('@/view/daily/document/anbiaoMsg.vue')
+  }, {
+    path: '/daily/onLineVehicle',
+    name: 'onLineVehicle',
+    component: () => import('@/view/daily/onLineVehicle/onLineVehicle.vue')
   },
 ];
 

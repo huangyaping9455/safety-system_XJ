@@ -328,7 +328,6 @@ export default {
   background-color: #f2f9ff;
   .vehicle-body {
     width: 100%;
-    height: 100%;
     .vehicle-main {
       width: 100%;
       height: calc(100%);

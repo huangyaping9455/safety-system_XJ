@@ -77,6 +77,62 @@ export const guidePieChart = (num, title, ismini) => {
     }
   };
 };
+export const guidePieChart3 = (num) => {
+  return {
+    series: [{
+      type: 'gauge',
+      startAngle: 210,
+      endAngle: -30,
+      radius: '100%',
+      min: 0,
+      max: 1,
+      splitNumber: 5,
+      axisLine: {
+        show: false,
+        lineStyle: {
+          width: 3,
+          color: [
+            [1, '#58D9F9'],
+          ]
+        }
+      },
+      pointer: {
+        show: false,
+      },
+      axisTick: {
+        length: 8,
+        lineStyle: {
+          color: 'auto',
+          width: 4,
+          backgroud: 'black'
+        }
+      },
+      splitLine: {
+        show: false,
+      },
+      axisLabel: {
+        show: false,
+      },
+      title: {
+        // offsetCenter: [0, '20%'],
+        // fontSize: 30
+      },
+      detail: {
+        fontSize: 50,
+        offsetCenter: [0, '0%'],
+        valueAnimation: true,
+        formatter: function (value) {
+          return value;
+        },
+        color: 'black'
+      },
+      data: [{
+        value: num ? num : 0,
+        // name: '成绩评定'
+      }]
+    }]
+  }
+};
 export const lineoption = (data, yName, ismini) => {
   return {
     color: ['#34a1ff'],

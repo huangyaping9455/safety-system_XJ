@@ -24,6 +24,26 @@
       flex-direction: column;
       justify-content: space-between;
       box-shadow: rgba(64, 158, 255, 0.2) 0 2px 12px 0;
+      position: relative;
+      .anbiaoStatus {
+        position: absolute;
+        top: 57%;
+        left: 40%;
+        span {
+          padding: 0.5vh 1vh;
+          color: #58d9f9;
+          font-size: 2vh;
+          border: 1px solid #58d9f9;
+        }
+        .weidabiao {
+          color: red;
+        }
+      }
+      .anbiaoTime {
+        // color: #999999;
+        color: #000;
+        text-align: center;
+      }
     }
     .chart {
       height: 200px;
@@ -45,13 +65,18 @@
         color: #34a1ff;
         font-size: 30px;
         font-weight: bold;
+        cursor: pointer;
+      }
+      p:last-of-type {
+        color: #000;
       }
     }
     .topItem-line {
       padding: 0 10px 0 30px;
       .line-title {
-        color: #999999;
-        font-weight: bold;
+        // color: #999999;
+        // font-weight: bold;
+        color: #000;
       }
       .line-num {
         color: #34a1ff;
@@ -62,6 +87,22 @@
       }
       &.last {
         margin-bottom: 40px;
+      }
+    }
+    .topItem-bottom {
+      padding: 0;
+      .title-bottom {
+        font-size: 1.5vh;
+        font-weight: bold;
+        color: #666666;
+        line-height: 5vh;
+        display: block;
+        text-align: center;
+        strong {
+          color: red;
+          margin: 0 0.2vh;
+          text-decoration: underline;
+        }
       }
     }
   }
@@ -124,6 +165,7 @@
           span:nth-of-type(2) {
             flex: 0 0 50%;
             text-align: left;
+            color: #000;
           }
           span:nth-of-type(3) {
             flex: 0 0 20%;
@@ -192,6 +234,7 @@
           display: flex;
           justify-content: space-between;
           margin: 5px 0;
+          color: #000;
         }
         span:last-of-type {
           color: #34a1ff;
@@ -318,12 +361,14 @@
           <e-chart class="chart" :options="echarts" autoresize></e-chart>
           <div class="text">
             <div>
-              <p>{{ vehicleCount.RegisterCount || 0 }}</p>
+              <p @click="vehicleCountMsg">
+                {{ vehicleCount.RegisterCount || 0 }}
+              </p>
               <p>车辆总数</p>
             </div>
             <span class="centerLime"></span>
             <div>
-              <p>{{ vehicleCount.zaixian || 0 }}</p>
+              <p @click="onLineVehicle">{{ vehicleCount.zaixian || 0 }}</p>
               <p>在线车辆</p>
             </div>
           </div>
@@ -361,18 +406,38 @@
             </i-progress>
           </div>
         </div>
-        <div class="topItem">
-          <p class="title">驾驶员安全教育（待开放）</p>
-          <e-chart class="chart" :options="echarts1" autoresize></e-chart>
-          <div class="topItem-line">
-            <p class="line-title">未完成驾驶员安全教育</p>
-            <i-progress
-              :percent="0"
-              :stroke-color="['#34a1ff', '#44c9d7']"
-              :stroke-width="16"
+        <div class="topItem" @click="anbiaoMsg" style="cursor: pointer;">
+          <p class="title">安全达标提醒</p>
+          <e-chart
+            class="chart"
+            :options="echarts1"
+            style="z-index: -1;"
+          ></e-chart>
+          <div class="anbiaoStatus">
+            <span
+              :class="[
+                {
+                  weidabiao:
+                    MarkRemind.totalpointsremark &&
+                    MarkRemind.totalpointsremark == '未达标',
+                },
+              ]"
+              >{{
+                MarkRemind.totalpointsremark
+                  ? MarkRemind.totalpoints == 0
+                    ? "未开通"
+                    : MarkRemind.totalpointsremark
+                  : "已达标"
+              }}</span
             >
-              <span class="line-num big">0</span>
-            </i-progress>
+          </div>
+          <div class="anbiaoTime">
+            <span>上次更新时间：{{ MarkRemind.totalpointstime }}</span>
+          </div>
+          <div class="topItem-bottom">
+            <!-- <span class="title-bottom"
+              >车辆合同到期<strong>253</strong>辆；从业资格证到期<strong>471</strong>人</span
+            > -->
           </div>
         </div>
         <div class="topItem">
@@ -498,7 +563,13 @@
               >主动安全设备</i-button
             >
           </div>
-          <e-chart class="chart" :options="echarts3" autoresize></e-chart>
+          <e-chart
+            class="chart"
+            :options="echarts3"
+            autoresize
+            @mouseover.native="mouseOver"
+            @mouseleave.native="mouseLeave"
+          ></e-chart>
           <div class="test">
             <p>
               <span>近7天报警总数</span>
@@ -534,12 +605,14 @@ import {
   yearAlarm,
   yearAlarmTendency,
   QYVehicleCount,
+  selectMarkRemind,
 } from "@/api/guide";
 import {
   guidePieChart,
   lineoption,
   lineoption1,
   guidePieChart1,
+  guidePieChart3,
 } from "@/const/guide";
 export default {
   name: "shou",
@@ -562,6 +635,8 @@ export default {
       activeName: "chulizongshu",
       year: new Date(),
       vehicleCount: {}, //车辆状态统计
+      MarkRemind: "",
+      mosein: false,
     };
   },
   computed: {
@@ -622,12 +697,13 @@ export default {
     let clientWidth = document.body.clientWidth;
     this.ismini = clientWidth > 1528 ? false : true;
     this.init();
+    this.getSevenAlarmState();
   },
   mounted() {
     let _this = this;
     setInterval(function() {
       _this.getSevenAlarmState();
-    }, 20000);
+    }, 16000);
   },
   methods: {
     init() {
@@ -639,9 +715,10 @@ export default {
       this.getYearAlarm();
       // 处理趋势图
       this.getYearAlarmTendency();
+      // 安全达标提醒
+      this.getSelectMarkRemind();
       // 实时车辆状态统计
       this.getQYVehicleCount();
-      this.echarts1 = guidePieChart(0, "完成率", this.ismini);
       this.echarts2 = guidePieChart(0, "完成率", this.ismini);
       this.echarts4 = lineoption1();
     },
@@ -699,14 +776,29 @@ export default {
     getSevenAlarmState() {
       let _this = this;
       setTimeout(function() {
-        _this.showSevenAlarmStatistics("chulizongshu");
+        if (_this.mosein === false) {
+          _this.showSevenAlarmStatistics("chulizongshu");
+        }
       }, 5000);
       setTimeout(function() {
-        _this.showSevenAlarmStatistics("bdbaojingcishu");
+        if (_this.mosein === false) {
+          _this.showSevenAlarmStatistics("bdbaojingcishu");
+        }
       }, 10000);
       setTimeout(function() {
-        _this.showSevenAlarmStatistics("sbbaojingcishu");
+        if (_this.mosein === false) {
+          _this.showSevenAlarmStatistics("sbbaojingcishu");
+        }
       }, 15000);
+      return;
+    },
+    // 鼠标 移入事件
+    mouseOver() {
+      this.mosein = true;
+    },
+    // 鼠标 移入事件
+    mouseLeave() {
+      this.mosein = false;
     },
     // 选择年份
     changeyear(date) {
@@ -749,6 +841,31 @@ export default {
       }).then(({ data }) => {
         this.echarts4 = lineoption1(data.data, this.ismini);
       });
+    },
+    // 安全达标提醒
+    getSelectMarkRemind() {
+      selectMarkRemind(this.$store.getters.deptId).then((res) => {
+        this.MarkRemind = res.data.data;
+        this.echarts1 = guidePieChart3(this.MarkRemind.totalpoints);
+      });
+    },
+    // 安全达标 点击事件
+    anbiaoMsg() {
+      if (this.MarkRemind.totalpoints === 0) {
+        this.$message.warning("该企业未生成安全标准化文件");
+      } else {
+        this.$router.push({
+          path: "/daily/anbiaoMsg",
+        });
+      }
+    },
+    // 车辆总数 跳转
+    vehicleCountMsg() {
+      this.$router.push({ path: "/daily/vehicle" });
+    },
+    // 车辆总数 跳转
+    onLineVehicle() {
+      this.$router.push({ path: "/daily/onLineVehicle" });
     },
   },
 };

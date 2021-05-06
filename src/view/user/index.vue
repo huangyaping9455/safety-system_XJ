@@ -63,33 +63,33 @@ export default {
       let oldpassWord = this.form.oldPassword;
       let passWord = this.form.newPassword;
       let account = this.$store.getters.userInfo.account;
-      if (oldpassWord === passWord) {
-        this.$message.error("原密码与新密码相同，请重新输入");
-        this.form.confirm = "";
-        this.form.newPassword = "";
-      } else {
-        if (passWord === this.form.confirm) {
-          changepassword(userId, oldpassWord, passWord).then((res) => {
-            this.$message({
-              message: res.data.msg,
-              type: "success",
-            });
+      // if (oldpassWord === passWord) {
+      //   this.$message.error("原密码与新密码相同，请重新输入");
+      //   this.form.confirm = "";
+      //   this.form.newPassword = "";
+      // } else {
+      if (passWord === this.form.confirm) {
+        changepassword(userId, oldpassWord, passWord).then((res) => {
+          this.$message({
+            message: res.data.msg,
+            type: "success",
           });
-          // axios({
-          //   url: "http://373637f18i.wicp.vip/api/userInfo/modifyThreePassword",
-          //   method: "post",
-          //   data: {
-          //     username: account,
-          //     oldUserPwd: oldpassWord,
-          //     newUserPwd: passWord,
-          //   },
-          // }).then((res) => {
-          //   console.log(res);
-          // });
-        } else {
-          this.$message.error("确认密码和新密码不相同");
-        }
+        });
+        // axios({
+        //   url: "http://www.zhwlt.cn/api/userInfo/modifyThreePassword",
+        //   method: "post",
+        //   data: {
+        //     username: account,
+        //     oldUserPwd: oldpassWord,
+        //     newUserPwd: passWord,
+        //   },
+        // }).then((res) => {
+        //   console.log(res);
+        // });
+      } else {
+        this.$message.error("确认密码和新密码不相同");
       }
+      // }
     },
   },
 };

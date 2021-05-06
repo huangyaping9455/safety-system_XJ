@@ -1,33 +1,33 @@
 <style lang="scss" scoped>
-.schedule-list.new{
-  .title-box{
+.schedule-list.new {
+  .title-box {
     background-color: #ffffff !important;
     color: #666666;
   }
-  .pointer{
+  .pointer {
     width: 25px;
     height: 25px;
     margin-left: 4px;
   }
-  .tab-info{
+  .tab-info {
     display: flex;
     align-items: center;
   }
-  .tab-box{
+  .tab-box {
     height: 40px;
-    span{
+    span {
       display: block;
       height: 40px;
       line-height: 30px;
     }
-    &.checked{
+    &.checked {
       color: #01a0ff;
       background: transparent !important;
     }
-    &.checked:after{
+    &.checked:after {
       position: absolute;
       left: 10%;
-      content: '';
+      content: "";
       display: inline-block;
       bottom: 0;
       width: 80%;
@@ -37,36 +37,36 @@
     }
   }
 }
-.nodata{
+.nodata {
   height: 100%;
-  text-align: center ;
+  text-align: center;
 }
-@media screen and (min-width: 1276px) and (max-width: 1528px){
-.schedule-list.new{
-  .title-box{
-    height: 30px !important;
-  }
-  .time-title{
-    font-size: 14px !important;
-    line-height: 30px !important;
-  }
-  .pointer{
-    width: 16px;
-    height: 16px;
-  }
-  .tab-box{
-    height: 20px;
-    span{
-      font-size: 12px;
+@media screen and (min-width: 1276px) and (max-width: 1528px) {
+  .schedule-list.new {
+    .title-box {
+      height: 30px !important;
+    }
+    .time-title {
+      font-size: 14px !important;
+      line-height: 30px !important;
+    }
+    .pointer {
+      width: 16px;
+      height: 16px;
+    }
+    .tab-box {
       height: 20px;
-      line-height: 10px;
+      span {
+        font-size: 12px;
+        height: 20px;
+        line-height: 10px;
+      }
+    }
+    .content-box {
+      height: 100% !important;
+      overflow-y: auto;
     }
   }
-  .content-box{
-    height: 100% !important;
-    overflow-y: auto;
-  }
-}  
 }
 </style>
 
@@ -80,54 +80,66 @@
       </span>
       <div class="tab-info">
         <div
-          v-for="(item,index) in todoTab"
+          v-for="(item, index) in todoTab"
           :key="index"
           :class="['tab-box', { checked: checkedindex == index }]"
-          @click="changedaiban(index,item)"
+          @click="changedaiban(index, item)"
         >
-        <i-badge class="badge" :count="item.total">
-          <span>{{item.text}}</span>
-        </i-badge>
+          <i-badge class="badge" :count="item.total">
+            <span>{{ item.text }}</span>
+          </i-badge>
           <!-- <b v-if="item.total>0" :class="item.class">{{item.total}}</b> -->
         </div>
       </div>
     </div>
     <div class="content-box">
-      <p v-if="select.total==0&&!loading" class="nodata">
-        <img src="@/assets/daily/nodata.png">
+      <p v-if="select.total == 0 && !loading" class="nodata">
+        <img src="@/assets/daily/nodata.png" />
       </p>
       <scroll v-else>
         <i-spin v-show="loading" fix></i-spin>
         <ul>
-          <li v-for="(item, index) in select.list" :key="index" :class="getClass(item).name">
-            <img :src="getClass(item).img" class="grade-icon">
+          <li
+            v-for="(item, index) in select.list"
+            :key="index"
+            :class="getClass(item).name"
+          >
+            <img :src="getClass(item).img" class="grade-icon" />
             <span class="title-p">
               <span class="w40">
                 {{ item.renwubiaoti }}
                 <span v-if="item.isZerenren" class="mark">责</span>
               </span>
 
-              <span class="subtext w20">责任人: {{item.zerenren}}</span>
-              <span class="subtext w20">安排人: {{item.anpairen}}</span>
+              <span class="subtext w20">责任人: {{ item.zerenren }}</span>
+              <span class="subtext w20">安排人: {{ item.anpairen }}</span>
             </span>
             <div class="remark">
               <div class="info">
                 <span class="w20">
-                  <img src="~A/daily/leixing.png" alt>
-                  {{item.renwuleixing}}
+                  <img src="~A/daily/leixing.png" alt />
+                  {{ item.renwuleixing }}
                 </span>
-                <span class="w50">{{item.renwukaishishijian}} - {{item.renwujiezhishijian}}</span>
+                <span class="w50"
+                  >{{ item.renwukaishishijian }} -
+                  {{ item.renwujiezhishijian }}</span
+                >
                 <span v-if="!item.isFinish" class="w30 num">
-                  {{item.shenyutianshu>=0?'剩余':'超期'}}
-                  <b>{{Math.abs(item.shenyutianshu)}}</b>天
+                  {{ item.shenyutianshu >= 0 ? "剩余" : "超期" }}
+                  <b>{{ Math.abs(item.shenyutianshu) }}</b
+                  >天
                 </span>
               </div>
 
-              <span v-if="!item.isFinish" class="edit-btn" @click="toEdit(item)">
-                <img src="~A/daily/edit.png" alt>
+              <span
+                v-if="!item.isFinish"
+                class="edit-btn"
+                @click="toEdit(item)"
+              >
+                <img src="~A/daily/edit.png" alt />
               </span>
               <span v-else class="wancheng" @click="toView(item)">
-                <img src="~A/daily/wancheng.png" alt>
+                <img src="~A/daily/wancheng.png" alt />
               </span>
             </div>
           </li>
@@ -140,13 +152,13 @@
 import {
   getRichengList,
   getChaoqiRicheng,
-  getAnpaiRicheng
-} from '@/api/daily/schedule';
+  getAnpaiRicheng,
+} from "@/api/daily/schedule";
 export default {
-  name: 'schedule-todo',
+  name: "schedule-todo",
   props: {
     value: Object,
-    selectDay: Object
+    selectDay: Object,
   },
   data() {
     return {
@@ -155,43 +167,43 @@ export default {
       checkedindex: 0,
       myList: [],
       todayList: [],
-      overdueList: []
+      overdueList: [],
     };
   },
   computed: {
     todoTab() {
       return [
         {
-          text: '今日',
-          class: 'bg-cyan',
+          text: "今日",
+          class: "bg-cyan",
           total: this.todayList.length,
-          list: this.todayList
+          list: this.todayList,
         },
         {
-          text: '我的',
-          class: 'bg-cyan',
+          text: "我的",
+          class: "bg-cyan",
           total: this.myList.length,
-          list: this.myList
+          list: this.myList,
         },
         {
-          text: '超期',
-          class: 'bg-red',
+          text: "超期",
+          class: "bg-red",
           total: this.overdueList.length,
-          list: this.overdueList
-        }
+          list: this.overdueList,
+        },
       ];
     },
     select() {
       return this.todoTab[this.checkedindex];
-    }
+    },
   },
   watch: {
     selectDay: {
       immediate: true,
       handler() {
         this.getRichengList();
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.getChaoqiRicheng();
@@ -199,23 +211,23 @@ export default {
   },
   methods: {
     getClass(item) {
-      let name = 'li-normal';
-      let img = require('A/daily/todo-normal.png');
+      let name = "li-normal";
+      let img = require("A/daily/todo-normal.png");
       if (item.isJinji == 1) {
-        name = 'li-orgin';
-        img = require('A/daily/zhong.png');
+        name = "li-orgin";
+        img = require("A/daily/zhong.png");
       }
       if (item.isZhongyao == 1) {
-        name = 'li-blue';
-        img = require('A/daily/ji.png');
+        name = "li-blue";
+        img = require("A/daily/ji.png");
       }
       if (item.isZhongyao == 1 && item.isJinji == 1) {
-        name = 'li-red';
-        img = require('A/daily/zhong-ji.png');
+        name = "li-red";
+        img = require("A/daily/zhong-ji.png");
       }
       if (item.isFinish == 1) {
-        name = 'li-wancheng';
-        img = require('A/daily/todo-wancheng.png');
+        name = "li-wancheng";
+        img = require("A/daily/todo-wancheng.png");
       }
       return { name, img };
     },
@@ -224,40 +236,40 @@ export default {
     },
 
     toView(item) {
-      this.$emit('to-detail', {
-        state: 'view',
-        item
+      this.$emit("to-detail", {
+        state: "view",
+        item,
       });
     },
     toAdd() {
-      this.$emit('to-detail', {
-        state: 'add',
-        item: {}
+      this.$emit("to-detail", {
+        state: "add",
+        item: {},
       });
     },
     toEdit(item) {
-      this.$emit('to-detail', { state: 'edit', item });
+      this.$emit("to-detail", { state: "edit", item });
     },
     getRichengList() {
       this.loading = true;
-      getRichengList(this.deptId, this.selectDay.date).then(res => {
+      getRichengList(this.deptId, this.selectDay.date, 0, 0, 2).then((res) => {
         this.todayList = res.data.data;
         this.loading = false;
       });
     },
     getAnpaiRicheng() {
-      getAnpaiRicheng(this.deptId).then(res => {
+      getAnpaiRicheng(this.deptId).then((res) => {
         this.myList = res.data.data;
       });
     },
     getChaoqiRicheng() {
-      getChaoqiRicheng(this.deptId).then(res => {
-        this.overdueList = res.data.data;
-      });
-    }
-  }
+      getChaoqiRicheng(this.deptId, this.selectDay.date, 0, 0, 2).then(
+        (res) => {
+          this.overdueList = res.data.data;
+        }
+      );
+    },
+  },
 };
 </script>
-<style lang="scss">
-</style>
-
+<style lang="scss"></style>

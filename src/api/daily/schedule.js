@@ -30,24 +30,30 @@ export const getSchedule = (date, deptId) => {
     }
   });
 };
-
-export const getRichengList = (deptId, date) => {
+export const getRichengList = (deptId, dateTime, size, current, type) => {
   return request({
-    url: '/api/blade-platform/platform/richenganpai/getRichengList',
-    method: 'GET',
-    params: {
+    url: '/api/blade-platform/platform/richenganpai/getRiChengByDateList',
+    method: 'post',
+    data: {
       deptId,
-      date
+      dateTime,
+      size,
+      current,
+      type
     }
   });
 };
 
-export const getChaoqiRicheng = (deptId) => {
+export const getChaoqiRicheng = (deptId, dateTime, size, current, type) => {
   return request({
-    url: '/api/blade-platform/platform/richenganpai/getChaoqiRicheng',
-    method: 'GET',
-    params: {
-      deptId
+    url: '/api/blade-platform/platform/richenganpai/getRiChengChaoQiByDateList',
+    method: 'post',
+    data: {
+      deptId,
+      dateTime,
+      size,
+      current,
+      type
     }
   });
 };
@@ -61,15 +67,17 @@ export const getRichengDetail = (id) => {
     }
   });
 };
-
-export const getAnpaiRicheng = () => {
+export const getAnpaiRicheng = (deptId, size, current) => {
   return request({
-    url: '/api/blade-platform/platform/richenganpai/getAnpaiRicheng',
-    method: 'GET',
-    params: {}
+    url: '/api/blade-platform/platform/richenganpai/getAnpaiByUserList',
+    method: 'post',
+    data: {
+      deptId,
+      size,
+      current
+    }
   });
 };
-
 export const updateRicheng = (data) => {
   return request({
     url: '/api/blade-platform/platform/richenganpai/updateRicheng',

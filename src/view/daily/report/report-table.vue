@@ -106,7 +106,15 @@ export default {
       .querySelector(".SYSTEM")
       .addEventListener("click", this.closeDatePicker);
     this.reportTypes.forEach((item) => item.setDate());
-    this.tabClick(this.reportTypes[0]);
+    if (this.$route.query.tab) {
+      this.reportTypes.map((el) => {
+        if (el.label === this.$route.query.tab) {
+          this.tabClick(el);
+        }
+      });
+    } else {
+      this.tabClick(this.reportTypes[0]);
+    }
     // 表格高度自适应
     this.$nextTick(function() {
       this.caleHeight =
@@ -157,11 +165,14 @@ export default {
       this.$emit("on-click", row);
     },
     preview(item) {
-      this.$router.push({ path: "./preview", query: { id: item.id } });
+      this.$router.push({
+        path: "./preview",
+        query: { id: item.id, tab: this.activeTab.label },
+      });
     },
     // 附表分析
     fubiao(item) {
-      console.log(item);
+      // console.log(item);
     },
     // Tab 切换
     tabClick(item) {

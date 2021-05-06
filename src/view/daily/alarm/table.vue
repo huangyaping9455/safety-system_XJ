@@ -22,6 +22,7 @@
       v-model="isDetail"
       :active="active"
       :row="row"
+      ref="detailVideo"
       @dispose="detailDispose"
       @appeal="detailAppeal"
     ></alarm-detail>
@@ -540,6 +541,11 @@ export default {
     // // 显示详情
     showDetail(row) {
       this.row = row;
+      if (this.row.isPicture || this.row.isVideo) {
+        this.$refs.detailVideo.videoShow();
+      } else {
+        this.$refs.detailVideo.videoClose();
+      }
       this.isDetail = true;
       for (let i in this.$children) {
         if (this.$children[i].QKclick !== undefined) {
