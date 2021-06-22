@@ -114,7 +114,7 @@
           </i-dropdown-item>
           <i-dropdown-item>
             <div class="dropdownItem" @click="dialogTableVisible = true">
-              <icon type="md-log-out" size="20" />
+              <icon type="md-albums" size="20" />
               <span>一岗双责</span>
             </div>
           </i-dropdown-item>

@@ -74,7 +74,7 @@
           >
           </el-table-column>
           <el-table-column
-            prop="xingbie"
+            prop="xingbies"
             label="性别"
             align="center"
             width="100"
@@ -100,13 +100,19 @@
             width="170"
           >
           </el-table-column>
-          <el-table-column fixed="right" label="操作" align="center" width="70">
+          <el-table-column label="操作" align="center" width="80">
             <template slot-scope="scope">
-              <el-button
+              <!-- <el-button
                 @click="handleClick(scope.row)"
                 type="text"
                 size="small"
                 >查看</el-button
+              > -->
+              <el-button
+                @click="updateClick(scope.row)"
+                type="text"
+                size="small"
+                >编辑</el-button
               >
             </template>
           </el-table-column>
@@ -123,7 +129,7 @@
         <el-dialog
           title="查看"
           :visible.sync="centerDialogVisible"
-          width="80%"
+          width="70%"
           center
         >
           <div class="dialog-text">
@@ -149,7 +155,7 @@
               <span>性别</span>
               <el-input
                 autosize
-                v-model="rowtableList.xingbie"
+                v-model="rowtableList.xingbies"
                 :disabled="true"
               >
               </el-input>
@@ -183,6 +189,10 @@
             </div>
           </div>
         </el-dialog>
+        <driverupdate
+          :vehiclemsgList="vehiclemsgList"
+          ref="vehiclemsg"
+        ></driverupdate>
       </div>
     </div>
   </div>
@@ -191,7 +201,9 @@
 <script>
 import { driverList } from "@/api/daily/vehicle";
 import { export_json_to_excel } from "../../../const/Export2Excel";
+import driverupdate from "./driverupdate.vue";
 export default {
+  components: { driverupdate },
   data() {
     return {
       current: 1,
@@ -208,6 +220,7 @@ export default {
       centerDialogVisible: false,
       rowtableList: "",
       exportLoading: false,
+      vehiclemsgList: {},
     };
   },
   mounted() {
@@ -242,7 +255,14 @@ export default {
       driverList(data).then((res) => {
         if (res.data.code === 200) {
           this.tabloading = false;
-          this.DriverTableData = res.data.data.records;
+          this.DriverTableData = res.data.data.records.map((el) => {
+            if (el.xingbie == 1) {
+              el.xingbies = "男";
+            } else if (el.xingbie == 2) {
+              el.xingbies = "女";
+            }
+            return el;
+          });
           this.total = res.data.data.total;
         } else {
           this.tabloading = false;
@@ -258,6 +278,15 @@ export default {
     handleClick(row, index) {
       this.centerDialogVisible = true;
       this.rowtableList = row;
+    },
+    // 编辑
+    updateClick(row, index) {
+      this.$refs.vehiclemsg.form = row;
+      this.$refs.vehiclemsg.vehicleVisible = true;
+      this.$refs.vehiclemsg.updatedisable = false;
+      this.$refs.vehiclemsg.updateLoading = false;
+      this.$refs.vehiclemsg.getdeptName();
+      this.$refs.vehiclemsg.form.deptNames = row.deptName;
     },
     // 导出表格
     befoExport() {
@@ -365,7 +394,7 @@ export default {
         justify-content: flex-end;
         padding: 0 1rem;
       }
-      .el-dialog {
+      /deep/ .el-dialog {
         .dialog-text {
           display: flex;
           flex-wrap: wrap;
@@ -387,8 +416,11 @@ export default {
           }
         }
         .el-dialog__title {
-          font-weight: 600;
+          // font-weight: 600;
           font-size: 20px;
+        }
+        .el-dialog__header {
+          padding: 10px !important;
         }
       }
     }

@@ -26,6 +26,14 @@
       @dispose="detailDispose"
       @appeal="detailAppeal"
     ></alarm-detail>
+    <!-- 轨迹回放  -->
+    <div v-show="isRecord" class="record-hide"></div>
+    <div v-show="isRecord" class="record-box">
+      <trackrecord v-model="isRecord" :row="recordData"></trackrecord>
+    </div>
+    <!-- <el-dialog title="" :visible.sync="isRecord" width="70%">
+      <trackrecord v-model="isRecord" :row="recordData"></trackrecord>
+    </el-dialog> -->
 
     <!-- 导出 -->
     <export-excel
@@ -133,6 +141,13 @@
         </template>
         <template slot="operation" slot-scope="{ row }">
           <img
+            src="~A/icon/huifang.png"
+            class="icon"
+            @click="showRecord(row)"
+          />
+        </template>
+        <template slot="operations" slot-scope="{ row }">
+          <img
             src="~A/daily/caozuo.png"
             class="icon"
             @click="showDetail(row)"
@@ -162,6 +177,7 @@ import table from "@/mixin/table";
 import alarmDispose from "./dispose";
 import alarmAppeal from "./appeal";
 import alarmDetail from "./detail";
+import trackrecord from "../monitor/track-record.vue";
 import baseForm from "C/base-form";
 import { getDeptSubTree } from "@/api/system";
 import { export_json_to_excel } from "../../../const/Export2Excel";
@@ -174,6 +190,7 @@ export default {
     alarmAppeal,
     baseForm,
     alarmList,
+    trackrecord,
   },
   mixins: [table],
   props: {
@@ -251,6 +268,8 @@ export default {
       // .subtract(1, 'day')
       // .format('YYYY-MM-DD'),
       alarmlist: "",
+      recordData: {},
+      isRecord: false,
     };
   },
   computed: {
@@ -553,6 +572,20 @@ export default {
         }
       }
     },
+    // 显示轨迹回放
+    showRecord(row) {
+      row.vehicleID = row.vehId;
+      row.cph = row.plate;
+      row.platecolor = row.color;
+      row.gpstimess = row.beginTime;
+      row.icon = {
+        url: require("@/assets/icon/car_w.png"),
+        size: { width: 52, height: 50 },
+        opts: { anchor: { width: 27, height: 13, color: "red" } },
+      };
+      this.recordData = row;
+      this.isRecord = true;
+    },
     // 显示申诉
     showAppeal() {
       let isDispose = this.selection.every((item) => {
@@ -767,5 +800,26 @@ export default {
 }
 .ivu-table-tip table td {
   width: auto !important;
+}
+
+@import "../monitor/index.scss";
+</style>
+<style lang="scss" scoped>
+.record-hide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 8;
+}
+.record-box {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  z-index: 9;
+  top: 6%;
+  left: 10%;
 }
 </style>

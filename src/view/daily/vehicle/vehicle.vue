@@ -205,13 +205,19 @@
             width="160"
           >
           </el-table-column>
-          <el-table-column fixed="right" label="操作" align="center" width="70">
+          <el-table-column fixed="right" label="操作" align="center" width="80">
             <template slot-scope="scope">
-              <el-button
+              <!-- <el-button
                 @click="handleClick(scope.row)"
                 type="text"
                 size="small"
                 >查看</el-button
+              > -->
+              <el-button
+                @click="handleupdate(scope.row)"
+                type="text"
+                size="small"
+                >编辑</el-button
               >
             </template>
           </el-table-column>
@@ -233,6 +239,10 @@
         >
           <vehicle-dialog :rowtableList="rowtableList"></vehicle-dialog>
         </el-dialog>
+        <vehicle-update
+          :vehiclemsgList="vehiclemsgList"
+          ref="vehiclemsg"
+        ></vehicle-update>
       </div>
     </div>
   </div>
@@ -242,8 +252,9 @@
 import { vehicleList } from "@/api/daily/vehicle";
 import { export_json_to_excel } from "@/const/Export2Excel";
 import VehicleDialog from "./VehicleDialog.vue";
+import VehicleUpdate from "./vehiclupdate.vue";
 export default {
-  components: { VehicleDialog },
+  components: { VehicleDialog, VehicleUpdate },
   data() {
     return {
       current: 1,
@@ -258,6 +269,7 @@ export default {
       VehicleTableData: [],
       centerDialogVisible: false,
       rowtableList: "",
+      vehiclemsgList: {},
       exportLoading: false,
     };
   },
@@ -315,6 +327,13 @@ export default {
     handleClick(row, index) {
       this.centerDialogVisible = true;
       this.rowtableList = row;
+    },
+    handleupdate(row, index) {
+      this.$refs.vehiclemsg.form = row;
+      this.$refs.vehiclemsg.vehicleVisible = true;
+      this.$refs.vehiclemsg.updatedisable = false;
+      this.$refs.vehiclemsg.updateLoading = false;
+      this.$refs.vehiclemsg.getByIdJiaShiYuanList(row.deptId);
     },
     //  导出表格
     befoExport() {
@@ -466,32 +485,34 @@ export default {
         padding: 0 1rem;
       }
       /deep/ .el-dialog {
-        background: none;
-        .el-dialog__header {
-          padding: 0;
-          height: 70px;
-          line-height: 80px;
-          border-bottom: 1px solid gainsboro;
-          background: url("~A/daily/popu-head.png") no-repeat top;
-          background-size: 100% 100%;
-          .el-dialog__title {
-            font-size: 25px;
-            color: #3383ef;
-            font-weight: 700;
-          }
-          .el-dialog__headerbtn {
-            top: 15px;
-            right: 5px;
-            i {
-              font-size: 33px;
-              color: rgb(55, 169, 247);
-            }
-          }
-        }
+        background: #fff;
+        // .el-dialog__header {
+        //   padding: 0;
+        //   height: 70px;
+        //   line-height: 80px;
+        //   border-bottom: 1px solid gainsboro;
+        //   background: url("~A/daily/popu-head.png") no-repeat top;
+        //   background-size: 100% 100%;
+        //   .el-dialog__title {
+        //     font-size: 25px;
+        //     color: #3383ef;
+        //     font-weight: 700;
+        //   }
+        //   .el-dialog__headerbtn {
+        //     top: 15px;
+        //     right: 5px;
+        //     i {
+        //       font-size: 33px;
+        //       color: rgb(55, 169, 247);
+        //     }
+        //   }
+        // }
         .el-dialog__body {
-          // background: #fff;
-          background-color: #f5f5f5;
+          // background-color: #f5f5f5;
           padding: 1rem;
+        }
+        .el-dialog__header {
+          padding: 10px !important;
         }
       }
     }

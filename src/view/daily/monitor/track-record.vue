@@ -74,7 +74,6 @@
               :speed="2000"
               :autoView="true"
             >
-              <div>rueituiertyuiryurtyioui</div>
             </bml-lushu>
           </baidu-map>
           <div class="play-box">
@@ -252,11 +251,31 @@ export default {
   watch: {
     row(data) {
       this.alarmBot = [];
-      let time = dayjs(data.gpstime);
-      this.row.beginTime = time
-        .subtract(4, "hour")
-        .format("YYYY-MM-DD HH:mm:ss");
-      this.row.endTime = time.format("YYYY-MM-DD HH:mm:ss");
+      if (data.gpstimess) {
+        let time = dayjs(data.gpstimess);
+        this.row.beginTime = time
+          .subtract(2, "hour")
+          .format("YYYY-MM-DD HH:mm:ss");
+        this.row.endTime = time.add(2, "hour").format("YYYY-MM-DD HH:mm:ss");
+        // this.beginTime = this.row.beginTime;
+        // this.endTime = this.row.endTime;
+        // if (
+        //   this.beginTime === "Invalid Date" ||
+        //   this.endTime === "Invalid Date"
+        // ) {
+        //   this.$message.error("请重新选择日期···");
+        // } else {
+        //   this.palyRecord();
+        //   this.getAvgTrend();
+        //   this.bmllushu.play = false;
+        // }
+      } else {
+        let time = dayjs(data.gpstime);
+        this.row.beginTime = time
+          .subtract(4, "hour")
+          .format("YYYY-MM-DD HH:mm:ss");
+        this.row.endTime = time.format("YYYY-MM-DD HH:mm:ss");
+      }
       this.beginTime = this.row.beginTime;
       this.endTime = this.row.endTime;
       if (

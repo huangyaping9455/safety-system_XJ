@@ -234,7 +234,7 @@ export default {
     .ivu-menu-vertical .ivu-menu-item,
     .ivu-menu-vertical .ivu-menu-submenu-title {
       padding: 1rem;
-      padding-left: 4vh !important;
+      padding-left: 3.3vh !important;
     }
 
     [deep="1"] {
@@ -282,13 +282,13 @@ export default {
       }
       .custom-icon {
         width: 30px;
-        height: 30px;
+        height: 29px;
         margin-bottom: 0.6rem;
-        margin-right: 4px;
+        margin-right: 1px;
       }
       .name {
         white-space: nowrap;
-        font-size: 1.5vh;
+        font-size: 1.48vh;
       }
       .ivu-menu-item-active {
         background: #3ba0c4;

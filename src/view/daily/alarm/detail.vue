@@ -127,7 +127,12 @@
                 <div class="info-top">
                   <div class="left">
                     <div class="imgs">
-                      <img src="~A/daily/zanwuzhaopian.png" alt />
+                      <img
+                        v-if="vehicleInfo.cheliangzhaopian !== ''"
+                        :src="vehicleInfo.cheliangzhaopian"
+                        alt
+                      />
+                      <img v-else src="~A/daily/zanwuzhaopian.png" alt />
                     </div>
                     <span class="title">{{
                       row.plate || row.plateNumber
@@ -849,43 +854,49 @@ export default {
         chepaiyanse: this.row.color, //vehicleInfo ; this.row.color
       }).then((res) => {
         this.driverInfo = res.data.data.jiashiyuan;
-        if (
-          res.data.data.cheliang.jiashiyuandianhua == -1 ||
-          res.data.data.cheliang.yayunyuandianhua == -1 ||
-          res.data.data.cheliang.chezhudianhua == -1 ||
-          res.data.data.cheliang.changpai == "null" ||
-          res.data.data.cheliang.chejiahao == "null" ||
-          res.data.data.cheliang.chepaiyanse == "null" ||
-          res.data.data.cheliang.shiyongxingzhi == "null" ||
-          res.data.data.cheliang.jiashiyuanxingming == "null" ||
-          res.data.data.cheliang.jiashiyuandianhua == "null" ||
-          res.data.data.cheliang.yayunyuanxingming == "null" ||
-          res.data.data.cheliang.chezhu == "null" ||
-          res.data.data.cheliang.chezhudianhua == "null" ||
-          res.data.data.cheliang.operatType == "null" ||
-          res.data.data.cheliang.hedingzaike == "null" ||
-          res.data.data.cheliang.cheliangzhuangtai == "null" ||
-          res.data.data.cheliang.zongduanxinghao == "null" ||
-          res.data.data.cheliang.chejiahao == "null" ||
-          res.data.data.cheliang.changpai == "null" ||
-          res.data.data.cheliang.yunyingshangmingcheng == "null"
-        ) {
-          res.data.data.cheliang.jiashiyuandianhua = "";
-          res.data.data.cheliang.yayunyuandianhua = "";
-          res.data.data.cheliang.chezhudianhua = "";
-          res.data.data.cheliang.changpai = "";
-          res.data.data.cheliang.chejiahao = "";
-          res.data.data.cheliang.chepaiyanse == "";
-          res.data.data.cheliang.shiyongxingzhi == "";
-          res.data.data.cheliang.jiashiyuanxingming == "";
-          res.data.data.cheliang.yayunyuanxingming == "";
-          res.data.data.cheliang.chezhu == "";
-          res.data.data.cheliang.operatType == "";
-          res.data.data.cheliang.hedingzaike == "";
-          res.data.data.cheliang.cheliangzhuangtai == "";
-          res.data.data.cheliang.zongduanxinghao == "";
-          res.data.data.cheliang.yunyingshangmingcheng == "";
+        // if (
+        //   res.data.data.cheliang.jiashiyuandianhua == -1 ||
+        //   res.data.data.cheliang.yayunyuandianhua == -1 ||
+        //   res.data.data.cheliang.chezhudianhua == -1 ||
+        //   res.data.data.cheliang.changpai == "null" ||
+        //   res.data.data.cheliang.chejiahao == "null" ||
+        //   res.data.data.cheliang.chepaiyanse == "null" ||
+        //   res.data.data.cheliang.shiyongxingzhi == "null" ||
+        //   res.data.data.cheliang.jiashiyuanxingming == "null" ||
+        //   res.data.data.cheliang.jiashiyuandianhua == "null" ||
+        //   res.data.data.cheliang.yayunyuanxingming == "null" ||
+        //   res.data.data.cheliang.chezhu == "null" ||
+        //   res.data.data.cheliang.chezhudianhua == "null" ||
+        //   res.data.data.cheliang.operatType == "null" ||
+        //   res.data.data.cheliang.hedingzaike == "null" ||
+        //   res.data.data.cheliang.cheliangzhuangtai == "null" ||
+        //   res.data.data.cheliang.zongduanxinghao == "null" ||
+        //   res.data.data.cheliang.chejiahao == "null" ||
+        //   res.data.data.cheliang.changpai == "null" ||
+        //   res.data.data.cheliang.yunyingshangmingcheng == "null"
+        // ) {
+        //   res.data.data.cheliang.jiashiyuandianhua = "";
+        //   res.data.data.cheliang.yayunyuandianhua = "";
+        //   res.data.data.cheliang.chezhudianhua = "";
+        //   res.data.data.cheliang.changpai = "";
+        //   res.data.data.cheliang.chejiahao = "";
+        //   res.data.data.cheliang.chepaiyanse == "";
+        //   res.data.data.cheliang.shiyongxingzhi == "";
+        //   res.data.data.cheliang.jiashiyuanxingming == "";
+        //   res.data.data.cheliang.yayunyuanxingming == "";
+        //   res.data.data.cheliang.chezhu == "";
+        //   res.data.data.cheliang.operatType == "";
+        //   res.data.data.cheliang.hedingzaike == "";
+        //   res.data.data.cheliang.cheliangzhuangtai == "";
+        //   res.data.data.cheliang.zongduanxinghao == "";
+        //   res.data.data.cheliang.yunyingshangmingcheng == "";
+        // }
+        if (res.data.data.cheliang.cheliangzhaopian != "") {
+          res.data.data.cheliang.cheliangzhaopian = JSON.parse(
+            res.data.data.cheliang.cheliangzhaopian
+          )[0].url;
         }
+        // console.log(res.data.data.cheliang.cheliangzhaopian);
         this.vehicleInfo = res.data.data.cheliang;
       });
     },

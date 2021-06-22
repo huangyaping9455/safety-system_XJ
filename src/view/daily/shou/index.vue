@@ -46,7 +46,7 @@
       }
     }
     .chart {
-      height: 200px;
+      height: 100%; //200
     }
     .text {
       display: flex;
@@ -166,6 +166,7 @@
             flex: 0 0 50%;
             text-align: left;
             color: #000;
+            font-size: 1.4vh;
           }
           span:nth-of-type(3) {
             flex: 0 0 20%;
@@ -358,7 +359,12 @@
       <div class="guide-m-top">
         <div class="topItem">
           <p class="title">今日车辆情况</p>
-          <e-chart class="chart" :options="echarts" autoresize></e-chart>
+          <e-chart
+            class="chart"
+            :options="echarts"
+            style="overflow:auto;"
+            autoresize
+          ></e-chart>
           <div class="text">
             <div>
               <p @click="vehicleCountMsg">

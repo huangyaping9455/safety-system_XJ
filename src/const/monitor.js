@@ -410,12 +410,12 @@ export const baisInfo = [{
 export const alarmInfo = [{
     text: '驾驶员',
     value: '张良',
-    field: 'jiashiyuan'
+    field: 'jiashiyuanxingming'
   },
   {
     text: '联系电话',
     value: '18546584951',
-    field: 'dianhua'
+    field: 'jiashiyuandianhua'
   },
   {
     text: '车辆状态',

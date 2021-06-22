@@ -401,6 +401,29 @@ export const alarmTableConfig = {
       width: 180,
     },
     {
+      title: '报警速度(公里/小时)',
+      key: 'velocity',
+      align: 'center',
+      sortable: 'custom',
+      width: 160
+    },
+    {
+      title: '限速值(公里/小时)',
+      key: 'limited',
+      align: 'center',
+      width: 150,
+      sortable: 'custom',
+      display: 'GPS'
+    },
+    {
+      title: '超速百分比',
+      key: 'chaoSuBiShow',
+      align: 'center',
+      width: 140,
+      sortable: 'custom',
+      display: 'chaosu'
+    },
+    {
       title: '报警等级',
       key: 'status',
       align: 'center',
@@ -428,29 +451,6 @@ export const alarmTableConfig = {
       key: 'maxSpeed',
       align: 'center',
       width: 160,
-      sortable: 'custom',
-      display: 'chaosu'
-    },
-    {
-      title: '报警速度(公里/小时)',
-      key: 'velocity',
-      align: 'center',
-      sortable: 'custom',
-      width: 160
-    },
-    {
-      title: '限速值(公里/小时)',
-      key: 'limited',
-      align: 'center',
-      width: 150,
-      sortable: 'custom',
-      display: 'GPS'
-    },
-    {
-      title: '超速百分比',
-      key: 'chaoSuBiShow',
-      align: 'center',
-      width: 140,
       sortable: 'custom',
       display: 'chaosu'
     },
@@ -506,7 +506,7 @@ export const alarmTableConfig = {
       // export: false
     },
     {
-      title: '处理形式',
+      title: '处理形式/申诉形式',
       key: 'chulixingshi',
       align: 'center',
       tooltip: true,
@@ -514,32 +514,50 @@ export const alarmTableConfig = {
       // export: false
     },
     {
-      title: '处理描述',
+      title: '处理描述/申诉描述',
       key: 'chulimiaoshu',
       tooltip: true,
       align: 'center',
-      tooltip: true,
       width: 150
     },
     {
-      title: '申诉形式',
-      key: 'shensuxingshi',
+      title: '二次处理人',
+      key: 'twicechuliren',
       tooltip: true,
       align: 'center',
-      tooltip: true,
-      width: 150
+      width: 110
     },
     {
-      title: '申诉描述',
-      key: 'shensumiaoshu',
+      title: '二次处理时间',
+      key: 'twicechulishijian',
       tooltip: true,
       align: 'center',
+      width: 180
+    },
+    {
+      title: '二次处理形式',
+      key: 'twicechulixingshi',
       tooltip: true,
+      align: 'center',
       width: 150
     },
     {
-      title: '操作',
+      title: '二次处理描述',
+      key: 'twicechulimiaoshu',
+      tooltip: true,
+      align: 'center',
+      width: 150
+    },
+    {
+      title: '轨迹',
       slot: 'operation',
+      fixed: 'right',
+      align: 'center',
+      width: 80
+    },
+    {
+      title: '详情',
+      slot: 'operations',
       fixed: 'right',
       align: 'center',
       width: 80

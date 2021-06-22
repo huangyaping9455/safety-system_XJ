@@ -8,7 +8,7 @@
             style="height:2.9rem;width:11rem;margin-top:0.6rem;"
             v-model="beginDate"
             type="date"
-            :picker-options="pickerOptions"
+            :picker-options="pickerOptionsbegin"
             value-format="yyyy-MM-dd"
             placeholder="选择开始日期"
           ></el-date-picker>
@@ -17,7 +17,7 @@
             style="height:2.9rem;width:11rem;margin-top:0.6rem;margin-left:0.8rem;"
             v-model="endData"
             type="date"
-            :picker-options="pickerOptions"
+            :picker-options="pickerOptionsend"
             value-format="yyyy-MM-dd"
             placeholder="选择结束日期"
           ></el-date-picker>
@@ -111,11 +111,33 @@ export default {
         .subtract(1, "day")
         .format("YYYY-MM-DD"),
       endData: dayjs().format("YYYY-MM-DD"),
-      pickerOptions: {
-        disabledDate(time) {
+      pickerOptionsbegin: {
+        disabledDate: (time) => {
           return (
-            time.getTime() > Date.now() ||
-            time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 30
+            // time.getTime() >
+            //   (new Date(this.endData).getTime() == ""
+            //     ? Date.now()
+            //     : new Date(this.endData).getTime()) ||
+            // time.getTime() <
+            //   (new Date(this.endData).getTime() == ""
+            //     ? new Date() - 24 * 60 * 60 * 1000 * 30
+            //     : new Date(this.endData).getTime() - 24 * 60 * 60 * 1000 * 30)
+            time.getTime() > Date.now()
+          );
+        },
+      },
+      pickerOptionsend: {
+        disabledDate: (time) => {
+          return (
+            // time.getTime() <
+            //   (new Date(this.beginDate).getTime() == ""
+            //     ? new Date()
+            //     : new Date(this.beginDate).getTime()) ||
+            // time.getTime() >
+            //   (new Date(this.beginDate).getTime() == ""
+            //     ? new Date() + 24 * 60 * 60 * 1000 * 30
+            //     : new Date(this.beginDate).getTime() + 24 * 60 * 60 * 1000 * 30)
+            time.getTime() > Date.now()
           );
         },
       },
@@ -321,6 +343,12 @@ export default {
     },
     // 搜索
     statisSearch() {
+      let begins = new Date(this.beginDate).getTime();
+      let ends = new Date(this.endData).getTime();
+      if (ends < begins)
+        return this.$message.error("结束日期不能大于开始日期，请确认");
+      if (ends - begins > 24 * 60 * 60 * 1000 * 31)
+        return this.$message.error("统计日期区间不能大于31天，请确认");
       this.getPaiMingList();
     },
     // 每页显示条数改变

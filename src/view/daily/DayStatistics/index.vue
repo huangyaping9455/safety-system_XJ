@@ -100,8 +100,8 @@ export default {
       pickerOptions: {
         disabledDate(time) {
           return (
-            time.getTime() > Date.now() ||
-            time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 30
+            time.getTime() > Date.now()
+            // || time.getTime() < Date.now() - 24 * 60 * 60 * 1000 * 30
           );
         },
       },
@@ -226,6 +226,12 @@ export default {
     },
     // 搜索
     statisSearch() {
+      let begins = new Date(this.beginDate).getTime();
+      let ends = new Date(this.endData).getTime();
+      if (ends < begins)
+        return this.$message.error("结束日期不能大于开始日期，请确认");
+      if (ends - begins > 24 * 60 * 60 * 1000 * 31)
+        return this.$message.error("统计日期区间不能大于31天，请确认");
       this.getRYXTJList();
     },
     // 导出

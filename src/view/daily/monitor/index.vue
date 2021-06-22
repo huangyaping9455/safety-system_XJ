@@ -248,7 +248,7 @@
                     <span>车辆状态：</span>
                     <span class="state zt">{{ rowData.zaixian }}</span>
                   </div>
-                  <div class="state-info">
+                  <!-- <div class="state-info">
                     <div v-for="(item, index) in vehicleState" :key="index">
                       <span
                         >{{
@@ -259,11 +259,33 @@
                       >
                       <span>
                         {{
-                          item.field == "location"
-                            ? place
-                            : gpsVehicleDetail[item.field]
+                          item.field == "location" ? place : rowData[item.field]
                         }}
                       </span>
+                    </div>
+                  </div> -->
+                  <div class="state-info">
+                    <div>
+                      <span>驾驶员：</span>
+                      <span>{{ vehicleDetail.jiashiyuanxingming }}</span>
+                    </div>
+                  </div>
+                  <div class="state-info">
+                    <div>
+                      <span>联系电话：</span>
+                      <span>{{ vehicleDetail.jiashiyuandianhua }}</span>
+                    </div>
+                  </div>
+                  <div class="state-info">
+                    <div>
+                      <span>定位时间：</span>
+                      <span>{{ rowData.gpstime }}</span>
+                    </div>
+                  </div>
+                  <div class="state-info">
+                    <div>
+                      <span>当前地理位置：</span>
+                      <span>{{ rowData.locationName }}</span>
                     </div>
                   </div>
                 </div>

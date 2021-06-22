@@ -273,6 +273,7 @@ export default {
         padding-left: 20px;
         line-height: 30px;
         cursor: pointer;
+        font-size: 1.4vh;
         b {
           font-size: 18px;
           font-weight: 600;
