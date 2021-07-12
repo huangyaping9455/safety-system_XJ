@@ -153,12 +153,17 @@ export default {
         return;
       }
       getTreeTable(params).then(async (res) => {
-        // console.log("----------res", res.data.data);
-        const treeTabData = await this.getTreeTab(res.data.data);
-        this.totalpoints = res.data.data[0].totalpoints;
-        this.type = +res.data.data[0].yunyingleixing;
-        this.dataTab = treeTabData;
-        this.loadingTab = false;
+        if (res.data.data.length > 0) {
+          const treeTabData = await this.getTreeTab(res.data.data);
+          this.totalpoints = res.data.data[0].totalpoints;
+          this.type = +res.data.data[0].yunyingleixing;
+          this.dataTab = treeTabData;
+          this.loadingTab = false;
+        } else {
+          this.$message.warning("未生成标准化文件");
+          this.dataTab = "";
+          this.loadingTab = false;
+        }
       });
       this.tabSlot = "table";
       this.preview = false;

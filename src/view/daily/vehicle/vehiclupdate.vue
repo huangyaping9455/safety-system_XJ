@@ -11,7 +11,7 @@
       :model="form"
       :rules="rules"
       label-width="110px"
-      style="padding:2vh;height:680px;"
+      style="padding:2vh;height:800px;"
     >
       <el-col :span="8">
         <el-form-item label="企业名称：" prop="deptName">
@@ -139,6 +139,7 @@
             v-model="form.jiashiyuanxingming"
             placeholder="请选择驾驶员名称"
             style="width:100%;"
+            @change="jiashiyuanChange"
           >
             <el-option
               :label="item.label"
@@ -230,6 +231,40 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
+      <el-col :span="8">
+        <el-form-item label="驾驶员电话：">
+          <el-input
+            v-model="form.jiashiyuandianhua"
+            placeholder="请输入驾驶员电话"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="押运员：">
+          <el-input
+            v-model="form.yayunyuanxingming"
+            placeholder="请输入押运员"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="押运员电话：">
+          <el-input
+            v-model="form.yayunyuandianhua"
+            placeholder="请输入押运员电话"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="车主：">
+          <el-input v-model="form.chezhu" placeholder="请输入车主" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="车主电话：">
+          <el-input v-model="form.chezhudianhua" placeholder="请输入车主电话" />
+        </el-form-item>
+      </el-col>
       <el-col :span="24">
         <el-form-item label="车辆照片：">
           <el-upload
@@ -302,6 +337,11 @@ export default {
         caozuoshijian: "",
         fujian: "",
         cheliangzhaopian: "",
+        jiashiyuandianhua: "",
+        yayunyuanxingming: "",
+        yayunyuandianhua: "",
+        chezhu: "",
+        chezhudianhua: "",
       },
       dialogImageUrl: "",
       dialogVisible: false,
@@ -417,7 +457,19 @@ export default {
     // 获取驾驶员
     getByIdJiaShiYuanList(deptId) {
       getByIdJiaShiYuanList(deptId).then((res) => {
-        this.jiahsiyuanlist = res.data.data;
+        this.jiahsiyuanlist = res.data.data.map((el) => {
+          el.label = el.jiashiyuanxingming;
+          el.value = el.jiashiyuanxingming;
+          return el;
+        });
+      });
+    },
+    // 驾驶员 与 驾驶员电话 联动
+    jiashiyuanChange(val) {
+      this.jiahsiyuanlist.map((el) => {
+        if (el.jiashiyuanxingming === val) {
+          this.form.jiashiyuandianhua = el.shoujihaoma;
+        }
       });
     },
   },

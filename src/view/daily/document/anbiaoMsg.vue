@@ -314,7 +314,11 @@ export default {
     // 左上角数据
     getselectControlRates() {
       selectControlRates(this.$store.getters.deptId).then((res) => {
-        this.ControlRates = res.data.data;
+        if (res.data.code == 200) {
+          this.ControlRates = res.data.data;
+        } else {
+          this.$message.warning("未生成标准化文件");
+        }
       });
     },
     // 左下角 待办 今日
@@ -358,7 +362,11 @@ export default {
     //左上角数据
     getdSelectPeriodControlRates() {
       selectPeriodControlRates(this.$store.getters.deptId).then((res) => {
-        this.PeriodControlRates = res.data.data;
+        if (res.data.code == 200) {
+          this.PeriodControlRates = res.data.data;
+        } else {
+          this.$message.warning("未生成标准化文件");
+        }
       });
     },
     // 安全提示
@@ -375,7 +383,15 @@ export default {
     // 安全提示
     getSelectQiYeAnBiaoMuLu() {
       selectQiYeAnBiaoMuLu(this.$store.getters.deptId).then((res) => {
-        this.tableData = res.data.data;
+        if (res.data.code == 200) {
+          if (res.data.data.length > 0) {
+            this.tableData = res.data.data;
+          } else {
+            this.$message.warning("未生成标准化文件");
+          }
+        } else {
+          this.$message.warning("未生成标准化文件");
+        }
       });
     },
     // 待办事项查看
@@ -392,7 +408,7 @@ export default {
     // 安标目录表 行点击
     rowClick(row) {
       let arr = row.tier.split("-");
-      this.$router.push({ path: "/standard", query: arr });
+      this.$router.push({ path: "/daily/standard", query: arr });
     },
     // 今日待办
     today() {

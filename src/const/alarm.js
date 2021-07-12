@@ -830,7 +830,7 @@ export const vehicleDetail = (data = {}) => {
     },
     {
       title: '车辆类型',
-      value: data.operatType,
+      value: data.xinghao,
       width: 50
     },
     {

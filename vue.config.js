@@ -17,7 +17,6 @@ module.exports = {
     proxy: {
       "/api": {
         target: "http://222.82.236.242:8896",
-        // target: "http://373637f18i.wicp.vip",
         ws: true,
         pathRewrite: {
           "^/api": "/",
