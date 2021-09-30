@@ -12,7 +12,11 @@ import {
 import {
   setToken,
   removeToken
-} from '@/util/auth';
+}
+from '@/util/auth';
+import {
+  config
+} from '@/const/config';
 
 const recursionSort = (arr) => {
   arr.sort((a, b) => a.sort - b.sort);
@@ -78,8 +82,17 @@ const user = {
       dispatch
     }, userInfo) {
       return new Promise((resolve, reject) => {
-        // 解码 地址栏参数 若 无参数账密为登录页填写值
-        loginByUsername(userInfo.username, userInfo.password, userInfo.vercode)
+        // 解码 地址栏参数 若 无参数账密为登录页填写值config.aesEncrypt(userInfo.username), config.aesEncrypt(userInfo.password), config.aesEncrypt(userInfo.vercode), config.aesEncrypt(0)
+        let usName = ""
+        let psd = ""
+        if (window.location.search == "") {
+          usName = config.aesEncrypt(userInfo.username);
+          psd = config.aesEncrypt(userInfo.password);
+        } else {
+          usName = userInfo.username;
+          psd = userInfo.password;
+        }
+        loginByUsername(usName, psd, config.aesEncrypt(userInfo.vercode), config.aesEncrypt(userInfo.type))
           .then((res) => {
             const data = res.data.data;
             commit('SET_ACCOUNT', userInfo);

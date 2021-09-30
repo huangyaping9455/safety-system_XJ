@@ -150,11 +150,11 @@ const dailyRoutes = [{
   }, {
     path: '/daily/vehicle',
     name: 'vehicle',
-    component: () => import('@/view/daily/vehicle/vehicle.vue')
+    component: () => import('@/view/daily/vehicle/vehicle/vehicle.vue')
   }, {
     path: '/daily/driver',
     name: 'driver',
-    component: () => import('@/view/daily/vehicle/driver.vue')
+    component: () => import('@/view/daily/vehicle/driver/driver.vue')
   }, {
     path: '/daily/document',
     name: 'document',

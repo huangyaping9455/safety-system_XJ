@@ -326,12 +326,17 @@ export default {
     let dateLimit = "";
     let dateLimitE = "";
     if (this.$route.query.alarmType != undefined) {
-      dateLimit = dayjs()
-        .subtract(1, "day")
-        .format("YYYY-MM-DD");
-      dateLimitE = dayjs()
-        .subtract(0, "day")
-        .format("YYYY-MM-DD");
+      let time = this.$route.query.alarmTime.split("至");
+      this.table.search.date = time;
+      if (this.$route.query.alarmTitle === "申诉驳回") {
+        this.table.search.shifoushenshu = this.$route.query.alarmTitle;
+      }
+      // dateLimit = dayjs()
+      //   .subtract(1, "day")
+      //   .format("YYYY-MM-DD");
+      // dateLimitE = dayjs()
+      //   .subtract(0, "day")
+      //   .format("YYYY-MM-DD");
     } else {
       dateLimit = dayjs()
         .subtract(1, "day")
@@ -339,8 +344,9 @@ export default {
       dateLimitE = dayjs()
         .subtract(0, "day")
         .format("YYYY-MM-DD");
+      this.table.search.date = [dateLimit, dateLimitE];
     }
-    this.table.search.date = this.date ? this.date : [dateLimit, dateLimitE];
+    // this.table.search.date = this.date ? this.date : [dateLimit, dateLimitE];
   },
   mounted() {
     this.showAlarmshu();
@@ -817,9 +823,9 @@ export default {
 .record-box {
   position: absolute;
   width: 70%;
-  height: 70%;
+  height: 79%;
   z-index: 9;
-  top: 6%;
+  top: 0%;
   left: 10%;
 }
 </style>

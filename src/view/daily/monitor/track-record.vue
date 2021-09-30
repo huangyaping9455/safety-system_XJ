@@ -26,6 +26,7 @@
               :position="{ lng: alarmBot.longitude, lat: alarmBot.latitude }"
               :show="infoWindow"
               :height="160"
+              :width="250"
             >
               <div class="top-info">
                 <div>
@@ -73,6 +74,7 @@
               :enableRotation="true"
               :speed="2000"
               :autoView="true"
+              :rotation="true"
             >
             </bml-lushu>
           </baidu-map>
@@ -218,6 +220,7 @@ export default {
       showTrajectoryList: [],
       iconAlarm: {
         url: require("A/icon/icon-alarm.png"),
+        // url: "http://api.map.baidu.com/library/LuShu/1.2/examples/car.png",
         size: { width: 36, height: 36 },
         opts: { anchor: { width: 27, height: 13, color: "red" } },
       },
@@ -395,14 +398,15 @@ export default {
             this.center.lng = data[i].longitude;
             this.center.lat = data[i].latitude;
           }
-          this.showTrajectoryList.push({
-            lng: data[i].longitude,
-            lat: data[i].latitude,
-          });
+          // this.showTrajectoryList.push({
+          //   lng: data[i].longitude,
+          //   lat: data[i].latitude,
+          // });
         }
         allPoints = data.map((item) => {
           return new BMap.Point(item.longitude, item.latitude);
         });
+        this.showTrajectoryList = allPoints;
         this.setMarker(allPoints[0], require("@/assets/icon/origin.png"));
         this.setMarker(
           allPoints[allPoints.length - 1],

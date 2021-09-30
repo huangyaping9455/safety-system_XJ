@@ -2,15 +2,30 @@ import dailyRoutes from './daily';
 import panelRoutes from './panel';
 import operationRoutes from './operation';
 import dataCenter from './data-center';
-const routes = [
-  {
+const routes = [{
     // 会匹配所有路径
     path: '*',
-    redirect: '/login'
+    // redirect: '/login'
+    redirect: function () {
+      console.log(window);
+      return '/wel';
+    }
   },
   {
     path: '/',
-    redirect: '/login'
+    // redirect: '/login'
+    redirect: function () {
+      if (window.location.search == "") {
+        return '/login';
+      } else {
+        return '/wel';
+      }
+    }
+  },
+  {
+    path: '/wel',
+    name: '欢迎页',
+    component: () => import('@/view/guide/wel.vue')
   },
   {
     path: '/login',
@@ -62,8 +77,7 @@ const routes = [
     path: '/panel',
     name: '企业展板内页框架',
     component: () => import('@/view/panel/index.vue'),
-    children: [
-      {
+    children: [{
         path: '/panel',
         redirect: '/panel/home'
       },

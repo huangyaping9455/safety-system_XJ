@@ -121,6 +121,8 @@ import {
   getAlarmGps,
   getAlarmZhudong,
 } from "@/api/daily/monitor";
+
+import { statusOption } from "@/const/alarm";
 export default {
   components: {
     alarmDetail,
@@ -242,6 +244,8 @@ export default {
       if (this.active.type == "GPS") {
         getAlarmGps(company, AlarmType).then((res) => {
           this.loading = false;
+          let statusMap = {};
+          statusOption.forEach((item) => (statusMap[item.value] = item.label));
           this.tableData = res.data.data.map((el) => {
             el.time = el.beginTime + "-" + el.endTime;
             if (el.chulizhuangtai !== "") {
@@ -254,6 +258,7 @@ export default {
             if (el.shensushenhebiaoshi === 2) {
               el.dealType = "申诉驳回";
             }
+            el.status = statusMap[el.status];
             return el;
           });
         });

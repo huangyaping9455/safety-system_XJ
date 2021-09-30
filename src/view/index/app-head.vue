@@ -360,10 +360,14 @@ export default {
         content: "确定要注销登录吗？",
         onOk: () => {
           this.LogOut();
-          this.$router.push({
-            // path: `/${this.$store.state.user.style.company || 'company'}/login`
-            path: "/login",
-          });
+          if (window.location.search === "") {
+            this.$router.push({
+              // path: `/${this.$store.state.user.style.company || 'company'}/login`
+              path: "/login",
+            });
+          } else {
+            window.location.href = "http://39.105.108.33/dist/index.html";
+          }
         },
       });
     },
@@ -502,12 +506,12 @@ export default {
       }
     }
   }
-  .el-dialog__header {
-    padding: 0 !important;
-  }
-  .el-dialog__body {
-    padding: 0 0 20px 0 !important;
-  }
+  // .el-dialog__header {
+  //   padding: 0 !important;
+  // }
+  // .el-dialog__body {
+  //   padding: 0 0 20px 0 !important;
+  // }
   .container {
     padding: 20px 30px;
     margin-bottom: 15px;

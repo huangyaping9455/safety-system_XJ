@@ -22,6 +22,14 @@ export const statusOption = [{
   {
     label: '严重三级',
     value: 3
+  },
+  {
+    label: '严重四级',
+    value: 4
+  },
+  {
+    label: '严重五级',
+    value: 5
   }
 ];
 

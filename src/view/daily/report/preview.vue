@@ -117,6 +117,7 @@ export default {
         }
         window.location.href =
           "http://222.82.236.242:8894/" + res.data.data.path;
+        // "http://58.144.142.198:8894/" + res.data.data.path;
       });
     },
     // 打印

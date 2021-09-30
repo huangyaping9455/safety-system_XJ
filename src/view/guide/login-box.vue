@@ -95,6 +95,7 @@ export default {
         username: "",
         password: "",
         vercode: "",
+        type: 0,
       },
       rule: {
         username: [
@@ -137,7 +138,7 @@ export default {
   methods: {
     getVerificationCode() {
       verificationCode().then((res) => {
-        this.verCode = res.data.data;
+        this.verCode = res.data.data.account;
       });
     },
     login() {

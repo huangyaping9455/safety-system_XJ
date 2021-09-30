@@ -126,3 +126,13 @@ export const getAlarmGuIdList = (params) => {
     params
   });
 };
+// 根据企业id绑定驾驶员
+export const getDriverByDeptIdList = (deptId) => {
+  return request({
+    url: '/api/blade-train/train/getDriverByDeptIdList',
+    method: 'GET',
+    params: {
+      deptId,
+    }
+  });
+};

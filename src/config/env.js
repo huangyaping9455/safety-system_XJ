@@ -5,6 +5,7 @@ const env = process.env;
 
 if (env.NODE_ENV == "development") { // 开发环境地址
   baseUrl = "http://222.82.236.242:8896";
+  // baseUrl = "http://58.144.142.198:8896";
 } else if (env.NODE_ENV == "production") {
   baseUrl = "http://202.100.168.150:8896"; // 生产环境地址
 } else if (env.NODE_ENV == "test") {

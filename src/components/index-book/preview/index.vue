@@ -125,6 +125,7 @@ export default {
         }
         window.location.href =
           "http://222.82.236.242:8894/" + res.data.data.path; //this.$store.state.user.userInfo.urlPrefix
+        // "http://58.144.142.198:8894/" + res.data.data.path; //this.$store.state.user.userInfo.urlPrefix
       });
     },
 

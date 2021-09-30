@@ -85,9 +85,15 @@
       </div>
 
       <div class="flex-row tab-head" :class="bgHead">
-        <span class="font-bold width-flex">预警</span>
-        <span class="font-bold width-220">预警说明</span>
-        <span class="font-bold width-70">预警数量</span>
+        <span class="font-bold width-flex">
+          {{ cruIndex === 0 ? "预警" : "超期" }}
+        </span>
+        <span class="font-bold width-220">
+          {{ cruIndex === 0 ? "预警" : "超期" }}说明
+        </span>
+        <span class="font-bold width-70">
+          {{ cruIndex === 0 ? "预警" : "超期" }}数量
+        </span>
       </div>
       <div class="tab-list">
         <ul>
