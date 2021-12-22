@@ -15,12 +15,10 @@
           src="../../../../assets/new_icon/package.png"
           alt=""
         />
-        <span class="text circle-no"
-          >{{ name
-          }}<span v-if="isFolder" class="num"
-            >(文件:{{ data.fileNum }})</span
-          ></span
-        >
+        <span class="text circle-no">
+          {{ name }}
+          <span v-if="isFolder" class="num"> (文件:{{ data.fileNum }}) </span>
+        </span>
         <!-- <span v-if="!isFolder" class="num">(编号:{{data.documentNumber}})</span> -->
       </div>
       <i-spin v-if="isLoading"></i-spin>

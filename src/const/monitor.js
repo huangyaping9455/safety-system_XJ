@@ -325,7 +325,7 @@ export const tabList = [{
   {
     text: '运行车辆',
     color: '#0feb14',
-    fild: 'zaixian',
+    fild: 'OnLineCount',
     type: '在线',
     icon: require('A/daily/运行.png')
   },
@@ -339,7 +339,7 @@ export const tabList = [{
   {
     text: '离线车辆',
     color: '#939393',
-    fild: 'lixian',
+    fild: 'offLineCount',
     type: '离线',
     icon: require('A/daily/离线.png')
   },

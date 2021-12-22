@@ -121,3 +121,71 @@ export const getDriverByDeptIdList = (deptId) => {
         }
     });
 };
+// 企业档案列表
+export const detailByDeptId = (id) => {
+    return request({
+        url: '/api/blade-platform/platform/organizations/detailByDeptId',
+        method: 'get',
+        params: {
+            id,
+        }
+    });
+};
+// 企业档案列表
+export const companyUpdate = (data) => {
+    return request({
+        url: '/api/blade-platform/platform/organizations/update',
+        method: 'post',
+        data
+    });
+};
+// 违规统计
+export const getDriverAlarmTJ = (data) => {
+    return request({
+        url: '/api/blade-platform/platform/qiYeTongJi/getDriverAlarmTJ',
+        method: 'post',
+        data
+    });
+};
+// 违规统计
+export const getDriverAlarmXQTJ = (data) => {
+    return request({
+        url: '/api/blade-platform/platform/qiYeTongJi/getDriverAlarmXQTJ',
+        method: 'post',
+        data
+    });
+};
+// 车辆维护 列表
+export const weihuList = (data) => {
+    return request({
+        url: '/api/blade-platform/platform/cheliangweihu/list',
+        method: 'post',
+        data
+    });
+};
+// 车辆维护 新增
+export const weihuInsert = (data) => {
+    return request({
+        url: '/api/blade-platform/platform/cheliangweihu/insert',
+        method: 'post',
+        data
+    });
+};
+// 车辆维护 修改
+export const weihuUpdate = (data) => {
+    return request({
+        url: '/api/blade-platform/platform/cheliangweihu/update',
+        method: 'post',
+        data
+    });
+};
+// 车辆牌照 下拉框数据
+export const getByIdVehicleLis = (deptId) => {
+    return request({
+        url: '/api/blade-platform/platform/vehicle/getByIdVehicleList',
+        method: 'get',
+        params: {
+            deptId,
+        }
+    });
+};

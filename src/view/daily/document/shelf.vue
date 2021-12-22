@@ -100,6 +100,12 @@ export default {
   .order-3 {
     background: #777;
   }
+  .order-4 {
+    background: #a21f24;
+  }
+  .order-5 {
+    background: #c48416;
+  }
   .content {
     padding: 15px 15px;
     width: 75%;

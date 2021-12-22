@@ -138,7 +138,7 @@ export const getAvgTrend = (params) => {
   });
 };
 export const getVehicleTree = (company, cph) => {
-  console.log(company, '=====')
+  // console.log(company, '=====')
   return request({
     url: '/api/blade-gps/gps/gpsdata/getVehicleTree',
     method: 'get',
@@ -148,3 +148,17 @@ export const getVehicleTree = (company, cph) => {
     }
   });
 };
+// 获取课程
+export const realTimeVideo = (vehicleId, simNo, channel) => {
+  return request({
+    url: `/api/blade-platform/platform/qiYeShouYe/getVideoUrl?vehicleId=${vehicleId}&simNo=${simNo}&channel=${channel}&stream=1`,
+    method: "get",
+  })
+}
+// 获取课程
+export const stopRealTimeVideoNew = (vehicleId) => {
+  return request({
+    url: `/api/blade-platform/platform/qiYeShouYe/getStopVideoUrl?vehicleId=${vehicleId}&channelId=77&videoDataType=0&streamType=1`,
+    method: "get",
+  })
+}

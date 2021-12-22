@@ -230,17 +230,9 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="终端ID：">
-          <el-input
-            v-model="vehiclemsgList.zongduanid"
-            placeholder="请输入终端ID"
-          />
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item label="驾驶员名称：">
+        <el-form-item label="驾驶员1：">
           <el-select
-            v-model="vehiclemsgList.jiashiyuanxingming"
+            v-model="vehiclemsgList.jiashiyuanxingming1"
             placeholder="请选择驾驶员名称"
             style="width:100%;"
             @change="jiashiyuanChange"
@@ -255,9 +247,42 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="随车电话：" prop="jiashiyuandianhua">
+        <el-form-item label="随车电话1：" prop="jiashiyuandianhua">
           <el-input
-            v-model="vehiclemsgList.jiashiyuandianhua"
+            v-model="vehiclemsgList.jiashiyuandianhua1"
+            placeholder="请输入随车电话"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="终端ID：">
+          <el-input
+            v-model="vehiclemsgList.zongduanid"
+            placeholder="请输入终端ID"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="驾驶员2：">
+          <el-select
+            v-model="vehiclemsgList.jiashiyuanxingming2"
+            placeholder="请选择驾驶员名称"
+            style="width:100%;"
+            @change="jiashiyuanChange2"
+          >
+            <el-option
+              :label="item.label"
+              :value="item.value"
+              v-for="(item, index) in jiahsiyuanlist"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="随车电话2：" prop="jiashiyuandianhua">
+          <el-input
+            v-model="vehiclemsgList.jiashiyuandianhua2"
             placeholder="请输入随车电话"
           />
         </el-form-item>
@@ -442,9 +467,9 @@ export default {
         chepaiyanse: [
           { required: true, message: "请输入车牌颜色", trigger: "blur" },
         ],
-        jiashiyuandianhua: [
-          { required: true, message: "请输入随车电话", trigger: "blur" },
-        ],
+        // jiashiyuandianhua: [
+        //   { required: true, message: "请输入随车电话", trigger: "blur" },
+        // ],
       },
     };
   },
@@ -461,6 +486,18 @@ export default {
         if (valid) {
           this.updatedisable = true;
           this.updateLoading = true;
+          this.vehiclemsgList.jiashiyuanxingming =
+            this.vehiclemsgList.jiashiyuanxingming1 +
+            "," +
+            this.vehiclemsgList.jiashiyuanxingming2;
+          this.vehiclemsgList.jiashiyuandianhua =
+            this.vehiclemsgList.jiashiyuandianhua1 +
+            "," +
+            this.vehiclemsgList.jiashiyuandianhua2;
+          delete this.vehiclemsgList.jiashiyuanxingming1;
+          delete this.vehiclemsgList.jiashiyuanxingming2;
+          delete this.vehiclemsgList.jiashiyuandianhua1;
+          delete this.vehiclemsgList.jiashiyuandianhua2;
           let isApi;
           if (this.typee === "新增") {
             isApi = insert;
@@ -561,7 +598,14 @@ export default {
     jiashiyuanChange(val) {
       this.jiahsiyuanlist.map((el) => {
         if (el.jiashiyuanxingming === val) {
-          this.vehiclemsgList.jiashiyuandianhua = el.shoujihaoma;
+          this.vehiclemsgList.jiashiyuandianhua1 = el.shoujihaoma;
+        }
+      });
+    },
+    jiashiyuanChange2(val) {
+      this.jiahsiyuanlist.map((el) => {
+        if (el.jiashiyuanxingming === val) {
+          this.vehiclemsgList.jiashiyuandianhua2 = el.shoujihaoma;
         }
       });
     },

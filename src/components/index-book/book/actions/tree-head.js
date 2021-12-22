@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     initAttr() {
+      console.log(this.data);
       if (this.data._loading === undefined) {
         this.$set(this.data, '_loading', false);
       }
@@ -65,7 +66,10 @@ export default {
 
     contextmenu(event) {
       if (event.button == 2) {
-        this.$parent.$emit('contextmenu', { event, data: this.data });
+        this.$parent.$emit('contextmenu', {
+          event,
+          data: this.data
+        });
         this.$emit('parentNodes', {
           nodes: [],
           deep: this.deep

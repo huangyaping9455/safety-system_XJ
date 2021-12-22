@@ -266,16 +266,32 @@
           >
           </el-table-column>
           <el-table-column
-            prop="jiashiyuanxingming"
-            label="驾驶员"
+            prop="jiashiyuanxingming1"
+            label="驾驶员1"
             align="center"
             width="100"
             :show-overflow-tooltip="true"
           >
           </el-table-column>
           <el-table-column
-            prop="jiashiyuandianhua"
-            label="随车电话"
+            prop="jiashiyuandianhua1"
+            label="随车电话1"
+            align="center"
+            width="150"
+            :show-overflow-tooltip="true"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="jiashiyuanxingming2"
+            label="驾驶员2"
+            align="center"
+            width="100"
+            :show-overflow-tooltip="true"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="jiashiyuandianhua2"
+            label="随车电话2"
             align="center"
             width="150"
             :show-overflow-tooltip="true"
@@ -375,7 +391,7 @@
 import { getToken } from "@/util/auth";
 import { vehicleList, delet } from "@/api/daily/vehicle";
 import { export_json_to_excel } from "@/const/Export2Excel";
-import VehicleUpdate from "./vehiclupdate.vue";
+import VehicleUpdate from "./vehiclupdate_XJ.vue";
 import vSearch from "./vSearch.vue";
 import ImportDialog from "./ImportDialog.vue";
 export default {
@@ -471,6 +487,18 @@ export default {
             }
             if (el.yayunyuandianhua === "null") {
               el.yayunyuandianhua = "";
+            }
+            if (el.jiashiyuanxingming.indexOf(",") !== -1) {
+              el.jiashiyuanxingming1 = el.jiashiyuanxingming.split(",")[0];
+              el.jiashiyuanxingming2 = el.jiashiyuanxingming.split(",")[1];
+            } else {
+              el.jiashiyuanxingming1 = el.jiashiyuanxingming;
+            }
+            if (el.jiashiyuandianhua.indexOf(",") !== -1) {
+              el.jiashiyuandianhua1 = el.jiashiyuandianhua.split(",")[0];
+              el.jiashiyuandianhua2 = el.jiashiyuandianhua.split(",")[1];
+            } else {
+              el.jiashiyuandianhua1 = el.jiashiyuandianhua;
             }
             return el;
           });
@@ -583,7 +611,7 @@ export default {
             this.selection.forEach((v) => (ids += v.id + ","));
             delet(ids).then((res) => {
               if (res.data.code == 200) {
-                this.$message.warning(res.data.msg);
+                this.$message.success(res.data.msg);
                 this.getVehicleList();
               }
             });
@@ -655,8 +683,10 @@ export default {
           "卫星定位服务商名称",
           "4G视频地址",
           "终端id",
-          "驾驶员",
-          "随车电话",
+          "驾驶员1",
+          "随车电话1",
+          "驾驶员2",
+          "随车电话2",
           "押运员",
           "押运员电话",
           "车主",
@@ -690,8 +720,10 @@ export default {
           "yunyingshangmingcheng",
           "yunyingshang",
           "zongduanid",
-          "jiashiyuanxingming",
-          "jiashiyuandianhua",
+          "jiashiyuanxingming1",
+          "jiashiyuandianhua1",
+          "jiashiyuanxingming2",
+          "jiashiyuandianhua2",
           "yayunyuanxingming",
           "yayunyuandianhua",
           "chezhu",
@@ -734,6 +766,7 @@ export default {
           "AE1:AE2",
           "AF1:AF2",
           "AG1:AG2",
+          "AH1:AH2",
         ];
         const data = this.formatJson(filterVal, list);
         export_json_to_excel({

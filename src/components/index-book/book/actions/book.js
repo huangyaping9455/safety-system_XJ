@@ -118,15 +118,41 @@ export default {
     },
 
     treeItemClick(data) {
+      // console.log(data);
       // console.log("--treeItemClick---");
-      Bus.$emit('clickTree', {
-        data
-      });
-      this.nodeData = data;
-      this.$emit('on-click', data);
-      if (this.clickView) {
-        let item = this.treeMenu.find((item) => item.label == '查看文件');
-        this.viewFile(item);
+      if (data.name === "出车三检") {
+        this.$router.push({
+          path: "/daily/threeInspect"
+        });
+      } else if (data.name === "隐患台账") {
+        this.$router.push({
+          path: "/daily/hidDanger"
+        });
+      } else if (data.name === "隐患整治台帐") {
+        this.$router.push({
+          path: "/daily/hidDanger",
+          query: {
+            zhenggaijd: 1
+          },
+        });
+      } else if (data.name === "驾驶员违章") {
+        this.$router.push({
+          path: "/daily/violation"
+        });
+      } else if (data.name === "车辆事故") {
+        this.$router.push({
+          path: "/daily/accident"
+        });
+      } else {
+        Bus.$emit('clickTree', {
+          data
+        });
+        this.nodeData = data;
+        this.$emit('on-click', data);
+        if (this.clickView) {
+          let item = this.treeMenu.find((item) => item.label == '查看文件');
+          this.viewFile(item);
+        }
       }
     },
 

@@ -17,20 +17,27 @@ router.beforeEach((to, from, next) => {
   let login =
     to.name == '登录页' || to.name == '登录页货运' || to.name == '登录页客运' || to.name == '欢迎页';
   let token = getToken();
-  if (login && token) {
+  if (login && token && store.getters.userInfo.accessToken) {
     // next({ path: '/guide' });
     next({
       path: '/daily'
     })
   } else if (!login && !token) {
-    Message.warning({
-      content: '登录失效，请重新登录',
-      duration: 3
-    });
-    store.dispatch('LogOut').then(() => {
-      next({
-        path: '/login'
+    if (store.getters.userInfo.accessToken !== token) {
+      window.location.reload();
+    }
+    setTimeout(() => {
+      Message.warning({
+        content: '登录失效，请重新登录',
+        duration: 3
       });
+    }, 1000);
+    store.dispatch('LogOut').then(() => {
+      setTimeout(() => {
+        next({
+          path: '/login'
+        });
+      }, 800);
     });
     // next({ path: '/loginByDG' });
   } else {

@@ -16,8 +16,9 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://222.82.236.242:8896",
-        // target: "http://58.144.142.198:8896",
+        // target: "http://222.82.236.242:8896",
+        // target: "http://61.136.101.78:8896",
+        target: "http://58.144.142.198:8896",
         ws: true,
         pathRewrite: {
           "^/api": "/",
@@ -30,6 +31,15 @@ module.exports = {
           "^/baidu": "/",
         },
       },
+      "/prod-api": {
+        // target: "http://222.82.236.242:28089",
+        target: "http://58.144.142.198:28089",
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          "^/prod-api": "/prod-api",
+        },
+      }
     },
   },
 };

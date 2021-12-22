@@ -39,6 +39,20 @@
           color: red;
         }
       }
+      .troubleStatus {
+        position: absolute;
+        top: 67%;
+        left: 38%;
+        span {
+          padding: 0.5vh 1vh;
+          color: red;
+          font-size: 2vh;
+          border: 1px solid #e6a23c;
+        }
+        .weidabiao {
+          color: red;
+        }
+      }
       .anbiaoTime {
         // color: #999999;
         color: #000;
@@ -374,7 +388,7 @@
             </div>
             <span class="centerLime"></span>
             <div>
-              <p @click="onLineVehicle">{{ vehicleCount.zaixian || 0 }}</p>
+              <p @click="onLineVehicle">{{ vehicleCount.OnLineCount || 0 }}</p>
               <p>在线车辆</p>
             </div>
           </div>
@@ -446,7 +460,7 @@
             > -->
           </div>
         </div>
-        <div class="topItem">
+        <!-- <div class="topItem">
           <p class="title">证件到期（待开放）</p>
           <e-chart class="chart" :options="echarts2" autoresize></e-chart>
           <div class="topItem-line">
@@ -458,6 +472,19 @@
             >
               <span class="line-num big">0</span>
             </i-progress>
+          </div>
+        </div> -->
+        <div class="topItem" @click="trobleMsg" style="cursor: pointer;">
+          <p class="title">隐患排查</p>
+          <e-chart
+            class="chart"
+            :options="echarts6"
+            autoresize
+            style="z-index: -1;"
+          ></e-chart>
+          <div class="topItem-line"></div>
+          <div class="troubleStatus">
+            <span>未处理：{{ troubleNum.zhenggai }}</span>
           </div>
         </div>
       </div>
@@ -532,7 +559,7 @@
                 <i-date
                   type="year"
                   @on-change="changeyear"
-                  :value="year"
+                  v-model="year"
                   placeholder="选择年份"
                   style="width: 144px;"
                 ></i-date>
@@ -613,6 +640,7 @@ import {
   QYVehicleCount,
   selectMarkRemind,
 } from "@/api/guide";
+import { troublenumList } from "@/api/daily/trouble";
 import {
   guidePieChart,
   lineoption,
@@ -634,6 +662,7 @@ export default {
       echarts3: {},
       echarts4: {},
       echarts5: {},
+      echarts6: {},
       load: false,
       vehicleCondition: {}, //车辆情况data
       yearStatistics: {}, //报警统计（年）
@@ -643,6 +672,7 @@ export default {
       vehicleCount: {}, //车辆状态统计
       MarkRemind: "",
       mosein: false,
+      troubleNum: [],
     };
   },
   computed: {
@@ -727,16 +757,16 @@ export default {
       this.getQYVehicleCount();
       this.echarts2 = guidePieChart(0, "完成率", this.ismini);
       this.echarts4 = lineoption1();
+      this.getcountNum();
     },
     // 实时车辆状态统计
     getQYVehicleCount() {
       QYVehicleCount(this.$store.getters.deptId).then(({ data }) => {
-        this.vehicleCount = data.data.length > 0 ? data.data[0] : [];
-        let zaixian = data.data.length > 0 ? data.data[0].zaixian : 0;
-        let RegisterCount =
-          data.data.length > 0 ? data.data[0].RegisterCount : 0;
+        this.vehicleCount = data.data ? data.data : [];
+        let OnLineCount = data.data ? data.data.OnLineCount : 0;
+        let RegisterCount = data.data ? data.data.RegisterCount : 0;
         this.echarts = guidePieChart(
-          RegisterCount ? Math.floor((zaixian / RegisterCount) * 100) : 0,
+          RegisterCount ? Math.floor((OnLineCount / RegisterCount) * 100) : 0,
           "在线率",
           this.ismini
         );
@@ -865,6 +895,16 @@ export default {
         });
       }
     },
+    // 隐患排查 点击事件
+    trobleMsg() {
+      if (!this.troubleNum.zongshu) {
+        this.$message.warning("该企业未生成隐患数据");
+      } else {
+        this.$router.push({
+          path: "/daily/hideDangerStatic",
+        });
+      }
+    },
     // 车辆总数 跳转
     vehicleCountMsg() {
       this.$router.push({ path: "/daily/vehicle" });
@@ -872,6 +912,13 @@ export default {
     // 车辆总数 跳转
     onLineVehicle() {
       this.$router.push({ path: "/daily/onLineVehicle" });
+    },
+    // 隐患排查
+    getcountNum() {
+      troublenumList(this.$store.getters.deptId).then((res) => {
+        this.troubleNum = res.data.data;
+        this.echarts6 = guidePieChart3(this.troubleNum.zongshu);
+      });
     },
   },
 };

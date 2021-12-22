@@ -7,7 +7,6 @@ const routes = [{
     path: '*',
     // redirect: '/login'
     redirect: function () {
-      console.log(window);
       return '/wel';
     }
   },

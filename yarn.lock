@@ -3226,10 +3226,10 @@ element-resize-detector@^1.2.0:
   dependencies:
     batch-processor "1.0.0"
 
-element-ui@^2.13.2:
-  version "2.13.2"
-  resolved "https://registry.npm.taobao.org/element-ui/download/element-ui-2.13.2.tgz?cache=0&sync_timestamp=1589795216634&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felement-ui%2Fdownload%2Felement-ui-2.13.2.tgz#582bf47aaaaaafe23ea1958fae217a687ad06447"
-  integrity sha1-WCv0eqqqr+I+oZWPriF6aHrQZEc=
+element-ui@^2.15.6:
+  version "2.15.6"
+  resolved "https://registry.nlark.com/element-ui/download/element-ui-2.15.6.tgz#c9609add35af5a686a4b7685dc1d757c75e01df3"
+  integrity sha1-yWCa3TWvWmhqS3aF3B11fHXgHfM=
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
@@ -3360,6 +3360,11 @@ es-to-primitive@^1.2.1:
     is-callable "^1.1.4"
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
+
+es6-promise@^4.2.8:
+  version "4.2.8"
+  resolved "https://registry.nlark.com/es6-promise/download/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
+  integrity sha1-TrIVlMlyvEBVPSduUQU5FD21Pgo=
 
 escape-html@~1.0.3:
   version "1.0.3"
@@ -3993,6 +3998,14 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
+
+flv.js@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.nlark.com/flv.js/download/flv.js-1.6.2.tgz#fa3340fe3f7ee01d3977f7876aee66b8436e5922"
+  integrity sha1-+jNA/j9+4B05d/eHau5muENuWSI=
+  dependencies:
+    es6-promise "^4.2.8"
+    webworkify-webpack "^2.1.5"
 
 follow-redirects@1.5.10:
   version "1.5.10"
@@ -9207,6 +9220,11 @@ websocket-extensions@>=0.1.1:
   version "0.1.3"
   resolved "https://registry.npm.taobao.org/websocket-extensions/download/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
   integrity sha1-XS/yKXcAPsaHpLhwc9+7rBRszyk=
+
+webworkify-webpack@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.npm.taobao.org/webworkify-webpack/download/webworkify-webpack-2.1.5.tgz#bf4336624c0626cbe85cf1ffde157f7aa90b1d1c"
+  integrity sha1-v0M2YkwGJsvoXPH/3hV/eqkLHRw=
 
 when@~3.6.x:
   version "3.6.4"

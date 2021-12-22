@@ -47,7 +47,7 @@ import { mapGetters } from "vuex";
 import Bus from "@/config/bus";
 import { getTreeTable } from "@/api/book/standard";
 import MockTreeTab2X from "./../../../../public/mock/treeTab2X.json";
-
+import { selectMarkRemind } from "@/api/guide";
 export default {
   name: "standard",
   components: {
@@ -82,7 +82,9 @@ export default {
       return tabs;
     },
   },
-  created() {},
+  created() {
+    this.getSelectMarkRemind();
+  },
   mounted() {
     Bus.$on("clickTree", this.clickTreeHadnle);
   },
@@ -155,7 +157,7 @@ export default {
       getTreeTable(params).then(async (res) => {
         if (res.data.data.length > 0) {
           const treeTabData = await this.getTreeTab(res.data.data);
-          this.totalpoints = res.data.data[0].totalpoints;
+          // this.totalpoints = res.data.data[0].totalpoints;
           this.type = +res.data.data[0].yunyingleixing;
           this.dataTab = treeTabData;
           this.loadingTab = false;
@@ -194,6 +196,12 @@ export default {
         if (item.slot === "table") {
           item.show = true;
         }
+      });
+    },
+    // 安全达标提醒
+    getSelectMarkRemind() {
+      selectMarkRemind(this.$store.getters.deptId).then((res) => {
+        this.totalpoints = res.data.data.totalpoints;
       });
     },
   },

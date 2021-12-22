@@ -1,20 +1,22 @@
 <template>
   <div class="document-doc wh100 flex-row">
-    <div class="wrapper-boolcase">
-      <bookcase-shelf
-        v-for="(item, index) in listdata"
-        :key="index"
-        :split="split"
-        :shelf="item"
-        :active="doc"
-        :order-num="index"
-        @contextmenu="contextmenu"
-        @open="openDoc"
-      ></bookcase-shelf>
-      <div v-if="!listdata.length" class="empty flex xy-center jf-center">
-        <img src="../../../assets/empty/empty.png" alt="" srcset="" />
+    <scroll>
+      <div class="wrapper-boolcase">
+        <bookcase-shelf
+          v-for="(item, index) in listdata"
+          :key="index"
+          :split="split"
+          :shelf="item"
+          :active="doc"
+          :order-num="index"
+          @contextmenu="contextmenu"
+          @open="openDoc"
+        ></bookcase-shelf>
+        <div v-if="!listdata.length" class="empty flex xy-center jf-center">
+          <img src="../../../assets/empty/empty.png" alt="" srcset="" />
+        </div>
       </div>
-    </div>
+    </scroll>
     <div class="right-content flex">
       <document-book
         class="document-book"
@@ -87,7 +89,7 @@ export default {
         },
       },
       tab: "doc",
-      split: 0.5,
+      // split: 0.5,
       isPreview: true,
       tabs: [{ label: "正文", slot: "doc", class: "preview-bg" }],
       doc: {
@@ -127,6 +129,7 @@ export default {
       return id == undefined ? true : id == shelf.documentNumber;
     },
     emitView(params) {
+      console.log(params);
       this.onView(params);
       // this.$emit('on-view', params);
     },
@@ -139,7 +142,7 @@ export default {
       this.doc = {};
     },
     contextmenu(params) {
-      // console.log('22222')
+      // console.log("22222");
 
       this.$refs.book.contextmenu(params);
     },

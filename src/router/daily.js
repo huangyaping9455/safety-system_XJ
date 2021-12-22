@@ -85,11 +85,11 @@ const dailyRoutes = [{
     name: 'education',
     component: () => import('@/view/daily/education.vue')
   },
-  {
-    path: '/daily/accident',
-    name: 'accident',
-    component: () => import('@/view/daily/accident.vue')
-  },
+  // {
+  //   path: '/daily/accident',
+  //   name: 'accident',
+  //   component: () => import('@/view/daily/accident.vue')
+  // },
   {
     path: '/daily/target',
     name: 'target',
@@ -147,15 +147,33 @@ const dailyRoutes = [{
     path: '/daily/Rectification',
     name: 'Rectification',
     component: () => import('@/view/daily/Rectification/index.vue')
-  }, {
+  },
+  {
     path: '/daily/vehicle',
     name: 'vehicle',
     component: () => import('@/view/daily/vehicle/vehicle/vehicle.vue')
-  }, {
+  },
+  // 新疆
+  // {
+  //   path: '/daily/vehicle',
+  //   name: 'vehicle',
+  //   component: () => import('@/view/daily/vehicle/vehicle/vehicle_XJ.vue')
+  // },
+  {
     path: '/daily/driver',
     name: 'driver',
     component: () => import('@/view/daily/vehicle/driver/driver.vue')
+  },
+  {
+    path: '/daily/vehicleInfo',
+    name: 'vehicleInfo',
+    component: () => import('@/view/daily/vehicle/vehicle.vue')
   }, {
+    path: '/daily/driverInfo',
+    name: 'driverInfo',
+    component: () => import('@/view/daily/vehicle/driver.vue')
+  },
+  {
     path: '/daily/document',
     name: 'document',
     component: () => import('@/view/daily/document/index.vue')
@@ -204,6 +222,49 @@ const dailyRoutes = [{
     path: '/daily/onLineVehicle',
     name: 'onLineVehicle',
     component: () => import('@/view/daily/onLineVehicle/onLineVehicle.vue')
+  }, {
+    path: '/daily/violation',
+    name: 'violation',
+    component: () => import('@/view/daily/violation/index.vue')
+  }, {
+    path: '/daily/company',
+    name: 'company',
+    component: () => import('@/view/daily/vehicle/company/index.vue')
+  }, {
+    path: '/daily/hidDanger',
+    name: 'hidDanger',
+    component: () => import('@/view/daily/hidDanger/index.vue')
+  }, {
+    path: '/daily/hidDangerSet',
+    name: 'hidDangerSet',
+    component: () => import('@/view/daily/hidDangerSet/index.vue')
+  }, {
+    path: '/daily/threeInspect',
+    name: 'threeInspect',
+    component: () => import('@/view/daily/threeInspect/index.vue')
+  }, {
+    path: '/daily/accident',
+    name: 'accident',
+    component: () => import('@/view/daily/accident/index.vue')
+  },
+  {
+    path: '/daily/learningPlatform',
+    name: 'learningPlatform',
+    component: () => import('@/view/daily/learningPlatform/index.vue')
+  },
+  {
+    path: '/daily/vehicleMaintain',
+    name: 'vehicleMaintain',
+    component: () => import('@/view/daily/vehicleMaintain/index.vue')
+  },
+  {
+    path: '/daily/learnDown',
+    name: 'learnDown',
+    component: () => import('@/view/daily/learnDown/index.vue')
+  }, {
+    path: '/daily/hideDangerStatic',
+    name: 'hideDangerStatic',
+    component: () => import('@/view/daily/hideDangerStatic/index.vue')
   },
 ];
 

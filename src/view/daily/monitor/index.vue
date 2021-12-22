@@ -291,6 +291,58 @@
                 </div>
               </div>
               <div class="video-box">
+                <!-- <div
+                  class="video-flv"
+                  v-if="
+                    url == '' ||
+                      url == 'null' ||
+                      url == null ||
+                      url.substring(0, 4) !== 'http'
+                  "
+                >
+                  <video
+                    autoplay
+                    controls
+                    src=""
+                    id="videoElement1"
+                    ref="videoElement1"
+                  ></video>
+                  <video
+                    autoplay
+                    controls
+                    src=""
+                    id="videoElement2"
+                    ref="videoElement2"
+                  ></video>
+                  <video
+                    autoplay
+                    controls
+                    src=""
+                    id="videoElement3"
+                    ref="videoElement3"
+                  ></video>
+                  <video
+                    autoplay
+                    controls
+                    src=""
+                    id="videoElement4"
+                    ref="videoElement4"
+                  ></video>
+                  <video
+                    autoplay
+                    controls
+                    src=""
+                    id="videoElement5"
+                    ref="videoElement5"
+                  ></video>
+                  <video
+                    autoplay
+                    controls
+                    src=""
+                    id="videoElement6"
+                    ref="videoElement6"
+                  ></video>
+                </div> -->
                 <iframe
                   :src="url"
                   :srcdoc="srcdoc"
@@ -390,7 +442,7 @@
             ref="tabletab"
             border
             stripe
-            :max-height="tabHeight"
+            :height="tabHeight"
             :loading="loading"
             :data="table.data"
             :columns="tableColumns"
@@ -456,6 +508,7 @@
 
 <script>
 // import "swiper/dist/css/swiper.css";
+import flvjs from "flv.js/dist/flv.min.js";
 import trackRecord from "./track-record";
 import location from "./location";
 import alarmBox from "./alarm-box";
@@ -479,6 +532,8 @@ import {
   // getGpsVehicleDetail,
   getVehlicPTdetail,
   // getQYVehicleList,
+  realTimeVideo,
+  stopRealTimeVideoNew,
 } from "@/api/daily/monitor";
 // import { getAlarmPoint } from "@/api/daily/alarm";
 import { statusOption } from "@/const/alarm";
@@ -570,10 +625,12 @@ export default {
       endMarker: {},
       vehicleStat: [{}],
       place: "",
-      zoom: 7,
+      zoom: 9,
       // center: { lng: 116.96643, lat: 33.654438 },
       // 新疆
-      center: { lng: 86.373, lat: 42.453 },
+      // center: { lng: 86.373, lat: 42.453 },
+      // 重庆
+      center: { lng: 106.555, lat: 29.575 },
       icon: {
         url: "http://api.map.baidu.com/library/LuShu/1.2/examples/car.png",
         size: { width: 52, height: 26 },
@@ -626,6 +683,7 @@ export default {
       current: 1,
       total: 0,
       baojingshu: "",
+      timeSet: {},
     };
   },
 
@@ -671,7 +729,7 @@ export default {
   mounted() {
     // 每隔 40s 执行
     let _this = this;
-    setInterval(function() {
+    this.timeSet = setInterval(function() {
       _this.getAlarmTongji();
       _this.getList();
       _this.getAllVehiclelist();
@@ -698,6 +756,11 @@ export default {
           window.innerHeight - self.$refs.tabletab.$el.offsetTop - 743;
       };
     });
+  },
+  beforeDestroy() {
+    if (this.timeSet) {
+      clearInterval(this.timeSet);
+    }
   },
 
   methods: {
@@ -831,15 +894,42 @@ export default {
           this.url == null ||
           http !== "http"
         ) {
-          // if (this.rowData.platecolor == "蓝色") {
-          this.srcdoc = `地址不存在`;
-          // } else {
-          //   this.srcdoc = `地址不存在`;
+          // for (let i = 1; i < 7; i++) {
+          //   realTimeVideo(this.rowData.vehicleID, this.rowData.deviceID, i)
+          //     .then((res) => {
+          //       this.createVideo(i);
+          //     })
+          //     .catch((rej) => {
+          //       console.log(rej);
+          //     });
           // }
+          this.srcdoc = `地址不存在`;
+          // this.srcdoc = null;
         } else {
           this.srcdoc = null;
         }
       }
+    },
+    // flv视频播放
+    createVideo(i) {
+      if (flvjs.isSupported()) {
+        let videoElement = document.getElementById("videoElement" + i);
+        let flvPlayer = flvjs.createPlayer({
+          type: "flv",
+          url: `http://222.82.236.242:10078/live?port=18082&app=live&stream=${this.rowData.deviceID}_${i}`,
+          // url: `http://58.144.142.198:10078/live?port=18082&app=live&stream=${this.rowData.deviceID}_${i}`,
+          // url: `http://61.136.101.78:10078/live?port=18082&app=live&stream=${this.rowData.deviceID}_${i}`,
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
+      }
+    },
+    // flv视频播放
+    stopVideo() {
+      stopRealTimeVideoNew(this.rowData.vehicleID).then((res) => {
+        console.log(res);
+      });
     },
     // 点击更多跳转到报警处理界面
     goAlarmDispose() {
@@ -849,6 +939,7 @@ export default {
     },
     // 关闭弹窗
     closePopup() {
+      // this.stopVideo();
       this.showPop = false;
       this.url = "";
     },
@@ -888,10 +979,10 @@ export default {
       let chepaiyanse = row.platecolor;
       // let deptId = this.$store.getters.deptId;
       let deptId = row.deptID;
-      let location = row.latitude + "," + row.longitude;
-      let ak = this.mapak;
-      let output = "json";
-      let coordtype = "wgs84ll";
+      // let location = row.latitude + "," + row.longitude;
+      // let ak = this.mapak;
+      // let output = "json";
+      // let coordtype = "wgs84ll";
       this.accState = row.alarm;
       getVehicleDetail(cheliangpaizhao, chepaiyanse, deptId).then((res) => {
         this.vehicleDetail = res.data.data;
@@ -900,24 +991,30 @@ export default {
       });
       // this.getAlarmTimeData();
       // 获取街景图片
-      this.jijingimg =
-        "http://api.map.baidu.com/panorama/v2?ak=" +
-        this.mapak +
-        "&width=800&height=400&location=" +
-        row.longitude +
-        "," +
-        row.latitude +
-        "&fov=90&pitch=10&heading=20";
+      // this.jijingimg =
+      //   "http://api.map.baidu.com/panorama/v2?ak=" +
+      //   this.mapak +
+      //   "&width=800&height=400&location=" +
+      //   row.longitude +
+      //   "," +
+      //   row.latitude +
+      //   "&fov=90&pitch=10&heading=20";
       // 根据经纬度解析地理位置
-      axios
-        .get("/baidu/reverse_geocoding/v3", {
-          params: { ak, output, coordtype, location },
-        })
-        .then((res) => {
-          // this.place = res.data.result.formatted_address;
-          // this.place = res.data.message;
-          this.place = this.gpsVehicleDetail.locationName;
-        });
+      // axios
+      //   .get("/baidu/reverse_geocoding/v3", {
+      //     params: { ak, output, coordtype, location },
+      //   })
+      //   .then((res) => {
+      //     // this.place = res.data.result.formatted_address;
+      //     // this.place = res.data.message;
+      //     this.place = this.gpsVehicleDetail.locationName;
+      //   });
+      let pointzhongdian = new BMap.Point(row.longitude, row.latitude);
+      let gc = new BMap.Geocoder();
+      let _this = this;
+      gc.getLocation(pointzhongdian, function(rs) {
+        _this.place = rs.address;
+      });
       this.getAlarmTimeData();
     },
     // 获取Gps车辆资料
@@ -982,9 +1079,9 @@ export default {
       let dept = this.$store.getters.deptId;
       getVehicleStat(dept).then((res) => {
         //  表头  // 报警数
-        this.vehicleStat = res.data.data[0];
-        this.vehicleStat.lixian =
-          res.data.data[0].RegisterCount - res.data.data[0].zaixian;
+        this.vehicleStat = res.data.data;
+        // this.vehicleStat.lixian =
+        //   res.data.data.RegisterCount - res.data.data.zaixian;
       });
     },
     // 获取车辆统计列表
@@ -1128,13 +1225,13 @@ export default {
     clickCar(e) {
       this.CarMessage = e;
       this.showPopup(e);
-      let location = e.latitude + "," + e.longitude;
-      this.jijingimg =
-        "http://api.map.baidu.com/panorama/v2?ak=" +
-        this.mapak +
-        "&width=800&height=400&location=" +
-        location +
-        "&fov=190&pitch=10&heading=20";
+      // let location = e.latitude + "," + e.longitude;
+      // this.jijingimg =
+      //   "http://api.map.baidu.com/panorama/v2?ak=" +
+      //   this.mapak +
+      //   "&width=800&height=400&location=" +
+      //   location +
+      //   "&fov=190&pitch=10&heading=20";
     },
     // 根据状态添加车辆图标
     getMapCarImg(status, alarmStatus, zaixian, angle) {
@@ -1265,15 +1362,6 @@ export default {
 
 <style lang="scss">
 @import "./index.scss";
-// .table-box {
-// margin-top: 3.6vh;
-// }
-@media screen and (max-width: 1919px) {
-  .table-box {
-    // margin-top: -4.9rem;
-  }
-}
-
 .ivu-table-tip table td {
   width: auto !important;
 }

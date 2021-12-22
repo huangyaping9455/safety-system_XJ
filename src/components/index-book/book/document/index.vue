@@ -8,6 +8,7 @@
         size="small"
         class="search"
         placeholder="请输入关键字"
+        style="margin:0;"
       ></i-input>
     </div>
     <div class="book-container book-container2x">
