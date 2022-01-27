@@ -38,7 +38,7 @@
           :info="previewNode != doc"
           :closeBtn="previewNode != doc"
           :printBtn="previewNode != doc"
-          :noHead="true"
+          :noHead="false"
           @close-view="closeView"
         ></preview-doc>
       </tag-tabs>

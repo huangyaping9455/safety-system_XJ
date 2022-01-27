@@ -26,7 +26,7 @@ export default {
     iframeUrl() {
       // return "http://222.82.236.242:8892";
       // return "http://61.136.101.78:8892";
-      return "http://58.144.142.198:8892";
+      // return "http://58.144.142.198:8892";
     },
   },
   watch: {

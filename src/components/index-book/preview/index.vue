@@ -3,7 +3,7 @@
     <div class="head" v-if="!noHead">
       <p>
         {{ active.name }}
-        <icon v-if="active.path" type="ios-link" @click="download" />
+        <icon v-if="active.mubanPath" type="ios-link" @click="download" />
       </p>
       <div class="icons">
         <i-tooltip :content="move ? '取消滑动预览' : '滑动预览'">
@@ -111,23 +111,64 @@ export default {
   },
   methods: {
     download() {
-      axios({
-        url: "/api/blade-platform/platform/baobiaowenjian/preview",
-        method: "post",
-        params: {
-          fileType: 4,
-          id: this.active.id,
-        },
-      }).then((res) => {
-        if (!res.data.data.path) {
-          this.$message.warning("暂不支持下载");
-          return;
+      // axios({
+      //   url: "/api/blade-platform/platform/baobiaowenjian/preview",
+      //   method: "post",
+      //   params: {
+      //     fileType: 4,
+      //     id: this.active.id,
+      //   },
+      // }).then((res) => {
+      //   if (!res.data.data.path) {
+      //     this.$message.warning("暂不支持下载");
+      //     return;
+      //   }
+      //   window.location.href =
+      //     // "http://222.82.236.242:8894/" + res.data.data.path; //this.$store.state.user.userInfo.urlPrefix
+      //     // "http://61.136.101.78:8894/" + res.data.data.path;
+      //     "http://58.144.142.198:8894/" + res.data.data.path;
+      // });
+
+      if (this.active.mubanPath) {
+        if (this.$store.getters.topHeadMenu.path === "/document") {
+          if (this.imgData.is_muban == 1) {
+            window.open(
+              this.$store.getters.userInfo.urlPrefix +
+                this.active.mubanPath +
+                "/" +
+                this.active.name
+            );
+          } else {
+            window.open(
+              this.$store.getters.userInfo.urlPrefix + this.imgData.path
+            );
+          }
+        } else {
+          window.open(
+            this.$store.getters.userInfo.urlPrefix +
+              this.active.mubanPath +
+              "/" +
+              this.active.name
+          );
         }
-        window.location.href =
-          // "http://222.82.236.242:8894/" + res.data.data.path; //this.$store.state.user.userInfo.urlPrefix
-          // "http://61.136.101.78:8894/" + res.data.data.path;
-          "http://58.144.142.198:8894/" + res.data.data.path;
-      });
+      } else {
+        axios({
+          url: "/api/blade-platform/platform/baobiaowenjian/preview",
+          method: "post",
+          params: {
+            fileType: 4,
+            id: this.active.id,
+          },
+        }).then((res) => {
+          if (!res.data.data.path) {
+            this.$message.warning("暂不支持下载");
+            return;
+          }
+          window.open(
+            this.$store.getters.userInfo.urlPrefix + res.data.data.path
+          );
+        });
+      }
     },
 
     close() {
@@ -173,6 +214,7 @@ export default {
             this.$set(this.active, "_fileList", data.imgList);
             this.$set(this.active, "lastPreviewTime", data.lastPreviewTime);
             this.$set(this.active, "cumulativeVisits", data.cumulativeVisits);
+            this.$set(this.active, "mubanPath", data.mubanPath);
             this.loading = false;
           })
           .catch(() => {

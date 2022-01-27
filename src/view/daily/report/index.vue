@@ -84,7 +84,7 @@ export default {
 @import "S/mixin.scss";
 
 .security-report {
-  height: 100%;
+  height: calc(100% - 98px);
   width: 100%;
   @include box-center($justify: space-between, $align: false);
 
@@ -101,7 +101,7 @@ export default {
       // margin-top: 1rem;
       // width: calc(25%);
       width: 440px;
-      height: calc(100% - 37px);
+      height: calc(100%);
       display: flex;
       flex-wrap: nowrap;
       flex-direction: column;
@@ -192,6 +192,7 @@ export default {
       }
       .block:nth-child(4) {
         background: linear-gradient(to right, #fd712a, #fcdf39);
+        margin-bottom: 0;
       }
       .checked {
         // background: linear-gradient(to right, #ed711a, #f0a024);

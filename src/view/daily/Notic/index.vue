@@ -71,7 +71,19 @@
         v-loading="loading"
         :data="data"
         ref="table"
-      ></i-table>
+      >
+        <template slot-scope="{ row, index }" slot="action">
+          <el-link type="primary" style="margin-right:10px;" @click="view(row)"
+            >查看</el-link
+          >
+          <el-link
+            v-if="row.zhuangtai === '未回复'"
+            type="primary"
+            @click="reply(row, index)"
+            >回复</el-link
+          >
+        </template>
+      </i-table>
       <el-pagination
         style="height:3rem;background: #ffffff;display: flex;align-items: center;justify-content: flex-end;padding:0 1rem;"
         @size-change="handleSizeChange"
@@ -82,13 +94,19 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
+
+      <noticview ref="vehiclemsg"></noticview>
+      <notic-reply ref="noticereply"></notic-reply>
     </div>
   </div>
 </template>
 
 <script>
 import { noticeList } from "@/api/daily/notice";
+import Noticview from "./noticview";
+import NoticReply from "./noticReply.vue";
 export default {
+  components: { Noticview, NoticReply },
   data() {
     return {
       current: 1,
@@ -134,6 +152,12 @@ export default {
           title: "状态",
           key: "zhuangtai",
           align: "center",
+        },
+        {
+          title: "操作",
+          slot: "action",
+          align: "center",
+          width: 105,
         },
       ],
       data: [],
@@ -186,6 +210,16 @@ export default {
     refresh() {
       this.current = 1;
       this.noticeList();
+    },
+    // 回复
+    reply(row, index) {
+      this.$refs.noticereply.topModal = true;
+      this.$refs.noticereply.getOneTongZhi(row.zhutiid);
+    },
+    // 查看
+    view(row) {
+      this.$refs.vehiclemsg.viewVisible = true;
+      this.$refs.vehiclemsg.getOneTongZhi(row.zhutiid);
     },
     // 导出
     exportData() {

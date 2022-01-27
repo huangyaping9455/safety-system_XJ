@@ -150,7 +150,7 @@ export default {
   margin: 0;
   padding: 1.5rem;
   width: 100%;
-  height: calc(100% - 60px);
+  height: calc(100% - 98px);
   background-color: #f2f9ff;
   .preview_body {
     height: 100%;

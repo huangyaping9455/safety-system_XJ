@@ -7,3 +7,10 @@ export const noticeList = (data) => {
     data
   });
 };
+export const getOne = (data) => {
+  return request({
+    url: '/api/blade-platform/platform/xinxijiaohuzhuti/getOne',
+    method: 'post',
+    data
+  });
+};

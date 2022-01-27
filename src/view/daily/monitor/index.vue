@@ -628,9 +628,9 @@ export default {
       zoom: 9,
       // center: { lng: 116.96643, lat: 33.654438 },
       // 新疆
-      // center: { lng: 86.373, lat: 42.453 },
+      center: { lng: 86.373, lat: 42.453 },
       // 重庆
-      center: { lng: 106.555, lat: 29.575 },
+      // center: { lng: 106.555, lat: 29.575 },
       icon: {
         url: "http://api.map.baidu.com/library/LuShu/1.2/examples/car.png",
         size: { width: 52, height: 26 },
@@ -727,7 +727,7 @@ export default {
     },
   },
   mounted() {
-    // 每隔 40s 执行
+    // 每隔 3分钟 执行
     let _this = this;
     this.timeSet = setInterval(function() {
       _this.getAlarmTongji();
@@ -735,7 +735,7 @@ export default {
       _this.getAllVehiclelist();
       _this.getVehicleList();
       _this.getVehicleStat();
-    }, 30000);
+    }, 180000);
 
     this.getAlarmTongji();
     this.getList();

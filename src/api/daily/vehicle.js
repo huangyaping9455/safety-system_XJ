@@ -95,6 +95,16 @@ export const getDicData = (code) => {
         }
     });
 };
+// 驾驶员姓名 下拉框数据
+export const getByIdJiaShiYuanList = (deptId) => {
+    return request({
+        url: '/api/blade-platform/platform/jiashiyuan/getByIdJiaShiYuanList',
+        method: 'get',
+        params: {
+            deptId,
+        }
+    });
+};
 // // 车辆编辑
 // export const update = (data) => {
 //     return request({
